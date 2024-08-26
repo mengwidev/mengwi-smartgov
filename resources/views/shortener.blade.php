@@ -1,156 +1,222 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mengwi SmartGov - Link Shortener</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Link Shortener</h2>
+<x-app-layout>
+  <x-slot name="header">
+      <h2 class="text-2xl font-semibold text-gray-800 leading-tight">
+          {{ __('Link Shortener') }}
+      </h2>
+  </x-slot>
 
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+  <div class="py-12">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-6">
+          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+              <div class="p-6 text-gray-900">
 
-        <form action="/link" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="original_url" class="form-label">Original URL</label>
-                <input type="url" name="original_url" class="form-control" id="original_url" required>
-            </div>
-            <div class="mb-3">
-                <label for="custom_slug" class="form-label">Custom Slug</label>
-                <input type="text" name="custom_slug" class="form-control" id="custom_slug" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Shorten Link</button>
-        </form>
+                  @if(session('success'))
+                      <div class="bg-green-100 text-green-800 p-4 rounded mb-4">
+                          {{ session('success') }}
+                      </div>
+                  @endif
 
-        <hr>
-
-        <h2>Manage Links</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Actions</th>
-                    <th>Original Link</th>
-                    <th>Shortened Link</th>
-                    <th>Last Updated</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($links as $link)
-                    <tr>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-success" data-clipboard="{{ $link->shortened_url }}" onclick="copyToClipboard(this)"><i class="bi bi-clipboard"></i></button>
-                            <a href="{{ route('links.edit', $link->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
-                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $link->id }}"><i class="bi bi-trash"></i></button>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#viewQrModal" data-img="{{ asset('storage/qr-codes/'.$link->qr_code_filename) }}" class="btn btn-sm btn-info"><i class="bi bi-qr-code"></i></a>
-                        </td>
-                        <td>{{ $link->original_url }}</td>
-                        <td>{{ $link->shortened_url }}</td>
-                        <td>{{ $link->updated_at->format('Y-m-d H:i') }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal for Viewing QR Code -->
-    <div class="modal fade" id="viewQrModal" tabindex="-1" aria-labelledby="viewQrModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewQrModalLabel">QR Code</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body d-flex justify-content-center align-items-center" style="min-height: 300px;">
-                    <img id="qrCodeImage" src="" alt="QR Code" class="img-fluid">
-                </div>
-                <div class="modal-footer">
-                    <a href="#" id="downloadQrLink" class="btn btn-success">Download QR</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this link? This action cannot be undone.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteForm" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-      <div id="copyToast" class="toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header bg-success">
-              <strong class="me-auto text-white">Copied to Clipboard</strong>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body text-white">
-              The link has been copied to your clipboard.
+                  <form action="/link" method="POST" class="mt-6 mb-6">
+                      @csrf
+                      <div class="mb-4">
+                          <label for="original_url" class="block text-gray-700 font-medium">Original URL</label>
+                          <input type="url" name="original_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="original_url" required>
+                      </div>
+                      <div class="mb-4">
+                          <label for="custom_slug" class="block text-gray-700 font-medium">Custom Slug</label>
+                          <input type="text" name="custom_slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="custom_slug" required>
+                      </div>
+                      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Shorten Link</button>
+                  </form>
+              </div>
           </div>
       </div>
-    </div>
 
+      {{-- CRUD MENU --}}
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-6">
+          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+              <div class="p-6 text-gray-900">
+                  <h2 class="text-xl font-semibold mb-4">Manage Links</h2>
+                    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-slate-400 text-white">
+                                <th class="px-6 py-3 text-left">Actions</th>
+                                <th class="px-6 py-3 text-left">Original Link</th>
+                                <th class="px-6 py-3 text-left">Shortened Link</th>
+                                <th class="px-6 py-3 text-left">Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if($links->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                                        No data available
+                                    </td>
+                                </tr>
+                            @else
+                                @foreach($links as $link)
+                                    <tr class="border-b hover:bg-gray-100">
+                                        <td class="px-6 py-4 flex space-x-2">
+                                            <a href="{{ route('links.edit', $link->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white px-2 py-1 rounded">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        
+                                            <button type="button" class="bg-red-500 hover:bg-red-700 text-white px-2 py-1 rounded" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $link->id }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded" data-bs-toggle="modal" data-bs-target="#viewQrModal" data-img="{{ asset('storage/qr-codes/'.$link->qr_code_filename) }}">
+                                                <i class="bi bi-qr-code"></i>
+                                            </button>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="relative group">
+                                                {{ Str::limit($link->original_url, 40) }}
+                                                @if(strlen($link->original_url) > 40)
+                                                    <span class="text-blue-500 cursor-pointer ml-1"><i class="bi bi-eye"></i></span>
+                                                    <span class="absolute left-0 bottom-0 w-auto p-2 bg-gray-800 text-white rounded shadow-md hidden group-hover:block z-10">
+                                                        {{ $link->original_url }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <button type="button" class="text-green-500 hover:text-green-700" data-clipboard="{{ $link->shortened_url }}" onclick="copyToClipboard(this)">
+                                                <i class="bi bi-clipboard"></i>
+                                            </button>
+                                            {{ $link->shortened_url }}
+                                        </td>
+                                        <td class="px-6 py-4">{{ $link->updated_at->format('Y-m-d H:i') }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+                  <!-- Modal for Viewing QR Code -->
+                  <div class="modal fade" id="viewQrModal" tabindex="-1" aria-labelledby="viewQrModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewQrModalLabel">QR Code</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="flex justify-center items-center" style="min-height: 300px;">
+                                    <img id="qrCodeImage" src="" alt="QR Code" class="max-w-full h-auto">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" id="downloadQrLink" class="btn btn-success">Download QR</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Delete Confirmation Modal -->
+                  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this link? This action cannot be undone.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <form id="deleteForm" method="POST" action="">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
 
-            // Handle QR Code View Modal
-            var viewQrModal = document.getElementById('viewQrModal');
-            viewQrModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget; // Button that triggered the modal
-                var imgSrc = button.getAttribute('data-img'); // Extract info from data-* attributes
-                var modalImg = viewQrModal.querySelector('#qrCodeImage');
-                modalImg.src = imgSrc;
-            });
+                  <!-- Toast Notification -->
+                  <div class="fixed bottom-0 right-0 p-4 z-50">
+                      <div id="copyToast" class="bg-teal-600 text-white p-4 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out opacity-0 translate-y-4 hidden">
+                          <div class="flex items-center">
+                              <strong class="mr-2">Copied to Clipboard</strong>
+                              <button type="button" class="ml-auto text-white" aria-label="Close">
+                                  <i class="bi bi-x"></i>
+                              </button>
+                          </div>
+                          <div class="mt-2">
+                              The link has been copied to your clipboard.
+                          </div>
+                      </div>
+                  </div>
+                
 
-            // Handle Delete Confirmation Modal
-            var confirmDeleteModal = document.getElementById('confirmDeleteModal');
-            confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget; // Button that triggered the modal
-                var linkId = button.getAttribute('data-id'); // Extract info from data-* attributes
-                var deleteForm = confirmDeleteModal.querySelector('#deleteForm');
-                deleteForm.action = '/link/' + linkId;
-            });
-        });
+                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                  <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                      // Handle QR Code View Modal
+                      var viewQrModal = new bootstrap.Modal(document.getElementById('viewQrModal'));
+                      document.querySelectorAll('[data-bs-target="#viewQrModal"]').forEach(button => {
+                          button.addEventListener('click', function () {
+                              var imgSrc = button.getAttribute('data-img');
+                              document.getElementById('qrCodeImage').src = imgSrc;
+                              viewQrModal.show();
+                          });
+                      });
 
-        // Function to Copy Link to Clipboard and Show Toast
-        function copyToClipboard(button) {
-            var link = button.getAttribute('data-clipboard');
-            navigator.clipboard.writeText(link).then(function() {
-                var toastEl = document.getElementById('copyToast');
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
-            }).catch(function(err) {
-                console.error('Error copying to clipboard: ', err);
-            });
-        }
+                      // Handle Delete Confirmation Modal
+                      var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                      document.querySelectorAll('[data-bs-target="#deleteModal"]').forEach(button => {
+                          button.addEventListener('click', function () {
+                              var linkId = button.getAttribute('data-id');
+                              var deleteForm = document.getElementById('deleteForm');
+                              deleteForm.action = '/link/' + linkId;
+                              deleteModal.show();
+                          });
+                      });
 
-    </script>
-</body>
-</html>
+                      // Copy to Clipboard Functionality
+                      document.querySelectorAll('[data-clipboard]').forEach(button => {
+                          button.addEventListener('click', function () {
+                              const link = button.getAttribute('data-clipboard');
+                              navigator.clipboard.writeText(link)
+                                  .then(() => {
+                                      showCopyToast();
+                                  })
+                                  .catch(err => {
+                                      console.error('Failed to copy text: ', err);
+                                  });
+                          });
+                      });
+
+                      function showCopyToast() {
+                          const toastEl = document.getElementById('copyToast');
+                          toastEl.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+                          toastEl.classList.add('opacity-100', 'translate-y-0');
+
+                          // Automatically hide the toast after 2 seconds
+                          setTimeout(() => {
+                              hideCopyToast();
+                          }, 2000);
+                      }
+
+                      function hideCopyToast() {
+                          const toastEl = document.getElementById('copyToast');
+                          toastEl.classList.remove('opacity-100', 'translate-y-0');
+                          toastEl.classList.add('opacity-0', 'translate-y-4');
+
+                          // Wait for the animation to complete before adding the hidden class
+                          setTimeout(() => {
+                              toastEl.classList.add('hidden');
+                          }, 500); // Duration matches the transition duration
+                      }
+
+                  });
+                  </script>
+              </div>
+          </div>
+      </div>
+  </div>
+</x-app-layout>
