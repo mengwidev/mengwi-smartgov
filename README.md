@@ -14,7 +14,7 @@ Mengwi SmartGov is a web application designed for government workers to manage l
 -   **Backend**: PHP 8.3
 -   **Framework**: Laravel
 -   **Database**: MariaDB
--   **Frontend**: Bootstrap 5.3
+-   **Frontend**: Bootstrap 5.3 and Tailwind CSS
 -   **QR Code Generation**: `endroid/qr-code` library
 
 ## Installation
@@ -80,4 +80,5 @@ Contributions are welcome! Please follow these guidelines:
 
 -   Laravel for the powerful PHP framework.
 -   Bootstrap for the responsive design.
+-   Tailwind CSS for the beautiful UI.
 -   Endroid QR Code for QR code generation.
