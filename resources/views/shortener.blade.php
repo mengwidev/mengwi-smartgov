@@ -28,7 +28,7 @@
                           <label for="custom_slug" class="block text-gray-700 font-medium">Custom Slug</label>
                           <input type="text" name="custom_slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="custom_slug" required>
                       </div>
-                      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Shorten Link</button>
+                      <button type="submit" class="px-4 py-2 bg-cyan-900 text-white rounded-md hover:bg-cyan-950">Shorten Link</button>
                   </form>
               </div>
           </div>
