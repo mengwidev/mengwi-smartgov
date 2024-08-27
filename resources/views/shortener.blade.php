@@ -9,12 +9,6 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-6">
           <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
               <div class="p-6 text-gray-900">
-
-                  @if(session('success'))
-                      <div class="bg-green-100 text-green-800 p-4 rounded mb-4">
-                          {{ session('success') }}
-                      </div>
-                  @endif
                   
                   <h2 class="text-xl font-semibold mb-4">Shorten Links</h2>
 
@@ -115,6 +109,7 @@
                         </div>
                     </div>
                   </div>
+
                   
                   <!-- Delete Confirmation Modal -->
                   <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -140,8 +135,8 @@
                   </div>
 
                   <!-- Toast Notification -->
-                  <div class="fixed bottom-0 right-0 p-4 z-50">
-                      <div id="copyToast" class="bg-teal-600 text-white p-4 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out opacity-0 translate-y-4 hidden">
+                  <div class="fixed top-0 right-0 p-4 z-50">
+                      <div id="copyToast" class="bg-green-600 text-white p-4 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out opacity-0 translate-y-4 hidden">
                           <div class="flex items-center">
                               <strong class="mr-2">Copied to Clipboard</strong>
                               <button type="button" class="ml-auto text-white" aria-label="Close">
@@ -153,71 +148,117 @@
                           </div>
                       </div>
                   </div>
-                
+                  
+                  <!-- Success Toast Notification -->
+                  <div class="fixed top-0 right-0 p-4 z-50">
+                    <div id="successToast" class="bg-green-600 text-white p-4 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out opacity-0 translate-y-4 hidden">
+                      <div class="flex items-center">
+                          <strong class="mr-2">Success</strong>
+                          <button type="button" class="ml-auto text-white" aria-label="Close">
+                              <i class="bi bi-x"></i>
+                          </button>
+                      </div>
+                      <div class="mt-2">
+                          <span id="successMessage"></span>
+                      </div>
+                    </div>
+                  </div>
 
                   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                   <script>
                       document.addEventListener('DOMContentLoaded', function () {
-                          // Handle QR Code View Modal
-                          var viewQrModal = new bootstrap.Modal(document.getElementById('viewQrModal'));
-                          document.querySelectorAll('[data-bs-target="#viewQrModal"]').forEach(button => {
-                              button.addEventListener('click', function () {
-                                  var imgSrc = button.getAttribute('data-img');
-                                  var downloadLink = button.getAttribute('data-img'); // Assuming the same src can be used for download
-                                  document.getElementById('qrCodeImage').src = imgSrc;
-                                  document.getElementById('downloadQrLink').href = downloadLink;
-                                  viewQrModal.show();
-                              });
+                      // Handle QR Code View Modal
+                      var viewQrModal = new bootstrap.Modal(document.getElementById('viewQrModal'));
+                      document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#viewQrModal"]').forEach(button => {
+                          button.addEventListener('click', function () {
+                              var qrCodeFilename = button.getAttribute('data-img');
+                              var imgSrc = qrCodeFilename; // Use the full path as required
+                              var downloadLink = imgSrc; // Assuming the same src can be used for download
+
+                              console.log('QR Code Image Source:', imgSrc); // Log image source for debugging
+
+                              document.getElementById('qrCodeImage').src = imgSrc;
+                              document.getElementById('downloadQrLink').href = downloadLink;
+                              viewQrModal.show();
                           });
-
-                          // Handle Delete Confirmation Modal
-                          var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-                          document.querySelectorAll('[data-bs-target="#deleteModal"]').forEach(button => {
-                              button.addEventListener('click', function () {
-                                  var linkId = button.getAttribute('data-id');
-                                  var deleteForm = document.getElementById('deleteForm');
-                                  deleteForm.action = '/link/' + linkId;
-                                  deleteModal.show();
-                              });
-                          });
-
-                          // Copy to Clipboard Functionality
-                          document.querySelectorAll('[data-clipboard]').forEach(button => {
-                              button.addEventListener('click', function () {
-                                  const link = button.getAttribute('data-clipboard');
-                                  navigator.clipboard.writeText(link)
-                                      .then(() => {
-                                          showCopyToast();
-                                      })
-                                      .catch(err => {
-                                          console.error('Failed to copy text: ', err);
-                                      });
-                              });
-                          });
-
-                          function showCopyToast() {
-                              const toastEl = document.getElementById('copyToast');
-                              toastEl.classList.remove('hidden', 'opacity-0', 'translate-y-4');
-                              toastEl.classList.add('opacity-100', 'translate-y-0');
-
-                              // Automatically hide the toast after 2 seconds
-                              setTimeout(() => {
-                                  hideCopyToast();
-                              }, 2000);
-                          }
-
-                          function hideCopyToast() {
-                              const toastEl = document.getElementById('copyToast');
-                              toastEl.classList.remove('opacity-100', 'translate-y-0');
-                              toastEl.classList.add('opacity-0', 'translate-y-4');
-
-                              // Wait for the animation to complete before adding the hidden class
-                              setTimeout(() => {
-                                  toastEl.classList.add('hidden');
-                              }, 500); // Duration matches the transition duration
-                          }
                       });
 
+                      // Handle Delete Confirmation Modal
+                      var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                      document.querySelectorAll('[data-bs-toggle="modal"][data-bs-target="#deleteModal"]').forEach(button => {
+                          button.addEventListener('click', function () {
+                              var linkId = button.getAttribute('data-id');
+                              var deleteForm = document.getElementById('deleteForm');
+                              deleteForm.action = '/link/' + linkId;
+                              deleteModal.show();
+                          });
+                      });
+
+                      // Copy to Clipboard Functionality
+                      document.querySelectorAll('[data-clipboard]').forEach(button => {
+                          button.addEventListener('click', function () {
+                              const link = button.getAttribute('data-clipboard');
+                              navigator.clipboard.writeText(link)
+                                  .then(() => {
+                                      showCopyToast();
+                                  })
+                                  .catch(err => {
+                                      console.error('Failed to copy text: ', err);
+                                  });
+                          });
+                      });
+
+                      function showCopyToast() {
+                          const toastEl = document.getElementById('copyToast');
+                          toastEl.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+                          toastEl.classList.add('opacity-100', 'translate-y-0');
+
+                          // Automatically hide the toast after 2 seconds
+                          setTimeout(() => {
+                              hideCopyToast();
+                          }, 2000);
+                      }
+
+                      function hideCopyToast() {
+                          const toastEl = document.getElementById('copyToast');
+                          toastEl.classList.remove('opacity-100', 'translate-y-0');
+                          toastEl.classList.add('opacity-0', 'translate-y-4');
+
+                          // Wait for the animation to complete before adding the hidden class
+                          setTimeout(() => {
+                              toastEl.classList.add('hidden');
+                          }, 500); // Duration matches the transition duration
+                      }
+
+                      // Handle Success Toast Notification
+                      const successMessage = '{{ session('success') }}';
+                      if (successMessage) {
+                          document.getElementById('successMessage').textContent = successMessage;
+                          showSuccessToast();
+                      }
+
+                      function showSuccessToast() {
+                          const toastEl = document.getElementById('successToast');
+                          toastEl.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+                          toastEl.classList.add('opacity-100', 'translate-y-0');
+
+                          // Automatically hide the toast after 2 seconds
+                          setTimeout(() => {
+                              hideSuccessToast();
+                          }, 2000);
+                      }
+
+                      function hideSuccessToast() {
+                          const toastEl = document.getElementById('successToast');
+                          toastEl.classList.remove('opacity-100', 'translate-y-0');
+                          toastEl.classList.add('opacity-0', 'translate-y-4');
+
+                          // Wait for the animation to complete before adding the hidden class
+                          setTimeout(() => {
+                              toastEl.classList.add('hidden');
+                          }, 500); // Duration matches the transition duration
+                      }
+                  });
                   </script>
               </div>
           </div>

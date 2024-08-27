@@ -61,7 +61,6 @@ class LinkController extends Controller
         // Retrieve the link by its ID
         $link = Link::findOrFail($id);
         $oldSlug = $link->shortened_url;
-        $oldQrCodeFilename = $link->qr_code_filename;
 
         // Validate and update the link
         $validated = $request->validate([
@@ -71,30 +70,28 @@ class LinkController extends Controller
 
         // Extract the new custom slug from the request
         $customSlug = $request->shortened_url;
+        $newShortenedUrl = url('/link/' . $customSlug);
 
         // Check if the shortened_url (slug) has changed
-        if ($oldSlug !== $customSlug) {
-            // Generate the new QR code filename based on the new shortened_url
+        if ($oldSlug !== $newShortenedUrl) {
+            // Generate a new QR code filename based on the new shortened_url
             $newQrCodeFilename = time() . '-' . Str::random(6) . '-' . $customSlug . '.png';
+            $newFilePath = storage_path("app/public/qr-codes/{$newQrCodeFilename}");
 
-            // Define the paths for the old and new QR code files
-            $oldFilePath = "public/qr-codes/{$oldQrCodeFilename}";
-            $newFilePath = "public/qr-codes/{$newQrCodeFilename}";
+            // Generate the new QR code
+            $result = Builder::create()
+                ->data($newShortenedUrl)
+                ->size(300)
+                ->margin(10)
+                ->build();
 
-            // Log the file paths
-            Log::info("Old file path: {$oldFilePath}");
-            Log::info("New file path: {$newFilePath}");
+            // Save the new QR code
+            $result->saveToFile($newFilePath);
 
-            // Rename the QR code file
-            if (Storage::exists($oldFilePath)) {
-                $moveResult = Storage::move($oldFilePath, $newFilePath);
-                if (!$moveResult) {
-                    Log::error("Failed to move the file from {$oldFilePath} to {$newFilePath}");
-                } else {
-                    Log::info("File moved successfully.");
-                }
-            } else {
-                Log::error("Old file does not exist: {$oldFilePath}");
+            // Delete the old QR code file
+            $oldFilePath = storage_path("app/public/qr-codes/{$link->qr_code_filename}");
+            if (file_exists($oldFilePath)) {
+                unlink($oldFilePath);
             }
 
             // Update the qr_code_filename in the database
@@ -102,10 +99,9 @@ class LinkController extends Controller
         }
 
         // Update the link's shortened_url and refresh the timestamp
-        $link->update([
-            'shortened_url' => "http://localhost/link/{$customSlug}",
-            'updated_at' => now(),
-        ]);
+        $link->shortened_url = $newShortenedUrl;
+        $link->updated_at = now();
+        $link->save();
 
         // Redirect or return a response as needed
         return redirect()->route('links.index')->with('status', 'Link updated successfully.');
