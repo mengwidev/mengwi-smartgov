@@ -5,7 +5,7 @@
       <p class="text-md text-gray-600">Your efficient government management system.</p>
     </div>
 
-    <a href="{{ route('links.index') }}" class="inline-block px-6 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-700">
+    <a href="{{ route('login') }}" class="inline-block px-6 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-700">
       Get Started
     </a>
   </div>

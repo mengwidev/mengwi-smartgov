@@ -12,16 +12,23 @@
                   
                   <h2 class="text-xl font-semibold mb-4">Shorten Links</h2>
 
-                  <form action="/link" method="POST" class="mt-6 mb-6">
+                  <form action="/link" method="POST" class="mt-6">
                       @csrf
                       <div class="mb-4">
                           <label for="original_url" class="block text-gray-700 font-medium">Original URL</label>
                           <input type="url" name="original_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="original_url" required>
                       </div>
+
                       <div class="mb-4">
                           <label for="custom_slug" class="block text-gray-700 font-medium">Custom Slug</label>
-                          <input type="text" name="custom_slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="custom_slug" required>
+                          <div class="mt-1 flex rounded-md shadow-sm">
+                              <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                                  https://smartgov.mengwi-badung.desa.id/link/
+                              </span>
+                              <input type="text" name="custom_slug" id="custom_slug" class="flex-1 block w-full min-w-0 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                          </div>
                       </div>
+                    
                       <button type="submit" class="px-4 py-2 bg-cyan-900 text-white rounded-md hover:bg-cyan-950">Shorten Link</button>
                   </form>
               </div>
@@ -222,7 +229,7 @@
                       function hideCopyToast() {
                           const toastEl = document.getElementById('copyToast');
                           toastEl.classList.remove('opacity-100', 'translate-y-0');
-                          toastEl.classList.add('opacity-0', 'translate-y-4');
+                          toastEl.classList.add('opacity-0', 'translate-x-4');
 
                           // Wait for the animation to complete before adding the hidden class
                           setTimeout(() => {
@@ -251,7 +258,7 @@
                       function hideSuccessToast() {
                           const toastEl = document.getElementById('successToast');
                           toastEl.classList.remove('opacity-100', 'translate-y-0');
-                          toastEl.classList.add('opacity-0', 'translate-y-4');
+                          toastEl.classList.add('opacity-0', 'translate-x-4');
 
                           // Wait for the animation to complete before adding the hidden class
                           setTimeout(() => {
