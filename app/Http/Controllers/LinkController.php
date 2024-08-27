@@ -73,7 +73,7 @@ class LinkController extends Controller
         $customSlug = $request->shortened_url;
 
         // Check if the shortened_url (slug) has changed
-        if ($oldSlug !== "http://localhost/link/{$customSlug}") {
+        if ($oldSlug !== $customSlug) {
             // Generate the new QR code filename based on the new shortened_url
             $newQrCodeFilename = time() . '-' . Str::random(6) . '-' . $customSlug . '.png';
 
