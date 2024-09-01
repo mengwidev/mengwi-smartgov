@@ -64,6 +64,7 @@ class LinkController extends Controller
 
         // Validate and update the link
         $validated = $request->validate([
+            'original_url' => 'required|url|max:255',
             'shortened_url' => 'required|unique:links,shortened_url,' . $id,
             // Add other validation rules as needed
         ]);
@@ -99,6 +100,7 @@ class LinkController extends Controller
         }
 
         // Update the link's shortened_url and refresh the timestamp
+        $link->original_url = $request->original_url;
         $link->shortened_url = $newShortenedUrl;
         $link->updated_at = now();
         $link->save();
