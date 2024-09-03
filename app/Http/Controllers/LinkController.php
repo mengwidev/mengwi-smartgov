@@ -14,7 +14,7 @@ class LinkController extends Controller
     // Display all links
     public function index()
     {
-        $links = Link::all();
+        $links = Link::orderBy('id', 'desc')->get();
         return view('shortener', compact('links'));
     }
 
