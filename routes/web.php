@@ -15,7 +15,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Link Management Routes
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/links', [LinkController::class, 'index'])->name('links.index');
     Route::post('/link', [LinkController::class, 'store'])->name('links.store');
     Route::get('/link/{id}/edit', [LinkController::class, 'edit'])->name('links.edit');

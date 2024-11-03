@@ -19,8 +19,21 @@ class UserSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@mengwismartgov.id',
             'username' => 'admin',
+            'role' => 'admin',
             'email_verified_at' => now(),
             'password' => Hash::make('admin123'),
+            'remember_token' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Regular User',
+            'email' => 'user@mengwismartgov.id',
+            'username' => 'user',
+            'role' => 'user',
+            'email_verified_at' => now(),
+            'password' => Hash::make('user123'),
             'remember_token' => null,
             'created_at' => now(),
             'updated_at' => now(),

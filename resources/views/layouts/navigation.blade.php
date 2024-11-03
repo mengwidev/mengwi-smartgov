@@ -15,9 +15,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('links.index')" :active="request()->routeIs('links.index')">
-                        {{ __('Link Shortener') }}
-                    </x-nav-link>
+                    
+                    @if(Auth::check() && Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('links.index')" :active="request()->routeIs('links.index')">
+                            {{ __('Link Shortener') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
