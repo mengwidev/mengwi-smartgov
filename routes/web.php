@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\KaderBankSampahController;
+use App\Models\KaderBankSampah;
 use Illuminate\Support\Facades\Route;
 
 // Public Route
@@ -31,6 +33,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Kader Bank Sampah Controller
+Route::middleware(['role:admin'])->group(function () {
+    Route::get('/bank_sampah/kader', [KaderBankSampahController::class, 'index'])->name('bank_sampah.kader.index');
+    Route::post('/bank_sampah/kader', [KaderBankSampahController::class, 'store'])->name('bank_sampah.kader.store');
+    Route::get('/bank_sampah/kader/{id}/edit', [KaderBankSampahController::class, 'edit'])->name('bank_sampah.kader.edit');
+    Route::put('/bank_sampah/kader/{id}', [KaderBankSampahController::class, 'update'])->name('bank_sampah.kader.update');
+    Route::delete('bank_sampah/kader/{id}', [KaderBankSampahController::class, 'destroy'])->name('bank_sampah.kader.destroy');
 });
 
 // Include Auth Routes

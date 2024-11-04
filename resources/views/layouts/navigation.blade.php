@@ -11,17 +11,52 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex items-center">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    
+                
                     @if(Auth::check() && Auth::user()->role === 'admin')
                         <x-nav-link :href="route('links.index')" :active="request()->routeIs('links.index')">
                             {{ __('Link Shortener') }}
                         </x-nav-link>
                     @endif
+                
+                    <!-- Pelayanan Dropdown -->
+                    <div x-data="{ open: false, delayedClose: null }" @mouseover="open = true" @mouseleave="delayedClose = setTimeout(() => { open = false; }, 200)" class="relative flex items-center">
+                        <!-- Top Level - Pelayanan -->
+                        <button class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
+                            <span>{{ __('Pelayanan') }}</span>
+                            <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown menu for Pelayanan -->
+                        <div x-show="open" @mouseover="clearTimeout(delayedClose)" @mouseleave="delayedClose = setTimeout(() => { open = false; }, 200)" class="absolute top-full mt-1 z-10 bg-white border border-gray-200 rounded-md shadow-lg w-48 py-2">
+                            <!-- Sub Level 1 - Bank Sampah -->
+                            <div x-data="{ openSub: false }" @mouseover="openSub = true" @mouseleave="openSub = false" class="relative">
+                                <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    {{ __('Bank Sampah') }}
+                                    <span class="inline-block h-4 w-4 ms-1">&gt;</span>
+                                </button>
+
+                                <!-- Sub Level 2 - Kader Bank Sampah & Laporan Penjualan -->
+                                <div x-show="openSub" class="absolute left-full top-0 z-20 bg-white border border-gray-200 rounded-md shadow-lg w-48 mt-0 py-2">
+                                    <a href="{{route('bank_sampah.kader.index')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        {{ __('Kader Bank Sampah') }}
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        {{ __('Laporan Penjualan') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                
+                
             </div>
 
             <!-- Settings Dropdown -->

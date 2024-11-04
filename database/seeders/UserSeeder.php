@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+    // FOR TESTING PURPOSES !!!!!
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@mengwismartgov.id',
@@ -26,7 +27,7 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
+    // FOR TESTING PURPOSES !!!!!
         User::create([
             'name' => 'Regular User',
             'email' => 'user@mengwismartgov.id',
