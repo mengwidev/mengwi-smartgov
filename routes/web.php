@@ -42,6 +42,9 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/bank_sampah/kader/{id}/edit', [KaderBankSampahController::class, 'edit'])->name('bank_sampah.kader.edit');
     Route::put('/bank_sampah/kader/{id}', [KaderBankSampahController::class, 'update'])->name('bank_sampah.kader.update');
     Route::delete('bank_sampah/kader/{id}', [KaderBankSampahController::class, 'destroy'])->name('bank_sampah.kader.destroy');
+    // PRINT ROUTE
+    Route::get('/bank_sampah/kader/print/list', [KaderBankSampahController::class, 'printList'])->name('bank_sampah.kader.print.list');
+    Route::get('/bank_sampah/kader/print/wage', [KaderBankSampahController::class, 'printWage'])->name('bank_sampah.kader.print.wage');
 });
 
 // Include Auth Routes

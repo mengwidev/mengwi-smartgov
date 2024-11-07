@@ -21,8 +21,8 @@
                             {{ __('Link Shortener') }}
                         </x-nav-link>
                     @endif
-                
                     <!-- Pelayanan Dropdown -->
+                    @if(Auth::check() && Auth::user()->role === 'admin')
                     <div x-data="{ open: false, delayedClose: null }" @mouseover="open = true" @mouseleave="delayedClose = setTimeout(() => { open = false; }, 200)" class="relative flex items-center">
                         <!-- Top Level - Pelayanan -->
                         <button class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
@@ -53,10 +53,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
-                
-                
-                
             </div>
 
             <!-- Settings Dropdown -->

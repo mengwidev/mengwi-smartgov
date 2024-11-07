@@ -18,11 +18,12 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role)
     {
+        // Check if the user is authenticated and has the required role
         if (Auth::check() && Auth::user()->role === $role) {
             return $next($request);
         }
 
-        // Optionally, you can redirect or abort with a 403 error if not authorized
-        abort(403, 'Unauthorized action.');
+        // Redirect to the login page if unauthorized
+        return redirect()->route('login')->with('error', 'You must be logged in to access this page.');
     }
 }
