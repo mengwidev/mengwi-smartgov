@@ -9,6 +9,8 @@ use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\Log;
+use Endroid\QrCode\Label\LabelAlignment;
+use Endroid\QrCode\Label\Font\OpenSans;
 
 class DynamicLink extends Model
 {
@@ -74,7 +76,10 @@ class DynamicLink extends Model
             errorCorrectionLevel: ErrorCorrectionLevel::High,
             size: 300,
             margin: 10,
-            roundBlockSizeMode: RoundBlockSizeMode::Margin
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            labelText: $this->custom_slug,
+            labelFont: new OpenSans(18),
+            labelAlignment: LabelAlignment::Center
         );
 
         $result = $builder->build();

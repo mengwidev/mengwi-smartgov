@@ -20,12 +20,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Infolists;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Infolist;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Infolists\Components\Fieldset;
 
 class DynamicLinkResource extends Resource
 {
     protected static ?string $model = DynamicLink::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-link';
 
     public static function form(Form $form): Form
     {
@@ -39,6 +45,8 @@ class DynamicLinkResource extends Resource
 
                         TextInput::make('custom_slug')
                             ->label('Custom Slug')
+                            ->helperText('Maksimal 24 karakter')
+                            ->maxLength(24)
                             ->required(),
 
                         Select::make('category_id')
@@ -68,28 +76,33 @@ class DynamicLinkResource extends Resource
             ->columns([
                 TextColumn::make('original_link')
                     ->label('Original Link')
+                    ->searchable()
                     ->formatStateUsing(fn($state) => strlen($state) > 30 ? substr($state, 0, 30) . '...' : $state),
 
                 TextColumn::make('custom_slug')
-                    ->label('Slug'),
+                    ->label('Dynamic Link')
+                    ->searchable()
+                    ->formatStateUsing(function ($state) {
+                        return config('app.url') . "/link/{$state}";
+                    }),
 
                 TextColumn::make('category.category_name')
-                    ->label('Kategori'),
-
-                TextColumn::make('notes')
-                    ->label('Catatan')
-                    ->formatStateUsing(fn($state) => strlen($state) > 30 ? substr($state, 0, 30) . '...' : $state),
+                    ->label('Kategori')
+                    ->badge()
+                    ->color('info'),
 
                 TextColumn::make('created_at')
-                    ->label('Dibuat Pada'),
-
-                TextColumn::make('updated_at')
-                    ->label('Diubah Pada'),
+                    ->label('Dibuat Pada')
+                    ->sortable(),
             ])
+            ->defaultSort('created_at', '<desc></desc>')
             ->filters([
-                //
+                SelectFilter::make('category_id')
+                    ->label('Kategori')
+                    ->relationship('category', 'category_name')
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()->label(''),
                 ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
@@ -104,6 +117,63 @@ class DynamicLinkResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make('Informasi Dynamic Link')
+                    ->icon('heroicon-o-information-circle')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Infolists\Components\TextEntry::make('original_link')
+                                    ->icon('heroicon-o-link')
+                                    ->copyable()
+                                    ->copyMessage('Link Asli Disalin!')
+                                    ->columnSpanFull(),
+                                Infolists\Components\TextEntry::make('custom_slug')
+                                    ->label('Dynamic Link')
+                                    ->icon('heroicon-o-cog-6-tooth')
+                                    ->formatStateUsing(function ($state) {
+                                        return config('app.url') . "/link/{$state}";
+                                    }),
+                                Infolists\Components\TextEntry::make('category.category_name')
+                                    ->icon('heroicon-o-tag')
+                                    ->label('Kategori')
+                                    ->badge()
+                                    ->color('info'),
+                                Infolists\Components\TextEntry::make('notes')
+                                    ->icon('heroicon-o-pencil-square')
+                                    ->label('Catatan')
+                                    ->columnSpanFull(),
+                            ]),
+                    ]),
+
+                Infolists\Components\Section::make('QR Code')
+                    ->description('QR Code yang terintegrasi dengan Dynamic Link')
+                    ->icon('heroicon-o-qr-code')
+                    ->footerActions([
+                        Infolists\Components\Actions\Action::make('download_qr')
+                            ->label('Download QR')
+                            ->url(fn(DynamicLink $record) => route('qr.download', ['id' => $record->id]))
+                            ->color('success')
+                            ->icon('heroicon-o-arrow-down-tray'),
+                    ])
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                Infolists\Components\ImageEntry::make('qr_code_filename')
+                                    ->disk('public')
+                                    ->label('')
+                                    ->url(fn($record) => asset('storage/' . $record->qr_code_filename)),
+
+                                Infolists\Components\TextEntry::make('qr_code_filename')
+                                    ->label('QR Code Filename')
+                            ])
+                    ])
             ]);
     }
 
