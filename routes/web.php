@@ -5,6 +5,7 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\KaderBankSampahController;
 use App\Models\KaderBankSampah;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BackupController;
 
 // Public Route
 Route::get('/', function () {
@@ -24,8 +25,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/link/{id}', [LinkController::class, 'update'])->name('links.update');
     Route::delete('/link/{id}', [LinkController::class, 'destroy'])->name('links.destroy');
     Route::get('/link/{id}/download', [LinkController::class, 'download'])->name('links.download');
-  });
-  
+});
+
 Route::get('/link/{custom_slug}', [LinkController::class, 'show'])->name('links.show');
 
 // Profile Routes
@@ -47,5 +48,12 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/bank_sampah/kader/print/wage', [KaderBankSampahController::class, 'printWage'])->name('bank_sampah.kader.print.wage');
 });
 
+// Backup Routes
+Route::middleware(['role:admin'])->group(function () {
+    Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
+    Route::get('/backup/download-database', [BackupController::class, 'downloadDatabase'])->name('backup.downloadDatabase');
+    Route::get('/backup/download-qrcodes', [BackupController::class, 'downloadQrCodes'])->name('backup.downloadQrCodes');
+});
+
 // Include Auth Routes
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
