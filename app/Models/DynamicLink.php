@@ -91,7 +91,7 @@ class DynamicLink extends Model
         }
 
         // Create a unique filename for the QR code
-        $fileName = uniqid('qr_') . '.png';
+        $fileName = uniqid($this->custom_slug . '_') . '.png';
         $filePath = "$path/$fileName";
         $result->saveToFile($filePath);
 

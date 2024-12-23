@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dynamic_links', function (Blueprint $table) {
+        Schema::create('microsite_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('original_link');
-            $table->string('custom_slug');
-            $table->string('qr_code_filename')->nullable();
-            $table->foreignId('category_id')->constrained('dynamic_link_categories')->cascadeOnDelete();
-            $table->text('notes')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dynamic_links');
+        Schema::dropIfExists('microsite_pages');
     }
 };
