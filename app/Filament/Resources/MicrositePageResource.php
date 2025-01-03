@@ -6,6 +6,7 @@ use App\Filament\Resources\MicrositePageResource\Pages;
 use App\Filament\Resources\MicrositePageResource\RelationManagers;
 use App\Models\MicrositePage;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,13 +26,16 @@ class MicrositePageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('logo'),
-                Forms\Components\TextInput::make('title')
-                    ->label('Judul')
-                    ->required(),
-                Forms\Components\TextInput::make('description')
-                    ->label('Deskripsi')
-                    ->required()
+                Section::make('')
+                    ->schema([
+                        Forms\Components\FileUpload::make('logo'),
+                        Forms\Components\TextInput::make('title')
+                            ->label('Judul')
+                            ->required(),
+                        Forms\Components\TextInput::make('description')
+                            ->label('Deskripsi')
+                            ->required()
+                    ])
             ]);
     }
 
