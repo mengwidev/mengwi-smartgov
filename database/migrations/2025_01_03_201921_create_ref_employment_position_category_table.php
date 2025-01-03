@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ref_employment_position_category', function (Blueprint $table) {
             $table->id();
             $table->string('position_category_name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
