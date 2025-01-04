@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('att_pin');
             $table->string('name');
-            $table->string('date_of_birth');
+            $table->date('date_of_birth');
             $table->string('prefix_title');
             $table->string('suffix_title');
             $table->foreignId('last_education_id')->constrained('ref_last_education')->cascadeOnDelete();
