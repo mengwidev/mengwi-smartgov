@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('att_pin');
             $table->string('name');
             $table->date('date_of_birth');
-            $table->string('prefix_title');
-            $table->string('suffix_title');
+            $table->string('prefix_title')->nullable();
+            $table->string('suffix_title')->nullable();
             $table->foreignId('last_education_id')->constrained('ref_last_education')->cascadeOnDelete();
             $table->foreignId('banjar_id')->constrained('ref_banjar')->cascadeOnDelete();
             $table->foreignId('employment_position_id')->constrained('ref_employment_position')->cascadeOnDelete();

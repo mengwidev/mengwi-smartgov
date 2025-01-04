@@ -34,7 +34,8 @@ class GovEmployee extends Model
 
     public function employmentPosition(): BelongsTo
     {
-        return $this->belongsTo(RefEmploymentPosition::class);
+        return $this->belongsTo(RefEmploymentPosition::class)
+            ->where('position_category_id', '!=', 2);
     }
 
     public function attendance(): HasMany
