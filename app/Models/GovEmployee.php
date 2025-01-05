@@ -38,8 +38,8 @@ class GovEmployee extends Model
             ->where('position_category_id', '!=', 2);
     }
 
-    public function attendance(): HasMany
+    public function attendances()
     {
-        return $this->HasMany(Attendance::class);
+        return $this->hasMany(Attendance::class, 'employee_id', 'id');
     }
 }
