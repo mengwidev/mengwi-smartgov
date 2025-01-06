@@ -13,6 +13,11 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\DB;
+use App\Filament\Exports\GovEmployeeExporter;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Imports\GovEmployeeImporter;
+use Filament\Tables\Actions\ImportAction;
 
 class GovEmployeeResource extends Resource
 {
@@ -176,6 +181,17 @@ class GovEmployeeResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()->exporter(GovEmployeeExporter::class),
+            ])
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(GovEmployeeImporter::class)
+                    ->label('Import')
+                    ->icon('heroicon-o-arrow-down-on-square-stack'),
+                ExportAction::make()
+                    ->exporter(GovEmployeeExporter::class)
+                    ->label('Export')
+                    ->icon('heroicon-o-arrow-up-on-square-stack'),
             ]);
     }
 
