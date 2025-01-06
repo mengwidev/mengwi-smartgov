@@ -15,7 +15,7 @@ class Attendance extends Model
         'employee_id',
         'scan_date',
         'month_id',
-        'att_type_id'
+        'att_type_id',
     ];
 
     //relationship

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +9,40 @@
     @vite('resources/css/app.css')
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
         * {
             font-family: "Source Code Pro", serif;
         }
     </style>
 </head>
+
 <body class="font-sans bg-gray-100 print:bg-transparent">
 
     <div x-data="{ showTitle: true }" id="reportToBeDownloaded">
         <div class="form-container print:hidden bg-white shadow-lg rounded-lg p-6">
-            <form method="GET" action="{{ route('attendance.index') }}" class="flex space-x-4 justify-center items-center">
+            <form method="GET" action="{{ route('attendance.index') }}"
+                class="flex space-x-4 justify-center items-center">
                 <div class="flex items-center space-x-3">
                     <label for="from_date" class="text-sm font-medium text-gray-700">From:</label>
-                    <input type="date" id="from_date" name="from_date" value="{{ request('from_date') }}" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="date" id="from_date" name="from_date" value="{{ request('from_date') }}"
+                        class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
                 <div class="flex items-center space-x-3">
                     <label for="to_date" class="text-sm font-medium text-gray-700">To:</label>
-                    <input type="date" id="to_date" name="to_date" value="{{ request('to_date') }}" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="date" id="to_date" name="to_date" value="{{ request('to_date') }}"
+                        class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none">Filter</button>
-                <button type="button" onclick="window.print()" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors focus:outline-none">Print</button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors focus:outline-none">Filter</button>
+                <button type="button" onclick="window.print()"
+                    class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors focus:outline-none">Print</button>
 
                 <div class="flex justify-center items-center space-x-2">
                     <label for="hideTitle" class="text-sm text-gray-700">Show Title</label>
-                    <input type="checkbox" id="hideTitle" x-model="showTitle" class="text-blue-500 focus:ring-2 focus:ring-blue-500">
+                    <input type="checkbox" id="hideTitle" x-model="showTitle"
+                        class="text-blue-500 focus:ring-2 focus:ring-blue-500">
                 </div>
             </form>
         </div>
@@ -49,7 +58,8 @@
                 <tr>
                     <td>Bulan</td>
                     <td class="w-8 text-center">:</td>
-                    <td>{{ request('from_date') ? \Carbon\Carbon::parse(request('from_date'))->locale('id')->isoFormat('MMMM') : 'All' }}</td>
+                    <td>{{ request('from_date') ? \Carbon\Carbon::parse(request('from_date'))->locale('id')->isoFormat('MMMM') : 'All' }}
+                    </td>
                 </tr>
                 <tr>
                     <td>Tahun</td>
@@ -82,12 +92,14 @@
                     <th rowspan="3" class="border border-gray-300 px-2">#</th>
                     <th rowspan="3" class="border border-gray-300 px-2">PEGAWAI</th>
                     @foreach ($dates as $date)
-                        <th colspan="2" class="border border-gray-300 px-2 text-center">{{ \Carbon\Carbon::parse($date)->locale('id')->isoFormat('dddd') }}</th>
+                        <th colspan="2" class="border border-gray-300 px-2 text-center">
+                            {{ \Carbon\Carbon::parse($date)->locale('id')->isoFormat('dddd') }}</th>
                     @endforeach
                 </tr>
                 <tr class="bg-slate-200">
                     @foreach ($dates as $date)
-                        <th colspan="2" class="border border-gray-300 px-2 text-center">{{ \Carbon\Carbon::parse($date)->locale('id')->isoFormat('DD MMMM Y') }}</th>
+                        <th colspan="2" class="border border-gray-300 px-2 text-center">
+                            {{ \Carbon\Carbon::parse($date)->locale('id')->isoFormat('DD MMMM Y') }}</th>
                     @endforeach
                 </tr>
                 <tr class="bg-slate-200">
@@ -101,17 +113,22 @@
                 @foreach ($attendanceData as $employeeId => $data)
                     <tr class="bg-white hover:bg-gray-50">
                         <td class="border border-gray-300 text-center px-2">{{ $loop->iteration }}</td>
-                        <td class="border border-gray-300 employee-name text-nowrap px-2">{{ $data['employee_name'] }}</td>
+                        <td class="border border-gray-300 employee-name text-nowrap px-2">{{ $data['employee_name'] }}
+                        </td>
                         @foreach ($dates as $date)
                             @if ($data['attendances'][$date][1] === 'Libur')
-                                <td class="border border-gray-300 max-w-12 text-red-600 font-bold text-center">{{ $data['attendances'][$date][1] }}</td>
+                                <td class="border border-gray-300 max-w-12 text-red-600 font-bold text-center">
+                                    {{ $data['attendances'][$date][1] }}</td>
                             @else
-                                <td class="border border-gray-300 max-w-12 text-center">{{ $data['attendances'][$date][1] }}</td>
+                                <td class="border border-gray-300 max-w-12 text-center">
+                                    {{ $data['attendances'][$date][1] }}</td>
                             @endif
                             @if ($data['attendances'][$date][2] === 'Libur')
-                                <td class="border border-gray-300 text-red-600 max-w-12 font-bold text-center">{{ $data['attendances'][$date][2] }}</td>
+                                <td class="border border-gray-300 text-red-600 max-w-12 font-bold text-center">
+                                    {{ $data['attendances'][$date][2] }}</td>
                             @else
-                                <td class="border border-gray-300 max-w-12 text-center">{{ $data['attendances'][$date][2] }}</td>
+                                <td class="border border-gray-300 max-w-12 text-center">
+                                    {{ $data['attendances'][$date][2] }}</td>
                             @endif
                         @endforeach
                     </tr>
@@ -157,4 +174,5 @@
         toDate.addEventListener('input', updatePeriod);
     </script>
 </body>
+
 </html>
