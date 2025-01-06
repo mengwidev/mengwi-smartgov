@@ -70,4 +70,9 @@ class AttendanceResource extends Resource
             // 'edit' => Pages\EditAttendance::route('/{record}/edit'),
         ];
     }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
 }
