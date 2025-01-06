@@ -30,44 +30,41 @@ use Filament\Infolists\Components\Fieldset;
 class DynamicLinkResource extends Resource
 {
     protected static ?string $model = DynamicLink::class;
-
+    protected static ?string $navigationGroup = 'Alat';
     protected static ?string $navigationIcon = 'heroicon-o-link';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Section::make('')
-                    ->schema([
-                        TextInput::make('original_link')
-                            ->label('Original Link')
+        return $form->schema([
+            Section::make('')->schema([
+                TextInput::make('original_link')
+                    ->label('Original Link')
+                    ->required(),
+
+                TextInput::make('custom_slug')
+                    ->label('Custom Slug')
+                    ->helperText('Maksimal 24 karakter')
+                    ->maxLength(24)
+                    ->required(),
+
+                Select::make('category_id')
+                    ->label('Kategori')
+                    ->relationship('category', 'category_name')
+                    ->preload()
+                    ->createOptionForm([
+                        TextInput::make('category_name')
+                            ->label('Nama Kategori')
                             ->required(),
 
-                        TextInput::make('custom_slug')
-                            ->label('Custom Slug')
-                            ->helperText('Maksimal 24 karakter')
-                            ->maxLength(24)
+                        TextInput::make('description')
+                            ->label('Deskripsi Kategori')
                             ->required(),
-
-                        Select::make('category_id')
-                            ->label('Kategori')
-                            ->relationship('category', 'category_name')
-                            ->preload()
-                            ->createOptionForm([
-                                TextInput::make('category_name')
-                                    ->label('Nama Kategori')
-                                    ->required(),
-
-                                TextInput::make('description')
-                                    ->label('Deskripsi Kategori')
-                                    ->required(),
-                            ])
-                            ->required(),
-
-                        TextInput::make('notes')
-                            ->label('Catatan')
                     ])
-            ]);
+                    ->required(),
+
+                TextInput::make('notes')->label('Catatan'),
+            ]),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -77,7 +74,11 @@ class DynamicLinkResource extends Resource
                 TextColumn::make('original_link')
                     ->label('Original Link')
                     ->searchable()
-                    ->formatStateUsing(fn($state) => strlen($state) > 30 ? substr($state, 0, 30) . '...' : $state),
+                    ->formatStateUsing(
+                        fn($state) => strlen($state) > 30
+                            ? substr($state, 0, 30) . '...'
+                            : $state
+                    ),
 
                 TextColumn::make('custom_slug')
                     ->label('Dynamic Link')
@@ -99,7 +100,7 @@ class DynamicLinkResource extends Resource
             ->filters([
                 SelectFilter::make('category_id')
                     ->label('Kategori')
-                    ->relationship('category', 'category_name')
+                    ->relationship('category', 'category_name'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label(''),
@@ -108,7 +109,11 @@ class DynamicLinkResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                     Action::make('download_qr')
                         ->label('Download QR')
-                        ->url(fn(DynamicLink $record) => route('qr.download', ['id' => $record->id]))
+                        ->url(
+                            fn(DynamicLink $record) => route('qr.download', [
+                                'id' => $record->id,
+                            ])
+                        )
                         ->color('success')
                         ->icon('heroicon-o-arrow-down-tray'),
                 ]),
@@ -122,66 +127,76 @@ class DynamicLinkResource extends Resource
 
     public static function infolist(Infolist $infolist): Infolist
     {
-        return $infolist
-            ->schema([
-                Infolists\Components\Section::make('Informasi Dynamic Link')
-                    ->icon('heroicon-o-information-circle')
-                    ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                Infolists\Components\TextEntry::make('original_link')
-                                    ->icon('heroicon-o-link')
-                                    ->copyable()
-                                    ->copyMessage('Link Asli Disalin!')
-                                    ->columnSpanFull(),
-                                Infolists\Components\TextEntry::make('custom_slug')
-                                    ->label('Dynamic Link')
-                                    ->icon('heroicon-o-cog-6-tooth')
-                                    ->formatStateUsing(function ($state) {
-                                        return config('app.url') . "/link/{$state}";
-                                    }),
-                                Infolists\Components\TextEntry::make('category.category_name')
-                                    ->icon('heroicon-o-tag')
-                                    ->label('Kategori')
-                                    ->badge()
-                                    ->color('info'),
-                                Infolists\Components\TextEntry::make('notes')
-                                    ->icon('heroicon-o-pencil-square')
-                                    ->label('Catatan')
-                                    ->columnSpanFull(),
-                            ]),
+        return $infolist->schema([
+            Infolists\Components\Section::make('Informasi Dynamic Link')
+                ->icon('heroicon-o-information-circle')
+                ->schema([
+                    Grid::make(2)->schema([
+                        Infolists\Components\TextEntry::make('original_link')
+                            ->icon('heroicon-o-link')
+                            ->copyable()
+                            ->copyMessage('Link Asli Disalin!')
+                            ->columnSpanFull(),
+                        Infolists\Components\TextEntry::make('custom_slug')
+                            ->label('Dynamic Link')
+                            ->icon('heroicon-o-cog-6-tooth')
+                            ->formatStateUsing(function ($state) {
+                                return config('app.url') . "/link/{$state}";
+                            }),
+                        Infolists\Components\TextEntry::make(
+                            'category.category_name'
+                        )
+                            ->icon('heroicon-o-tag')
+                            ->label('Kategori')
+                            ->badge()
+                            ->color('info'),
+                        Infolists\Components\TextEntry::make('notes')
+                            ->icon('heroicon-o-pencil-square')
+                            ->label('Catatan')
+                            ->columnSpanFull(),
                     ]),
+                ]),
 
-                Infolists\Components\Section::make('QR Code')
-                    ->description('QR Code yang terintegrasi dengan Dynamic Link')
-                    ->icon('heroicon-o-qr-code')
-                    ->footerActions([
-                        Infolists\Components\Actions\Action::make('download_qr')
-                            ->label('Download QR')
-                            ->url(fn(DynamicLink $record) => route('qr.download', ['id' => $record->id]))
-                            ->color('success')
-                            ->icon('heroicon-o-arrow-down-tray'),
-                    ])
-                    ->schema([
-                        Grid::make(2)
-                            ->schema([
-                                Infolists\Components\ImageEntry::make('qr_code_filename')
-                                    ->disk('public')
-                                    ->label('')
-                                    ->url(fn($record) => asset('storage/' . $record->qr_code_filename)),
-
-                                Infolists\Components\TextEntry::make('qr_code_filename')
-                                    ->label('QR Code Filename')
+            Infolists\Components\Section::make('QR Code')
+                ->description('QR Code yang terintegrasi dengan Dynamic Link')
+                ->icon('heroicon-o-qr-code')
+                ->footerActions([
+                    Infolists\Components\Actions\Action::make('download_qr')
+                        ->label('Download QR')
+                        ->url(
+                            fn(DynamicLink $record) => route('qr.download', [
+                                'id' => $record->id,
                             ])
-                    ])
-            ]);
+                        )
+                        ->color('success')
+                        ->icon('heroicon-o-arrow-down-tray'),
+                ])
+                ->schema([
+                    Grid::make(2)->schema([
+                        Infolists\Components\ImageEntry::make(
+                            'qr_code_filename'
+                        )
+                            ->disk('public')
+                            ->label('')
+                            ->url(
+                                fn($record) => asset(
+                                    'storage/' . $record->qr_code_filename
+                                )
+                            ),
+
+                        Infolists\Components\TextEntry::make(
+                            'qr_code_filename'
+                        )->label('QR Code Filename'),
+                    ]),
+                ]),
+        ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
-        ];
+                //
+            ];
     }
 
     public static function getPages(): array

@@ -19,24 +19,22 @@ use Illuminate\Support\Facades\Route;
 class MicrositePageResource extends Resource
 {
     protected static ?string $model = MicrositePage::class;
-
+    protected static ?string $navigationGroup = 'Alat';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Section::make('')
-                    ->schema([
-                        Forms\Components\FileUpload::make('logo'),
-                        Forms\Components\TextInput::make('title')
-                            ->label('Judul')
-                            ->required(),
-                        Forms\Components\TextInput::make('description')
-                            ->label('Deskripsi')
-                            ->required()
-                    ])
-            ]);
+        return $form->schema([
+            Section::make('')->schema([
+                Forms\Components\FileUpload::make('logo'),
+                Forms\Components\TextInput::make('title')
+                    ->label('Judul')
+                    ->required(),
+                Forms\Components\TextInput::make('description')
+                    ->label('Deskripsi')
+                    ->required(),
+            ]),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -44,9 +42,16 @@ class MicrositePageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('logo')->label('Logo'),
-                Tables\Columns\TextColumn::make('title')->label('Judul')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('description')->label('Deskripsi')->limit(50),
-                Tables\Columns\TextColumn::make('created_at')->label('Dibuat')->dateTime(),
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Judul')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Deskripsi')
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Dibuat')
+                    ->dateTime(),
             ])
             ->filters([
                 //
@@ -72,9 +77,7 @@ class MicrositePageResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            RelationManagers\LinkRelationManager::class
-        ];
+        return [RelationManagers\LinkRelationManager::class];
     }
 
     public static function getPages(): array
