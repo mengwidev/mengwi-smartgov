@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 
 class AttendanceController extends Controller
@@ -29,16 +30,34 @@ class AttendanceController extends Controller
         }
 
         $attendances = DB::table('attendances')
-            ->leftJoin('ref_att_type', 'attendances.att_type_id', '=', 'ref_att_type.id')
-            ->leftJoin('gov_employee', 'attendances.employee_id', '=', 'gov_employee.id')
-            ->whereBetween(DB::raw('DATE(attendances.scan_date)'), [$fromDate, $toDate])
-            ->get(['attendances.employee_id', 'attendances.scan_date', 'attendances.att_type_id', 'gov_employee.name as employee_name']);
+            ->leftJoin(
+                'ref_att_type',
+                'attendances.att_type_id',
+                '=',
+                'ref_att_type.id'
+            )
+            ->leftJoin(
+                'gov_employee',
+                'attendances.employee_id',
+                '=',
+                'gov_employee.id'
+            )
+            ->whereBetween(DB::raw('DATE(attendances.scan_date)'), [
+                $fromDate,
+                $toDate,
+            ])
+            ->get([
+                'attendances.employee_id',
+                'attendances.scan_date',
+                'attendances.att_type_id',
+                'gov_employee.name as employee_name',
+            ]);
 
         $attendanceData = [];
         foreach ($employees as $employee) {
             $attendanceData[$employee->id] = [
                 'employee_name' => $employee->name,
-                'attendances' => []
+                'attendances' => [],
             ];
 
             foreach ($dates as $date) {
@@ -59,13 +78,31 @@ class AttendanceController extends Controller
 
         foreach ($attendances as $attendance) {
             $employeeId = $attendance->employee_id;
-            $attendanceDate = Carbon::parse($attendance->scan_date)->format('Y-m-d');
+            $attendanceDate = Carbon::parse($attendance->scan_date)->format(
+                'Y-m-d'
+            );
 
-            if (isset($attendanceData[$employeeId]['attendances'][$attendanceDate])) {
-                $attendanceData[$employeeId]['attendances'][$attendanceDate][$attendance->att_type_id] = Carbon::parse($attendance->scan_date)->format('H:i');
+            if (
+                isset(
+                    $attendanceData[$employeeId]['attendances'][$attendanceDate]
+                )
+            ) {
+                $attendanceData[$employeeId]['attendances'][$attendanceDate][
+                    $attendance->att_type_id
+                ] = Carbon::parse($attendance->scan_date)->format('H:i');
             }
         }
 
-        return view('attendance.index', compact('attendanceData', 'dates', 'employees'));
+        return view(
+            'attendance.index',
+            compact('attendanceData', 'dates', 'employees')
+        );
     }
+
+    /**
+     * Generate the attendance PDF report.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 }
