@@ -20,7 +20,7 @@ class MicrositePageResource extends Resource
 {
     protected static ?string $model = MicrositePage::class;
     protected static ?string $navigationGroup = 'Alat';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-pointing-out';
 
     public static function form(Form $form): Form
     {

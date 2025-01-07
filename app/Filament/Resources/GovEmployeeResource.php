@@ -24,7 +24,7 @@ class GovEmployeeResource extends Resource
     protected static ?string $model = GovEmployee::class;
     protected static ?string $navigationGroup = 'Kepegawaian';
     protected static ?string $navigationLabel = 'Daftar Pegawai';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     public static function form(Form $form): Form
     {
