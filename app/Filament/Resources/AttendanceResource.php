@@ -12,6 +12,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Imports\AttendanceImporter;
+use App\Filament\Exports\AttendanceExporter;
+use Filament\Tables\Actions\ImportAction;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
 
 class AttendanceResource extends Resource
 {
@@ -52,6 +57,17 @@ class AttendanceResource extends Resource
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
+                ExportBulkAction::make()->exporter(AttendanceExporter::class),
+            ])
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(AttendanceImporter::class)
+                    ->label('Import')
+                    ->icon('heroicon-o-arrow-down-on-square-stack'),
+                ExportAction::make()
+                    ->exporter(AttendanceExporter::class)
+                    ->label('Export')
+                    ->icon('heroicon-o-arrow-up-on-square-stack'),
             ]);
     }
 
