@@ -13,10 +13,12 @@ Route::get('/link/{custom_slug}', [
     DynamicLinkController::class,
     'redirectToOriginalLink',
 ]);
+
 Route::get('/qr-code/view/{id}', [
     DynamicLinkController::class,
     'viewQrCode',
 ])->name('qr.view');
+
 Route::get('/qr-code/download/{id}', [
     DynamicLinkController::class,
     'downloadQrCode',
