@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
-            background-image: url({{ asset('assets/bg-mengwi-jadoel-1.jpg') }});
+            background-image: url('/assets/bg-mengwi-jadoel-1.jpg');
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -20,24 +20,7 @@
     <div class="w-full h-full flex  justify-center items-center ">
 
 
-        <div class="max-w-3xl p-8 space-y-9 bg-white  rounded-lg dark:bg-gray-800 shadow-lg animate-zoomIn">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Mengwi SmartGov App
-                </h5>
-            </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Platform
-                satu pintu untuk mengakses layanan pemerintahan desa. Sederhanakan interaksi Anda dengan pemerintah,
-                akses informasi penting, dan tetap terhubung dengan komunitas Anda.</p>
-            <a href="{{ url(env('APP_URL') . '/admin/login') }}"
-                class="inline-flex items-center px-3 py-2 text-sm font-semibold text-white text-center bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
-                Masuk
-                <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M1 5h12m0 0L9 1m4 4L9 9" />
-                </svg>
-            </a>
-        </div>
+        <livewire:welcome-alert/>
 
         <div
             class="flex row items-center space-x-3 bg-white px-3 py-2 rounded-full absolute bottom-5 left-5 animate-zoomIn">
