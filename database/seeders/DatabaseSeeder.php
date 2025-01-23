@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             RefEmploymentPositionCategorySeeder::class,
             RefEmploymentPositionSeeder::class,
             RefLastEducationSeeder::class,
-            RefMonthSeeder::class
+            RefMonthSeeder::class,
+            ProductUnitSeeder::class,
         ]);
     }
 }
