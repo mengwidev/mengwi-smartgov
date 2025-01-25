@@ -18,6 +18,11 @@ class ProductModel extends Model
         return $this->belongsTo(ProductCategoryModel::class);
     }
 
+    public function unit()
+    {
+        return $this->belongsTo(ProductUnitModel::class);
+    }
+
     public function stockLogs()
     {
         return $this->hasMany(StockLogModel::class);
@@ -25,7 +30,7 @@ class ProductModel extends Model
 
     public function currentStock()
     {
-        return $this->hasMany(StockLogModel::class, 'product_id')
+        return $this->hasOne(StockLogModel::class, 'product_id')
             ->selectRaw(
                 'product_id, SUM(CASE WHEN type = "in" THEN quantity ELSE -quantity END) as stock'
             )

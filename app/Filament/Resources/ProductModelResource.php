@@ -16,7 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProductModelResource extends Resource
 {
     protected static ?string $model = ProductModel::class;
-
+    protected static ?string $navigationGroup = 'Inventory Management';
+    protected static ?string $navigationLabel = 'Input Barang';
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
@@ -32,6 +33,13 @@ class ProductModelResource extends Resource
                         ->required(),
                 ])
                 ->required(),
+            Forms\Components\Select::make('unit_id')
+                ->label('Dalam Satuan')
+                ->relationship('unit', 'name') // Relates to the Unit model
+                ->searchable()
+                ->preload()
+                ->placeholder('Select a unit') // Optional placeholder for the dropdown
+                ->nullable(), // Allows this field to be optional
         ]);
     }
 
@@ -43,14 +51,9 @@ class ProductModelResource extends Resource
                 Tables\Columns\TextColumn::make('category.name')->label(
                     'Category'
                 ),
-                Tables\Columns\TextColumn::make('currentStock.stock')
-                    ->label('Current Stock')
-                    ->sortable()
-                    ->getStateUsing(
-                        fn($record) => $record
-                            ->currentStock()
-                            ->value('stock') ?? 0
-                    ),
+                Tables\Columns\TextColumn::make('unit.name')->label(
+                    'Dalam Satuan'
+                ),
             ])
             ->filters([
                 //
@@ -60,7 +63,11 @@ class ProductModelResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->defaultPaginationPageOption(25)
+            ->extremePaginationLinks()
+            ->deferLoading();
     }
 
     public static function getRelations(): array

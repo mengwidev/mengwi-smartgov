@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProductModelResource\Pages;
 use App\Filament\Resources\ProductModelResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EditProductModel extends EditRecord
 {
@@ -12,8 +13,11 @@ class EditProductModel extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+        return [Actions\DeleteAction::make()];
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('Ubah Barang');
     }
 }

@@ -96,7 +96,7 @@ class DynamicLinkResource extends Resource
                     ->label('Dibuat Pada')
                     ->sortable(),
             ])
-            ->defaultSort('created_at', '<desc></desc>')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('category_id')
                     ->label('Kategori')

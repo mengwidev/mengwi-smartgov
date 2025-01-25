@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProductModelResource\Pages;
 use App\Filament\Resources\ProductModelResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ListProductModels extends ListRecords
 {
@@ -12,8 +13,11 @@ class ListProductModels extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return [Actions\CreateAction::make()];
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('Daftar Barang');
     }
 }

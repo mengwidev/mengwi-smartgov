@@ -10,23 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('stock_logs', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('log_id')->unique();
+            $table->string('name');
             $table
-                ->foreignId('product_id')
-                ->constrained('products')
+                ->foreignId('category_id')
+                ->constrained('product_categories')
                 ->cascadeOnDelete();
-            $table->enum('type', ['in', 'out']);
-            $table->integer('quantity');
             $table
                 ->foreignId('unit_id')
                 ->constrained('product_units')
-                ->cascadeOnDelete();
-            $table->date('date');
-            $table
-                ->foreignId('user_id')
-                ->constrained('users')
                 ->cascadeOnDelete();
             $table->timestamps();
         });
@@ -37,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_logs');
+        Schema::dropIfExists('products');
     }
 };
