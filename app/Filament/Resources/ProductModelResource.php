@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ProductModelResource extends Resource
 {
     protected static ?string $model = ProductModel::class;
-    protected static ?string $navigationGroup = 'Inventory Management';
+    protected static ?string $navigationGroup = 'Manajemen Stok Barang';
     protected static ?string $navigationLabel = 'Input Barang';
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 

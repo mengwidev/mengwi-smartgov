@@ -11,15 +11,15 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Filters\SelectFilter;
 use Tables\Table;
 
-class CurrentStock extends Page implements Tables\Contracts\HasTable
+class RekapStokBarang extends Page implements Tables\Contracts\HasTable
 {
     use InteractsWithTable;
 
-    protected static string $view = 'filament.pages.current-stock';
+    protected static string $view = 'filament.pages.rekap-stok-barang';
 
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
-    protected static ?string $navigationLabel = 'Rekap Stok';
-    protected static ?string $navigationGroup = 'Inventory Management';
+    protected static ?string $navigationLabel = 'Rekap Stok Barang';
+    protected static ?string $navigationGroup = 'Manajemen Stok Barang';
 
     public function table(Tables\Table $table): Tables\Table
     {
