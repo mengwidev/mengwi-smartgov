@@ -27,6 +27,7 @@ class ProductModelResource extends Resource
             Forms\Components\Select::make('category_id')
                 ->relationship('category', 'name')
                 ->preload()
+                ->label('Kategori Barang')
                 ->createOptionForm([
                     Forms\Components\TextInput::make('name')
                         ->label('Nama Kategori')
@@ -39,7 +40,8 @@ class ProductModelResource extends Resource
                 ->searchable()
                 ->preload()
                 ->placeholder('Select a unit') // Optional placeholder for the dropdown
-                ->nullable(), // Allows this field to be optional
+                ->nullable()
+                ->required(), // Allows this field to be optional
         ]);
     }
 
@@ -49,7 +51,7 @@ class ProductModelResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('category.name')->label(
-                    'Category'
+                    'Kategori Barang'
                 ),
                 Tables\Columns\TextColumn::make('unit.name')->label(
                     'Dalam Satuan'

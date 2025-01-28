@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Notifications\Notification;
 
 class StockLogResource extends Resource
 {
@@ -31,148 +32,194 @@ class StockLogResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Informasi Barang')
-                ->description(
-                    'Pilih barang masuk/keluar sesuai barang yang sudah diinput pada menu "Input Barang"'
-                )
-                ->columns(3)
-                ->schema([
-                    // BARANG --- column : product_id
-                    Forms\Components\Select::make('product_id')
-                        ->label('Barang')
-                        ->columnSpan(2)
-                        ->relationship('product', 'name', function ($query) {
-                            $query->orderBy('id', 'desc');
-                        })
-                        ->required()
-                        ->preload()
-                        ->searchable()
-                        ->reactive()
-                        ->afterStateUpdated(function (
-                            $state,
-                            callable $set,
-                            callable $get
-                        ) {
-                            if (!$state) {
-                                $set(
-                                    'remaining_stock',
-                                    'Silahkan pilih barang'
-                                );
-                                $set('unit', '---');
-                                return;
-                            }
+            Forms\Components\Grid::make('3')->schema([
+                Forms\Components\Section::make('Informasi Barang')
+                    ->columnSpan(2)
+                    ->icon('heroicon-o-cube')
+                    ->description(
+                        'Masukkan informasi barang yang akan masuk/keluar'
+                    )
+                    ->schema([
+                        // BARANG --- column : product_id
+                        Forms\Components\Select::make('product_id')
+                            ->label('Barang')
+                            ->relationship('product', 'name', function (
+                                $query
+                            ) {
+                                $query->orderBy('id', 'desc');
+                            })
+                            ->required()
+                            ->preload()
+                            ->searchable()
+                            ->reactive()
+                            ->afterStateUpdated(function (
+                                $state,
+                                callable $set,
+                                callable $get
+                            ) {
+                                if (!$state) {
+                                    $set(
+                                        'remaining_stock',
+                                        'Silahkan pilih barang'
+                                    );
+                                    $set('unit', '---');
+                                    return;
+                                }
 
-                            // Calculate current stock based on stock logs
-                            $stockIn = StockLogModel::where(
-                                'product_id',
-                                $state
+                                // Calculate current stock based on stock logs
+                                $stockIn = StockLogModel::where(
+                                    'product_id',
+                                    $state
+                                )
+                                    ->where('type', 'in')
+                                    ->sum('quantity');
+                                $stockOut = StockLogModel::where(
+                                    'product_id',
+                                    $state
+                                )
+                                    ->where('type', 'out')
+                                    ->sum('quantity');
+                                $currentStock = $stockIn - $stockOut;
+
+                                // Set dynamic values for the helper text and other fields
+                                $set('remaining_stock', $currentStock);
+
+                                $unitName =
+                                    \App\Models\ProductModel::find($state)
+                                        ?->unit->name ??
+                                    'Silahkan pilih barang';
+                                $set('unit', $unitName);
+                            }),
+                        Forms\Components\Section::make('Jenis Pergerakan Stok')
+                            ->description(
+                                'Masukkan tipe pergerakan stok (masuk/keluar) dan isikan jumlahnya. Pastikan jumlah keluar sesuai dengan jumlah stok saat ini.'
                             )
-                                ->where('type', 'in')
-                                ->sum('quantity');
-                            $stockOut = StockLogModel::where(
-                                'product_id',
-                                $state
-                            )
-                                ->where('type', 'out')
-                                ->sum('quantity');
-                            $currentStock = $stockIn - $stockOut;
-
-                            // Set dynamic values for the helper text and other fields
-                            $set('remaining_stock', $currentStock);
-
-                            $unitName =
-                                \App\Models\ProductModel::find($state)?->unit
-                                    ->name ?? 'Silahkan pilih barang';
-                            $set('unit', $unitName);
-                        }),
-
-                    // TIPE PERGERAKAN (MASUK/KELUAR) --- column : type
-                    Forms\Components\Select::make('type')
-                        ->label('Masuk/Keluar')
-                        ->options([
-                            'in' => 'Masuk',
-                            'out' => 'Keluar',
-                        ])
-                        ->required(),
-                ]),
-
-            Forms\Components\Section::make('Informasi Pergerakan Stok')
-                ->description(
-                    'Masukkan informasi jumlah pergerakan stok yang masuk/keluar dan tanggal pergerakan stok.'
-                )
-                ->columns(2)
-                ->schema([
-                    Forms\Components\Section::make('Jumlah Masuk/Keluar')
-                        ->columnSpan(1)
-                        ->description(
-                            'Masukkan jumlah stok masuk/keluar. Untuk stok keluar pastikan jumlahnya sesuai dengan jumlah stok saat ini.'
-                        )
-                        ->schema([
-                            Forms\Components\TextInput::make('quantity')
-                                ->label('Jumlah')
-                                ->numeric()
-                                ->reactive()
-                                ->extraAttributes([
-                                    'class' =>
-                                        'text-lg font-semibold text-blue-500',
-                                ])
-                                ->helperText(function (callable $get) {
-                                    $remainingStock =
-                                        $get('remaining_stock') ??
-                                        '-- silahkan pilih barang --';
-                                    return "Stok tersisa: $remainingStock";
-                                })
-                                ->rule(['integer', 'min:1'])
-                                ->afterStateUpdated(function (
-                                    $state,
-                                    callable $get,
-                                    callable $set
-                                ) {
-                                    $type = $get('type');
-                                    $productId = $get('product_id');
-                                    $product = ProductModel::find($productId);
-
-                                    if ($product) {
-                                        // For "out" type, we validate the quantity doesn't exceed current stock
-                                        if ($type === 'out') {
-                                            $currentStock =
-                                                $product
-                                                    ->currentStock()
-                                                    ->first()->stock ?? 0;
-
-                                            if ($state > $currentStock) {
-                                                // Set quantity to current stock if entered quantity exceeds available stock
-                                                $set('quantity', $currentStock);
-                                            }
-                                        } elseif ($state === null) {
-                                            // Auto-fill quantity with current stock if the field is blank
-                                            $set(
-                                                'quantity',
-                                                $product
-                                                    ->currentStock()
-                                                    ->first()->stock ?? 0
+                            ->icon('heroicon-o-arrows-right-left')
+                            ->compact()
+                            ->schema([
+                                Forms\Components\Split::make([
+                                    // TIPE PERGERAKAN (MASUK/KELUAR) --- column : type
+                                    Forms\Components\Select::make('type')
+                                        ->label('Masuk/Keluar')
+                                        ->options([
+                                            'in' => 'Masuk',
+                                            'out' => 'Keluar',
+                                        ])
+                                        ->reactive()
+                                        ->required(),
+                                    // QUANTITY
+                                    Forms\Components\TextInput::make('quantity')
+                                        ->label('Jumlah')
+                                        ->numeric()
+                                        ->reactive()
+                                        ->helperText(function (callable $get) {
+                                            $remainingStock =
+                                                $get('remaining_stock') ??
+                                                '-- silahkan pilih barang --';
+                                            return "Stok tersisa: $remainingStock";
+                                        })
+                                        ->rule(['integer', 'min:1'])
+                                        ->afterStateUpdated(function (
+                                            $state,
+                                            callable $get,
+                                            callable $set
+                                        ) {
+                                            $type = $get('type');
+                                            $productId = $get('product_id');
+                                            $product = ProductModel::find(
+                                                $productId
                                             );
-                                        }
-                                    }
-                                })
-                                ->required()
-                                ->suffix(function (callable $get) {
-                                    return $get('unit') ?? '---';
-                                }),
-                        ]),
-                    Forms\Components\Section::make('Tanggal Masuk/Keluar')
-                        ->description(
-                            'Masukkan tanggal kapan stok masuk/keluar'
-                        )
-                        ->columnSpan(1)
-                        ->schema([
-                            Forms\Components\DatePicker::make('date')
-                                ->label('Tanggal')
-                                ->default(now())
-                                ->required(),
-                        ])
-                        ->grow(false),
-                ]),
+                                            $remainingStock = $get(
+                                                'remaining_stock'
+                                            );
+
+                                            if (
+                                                $type === 'out' &&
+                                                $remainingStock <= 0
+                                            ) {
+                                                Notification::make()
+                                                    ->title('Gagal')
+                                                    ->danger()
+                                                    ->body(
+                                                        'Stok kosong, tidak dapat mengeluarkan barang.'
+                                                    )
+                                                    ->send();
+                                                $set('quantity', null); // Reset the quantity
+                                            }
+
+                                            if ($product) {
+                                                if ($type === 'out') {
+                                                    $currentStock =
+                                                        $product
+                                                            ->currentStock()
+                                                            ->first()->stock ??
+                                                        0;
+
+                                                    if (
+                                                        $state > $currentStock
+                                                    ) {
+                                                        $set('quantity', null);
+                                                        Notification::make()
+                                                            ->title('Gagal')
+                                                            ->danger()
+                                                            ->body(
+                                                                'Tidak dapat mengeluarkan barang yang melebihi sisa stok!'
+                                                            )
+                                                            ->send();
+                                                    }
+                                                } elseif ($state === null) {
+                                                    $set('quantity', null);
+                                                    Notification::make()
+                                                        ->title('Gagal')
+                                                        ->danger()
+                                                        ->body(
+                                                            'Isi jumlah stok yang akan keluar!'
+                                                        )
+                                                        ->send();
+                                                }
+                                            }
+                                        })
+                                        ->required()
+                                        ->suffix(function (callable $get) {
+                                            return $get('unit') ?? '---';
+                                        }),
+                                ]),
+                            ]),
+                        Forms\Components\Section::make('Unit Kerja')
+                            ->description(
+                                'Silahkan pilih ke unit mana barang keluar.'
+                            )
+                            ->icon('heroicon-o-users')
+                            ->compact()
+                            ->schema([
+                                // UNIT OUT
+                                Forms\Components\Select::make('out_unit_id')
+                                    ->relationship('unit', 'name', function (
+                                        $query
+                                    ) {
+                                        $query->orderBy('id', 'asc');
+                                    })
+                                    ->preload()
+                                    ->searchable()
+                                    ->label('Unit Kerja'),
+                            ])
+                            ->hidden(
+                                fn(callable $get) => $get('type') !== 'out'
+                            ),
+                    ]),
+                Forms\Components\Section::make('Tanggal Pergerakan Stok')
+                    ->columnSpan(1)
+                    ->icon('heroicon-o-calendar-days')
+                    ->compact()
+                    ->description('Masukkan tanggal stok barang masuk/keluar')
+                    ->schema([
+                        // DATE
+                        Forms\Components\DatePicker::make('date')
+                            ->label('Tanggal')
+                            ->default(now())
+                            ->required(),
+                    ]),
+            ]),
         ]);
     }
 

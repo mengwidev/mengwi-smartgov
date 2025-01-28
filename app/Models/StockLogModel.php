@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\ProductModel;
-use App\Models\ProductUnitModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -26,6 +25,11 @@ class StockLogModel extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function unit()
+    {
+        return $this->belongsTo(RefEmploymentUnits::class, 'out_unit_id');
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -33,7 +37,7 @@ class StockLogModel extends Model
         // Creating a new record
         static::creating(function ($stockLog) {
             if (auth()->check()) {
-                $stockLog->user_id = auth()->id();
+                $stockLog->added_by = auth()->id();
             }
 
             if (empty($stockLog->log_id)) {

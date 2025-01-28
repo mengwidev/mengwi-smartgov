@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->integer('quantity');
             $table->date('date');
             $table
-                ->foreignId('user_id')
+                ->foreignId('added_by')
                 ->constrained('users')
                 ->cascadeOnDelete();
             $table->timestamps();
