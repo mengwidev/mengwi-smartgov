@@ -4,7 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "x-dev": "concurrently \"php artisan serve\" \"npm run dev\""
+        "x-dev": "concurrently \"php artisan serve\" \"npm run dev\"",
+        "clean": "php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan event:clear && php artisan optimize:clear && composer dump-autoload"
     },
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",
