@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
@@ -20,7 +23,13 @@ class User extends Authenticatable implements FilamentUser
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'username', 'email', 'password'];
+    protected $fillable = [
+        'name',
+        'username',
+        'email',
+        'password',
+        'avatar_url',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,5 +54,17 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return str_ends_with($this->email, '@gmail.com');
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        $avatarColumn = config(
+            'filament-edit-profile.avatar_column',
+            'avatar_url'
+        );
+
+        return $this->$avatarColumn
+            ? asset('storage/' . $this->$avatarColumn)
+            : null;
     }
 }
