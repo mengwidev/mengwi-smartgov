@@ -13,50 +13,24 @@ class RefEmploymentUnitSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Perbekel',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Sekretaris Desa',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Tata Usaha dan Umum',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Perencanaan',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Keuangan',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Kesejahteraan',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Pelayanan',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'Pemerintahan',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ref_employment_units')->insert([
-            'name' => 'BPD',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $values = [
+            'Perbekel',
+            'Sekretaris Desa',
+            'Tata Usaha dan Umum',
+            'Perencanaan',
+            'Keuangan',
+            'Kesejahteraan',
+            'Pemerintahan',
+            'Pelayanan',
+            'BPD',
+        ];
+
+        foreach ($values as $value) {
+            DB::table('ref_employment_units')->insert([
+                'name' => $value,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

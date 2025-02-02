@@ -15,4 +15,9 @@ class CreateStockLog extends CreateRecord
     {
         return __('Input Barang Masuk/Keluar');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

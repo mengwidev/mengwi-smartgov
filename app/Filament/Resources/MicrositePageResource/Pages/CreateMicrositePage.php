@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMicrositePage extends CreateRecord
 {
     protected static string $resource = MicrositePageResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

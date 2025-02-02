@@ -20,4 +20,9 @@ class EditStockLog extends EditRecord
     {
         return __('Ubah Barang Masuk/Keluar');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

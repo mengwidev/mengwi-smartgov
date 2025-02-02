@@ -20,4 +20,9 @@ class EditProductModel extends EditRecord
     {
         return __('Ubah Barang');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

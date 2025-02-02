@@ -13,18 +13,29 @@ class RefMonthSeeder extends Seeder
      */
     public function run(): void
     {
+        $values = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Juni',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
         //Insert Ref Month values
-        DB::table('ref_month')->insert(['name' => 'Januari', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Februari', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Maret', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'April', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Mei', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Juni', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Juli', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Agustus', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'September', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Oktober', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'November', 'created_at' => now(), 'updated_at' => now()]);
-        DB::table('ref_month')->insert(['name' => 'Desember', 'created_at' => now(), 'updated_at' => now()]);
+        foreach ($values as $value) {
+            DB::table('ref_month')->insert([
+                'name' => $value,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

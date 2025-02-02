@@ -15,4 +15,9 @@ class CreateProductModel extends CreateRecord
     {
         return __('Input Barang');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

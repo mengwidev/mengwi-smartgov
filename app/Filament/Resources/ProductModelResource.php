@@ -25,7 +25,9 @@ class ProductModelResource extends Resource
         return $form->schema([
             Forms\Components\TextInput::make('name')->required(),
             Forms\Components\Select::make('category_id')
-                ->relationship('category', 'name')
+                ->relationship('category', 'name', function ($query) {
+                    $query->orderBy('id', 'asc');
+                })
                 ->preload()
                 ->label('Kategori Barang')
                 ->createOptionForm([

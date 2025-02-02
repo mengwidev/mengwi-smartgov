@@ -144,7 +144,7 @@ class StockLogResource extends Resource
                                                         'Stok kosong, tidak dapat mengeluarkan barang.'
                                                     )
                                                     ->send();
-                                                $set('quantity', null); // Reset the quantity
+                                                $set('quantity', null);
                                             }
 
                                             if ($product) {
@@ -154,7 +154,6 @@ class StockLogResource extends Resource
                                                             ->currentStock()
                                                             ->first()->stock ??
                                                         0;
-
                                                     if (
                                                         $state > $currentStock
                                                     ) {
@@ -180,6 +179,9 @@ class StockLogResource extends Resource
                                             }
                                         })
                                         ->required()
+                                        ->disabled(
+                                            fn(callable $get) => !$get('type')
+                                        ) // Disable if type is not selected
                                         ->suffix(function (callable $get) {
                                             return $get('unit') ?? '---';
                                         }),
@@ -242,6 +244,12 @@ class StockLogResource extends Resource
                             : 'Stok Keluar'
                     )
                     ->sortable(),
+                Tables\Columns\TextColumn::make('unit.name')
+                    ->label('Unit Kerja')
+                    ->sortable()
+                    ->formatStateUsing(
+                        fn($record) => $record->unit?->name ?? '--'
+                    ),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Jumlah')
                     ->sortable(),
