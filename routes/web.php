@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DynamicLinkController;
 use App\Http\Controllers\MicrositePageController;
+use App\Http\Controllers\StockLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,3 +27,8 @@ Route::get('/qr-code/download/{id}', [
 Route::get('/microsite/{slug}', [MicrositePageController::class, 'show'])->name(
     'microsite.show'
 );
+
+Route::get('/stock-log-report', [
+    StockLogController::class,
+    'generateReport',
+])->name('stock-log.report');

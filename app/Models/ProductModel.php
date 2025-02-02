@@ -20,7 +20,7 @@ class ProductModel extends Model
 
     public function unit()
     {
-        return $this->belongsTo(ProductUnitModel::class);
+        return $this->belongsTo(ProductUnitModel::class, 'unit_id');
     }
 
     public function stockLogs()
