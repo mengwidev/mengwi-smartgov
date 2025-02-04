@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Filament\Enums\ThemeMode;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -32,9 +33,12 @@ class AdminPanelProvider extends PanelProvider
             ->login(UsernameLogin::class)
             ->breadcrumbs(false)
             ->databaseNotifications()
+            ->sidebarCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::Teal,
             ])
+            ->defaultThemeMode(ThemeMode::Light)
+            ->font('Figtree')
             ->discoverResources(
                 in: app_path('Filament/Resources'),
                 for: 'App\\Filament\\Resources'

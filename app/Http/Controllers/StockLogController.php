@@ -50,5 +50,11 @@ class StockLogController extends Controller
                 $formattedEndDate .
                 '.pdf'
         );
+
+        // TESTING PREVIEW ---------------------------
+        // return view(
+        //     'pdf.stock-log-report',
+        //     compact('stockLogs', 'startDate', 'endDate')
+        // );
     }
 }
