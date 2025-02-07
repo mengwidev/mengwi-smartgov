@@ -1,0 +1,12 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.fi-sidebar-header img {
+    @apply h-12;
+    @apply mb-1;
+}
+
+.fi-simple-header img {
+    @apply h-16;
+}

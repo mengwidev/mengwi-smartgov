@@ -1,1 +1,1 @@
-<img src="{{ asset('assets/uselight-smartgovlogo.png') }}" alt="Logo" class="h-10">
+<img src="{{ asset('assets/uselightdpblk-smartgovlogo.svg') }}" alt="Logo" class="h-10">

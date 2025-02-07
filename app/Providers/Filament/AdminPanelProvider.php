@@ -35,15 +35,17 @@ class AdminPanelProvider extends PanelProvider
             ->login(UsernameLogin::class)
             ->breadcrumbs(false)
             ->brandName('Mengwi SmartGov')
-            // ->darkModeBrandLogo(asset('assets/usedark-smartgovlogo.svg'))
-            // ->brandLogo(asset('assets/uselightdpblk-smartgovlogo.svg'))
-            // ->brandLogoHeight('5rem')
+            ->brandLogo(fn() => view('vendor.filament.components.brand'))
+            ->darkModeBrandLogo(
+                fn() => view('vendor.filament.components.branddark')
+            )
+            ->brandLogoHeight('auto')
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => Color::Teal,
             ])
-            ->defaultThemeMode(ThemeMode::Light)
+            ->defaultThemeMode(ThemeMode::Dark)
             ->font('Figtree')
             ->discoverResources(
                 in: app_path('Filament/Resources'),
@@ -93,6 +95,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label(fn() => auth()->user()->name)
                     ->url(fn(): string => EditProfilePage::getUrl())
                     ->icon('heroicon-o-user-circle'),
-            ]);
+            ])
+            ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }
