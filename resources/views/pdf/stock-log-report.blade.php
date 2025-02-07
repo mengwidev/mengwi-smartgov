@@ -61,7 +61,7 @@
                 <td>
                     {{-- ------------------------------------------------------------------------------------------------------------------------------- --}}
                     {{-- @CONTENT AREA ------ content goes here --}}
-                    <div class="flex justify-between w-full p-4 bg-[#9DDE8B] mb-6">
+                    <div class="flex justify-between max-w-full p-4 bg-[#9DDE8B] mb-6">
                         <div>
                             <h1 class="mb-2 text-2xl font-bold">PEMERINTAH DESA MENGWI</h1>
                             <div class="flex flex-col items-start gap-1 scale-80">
@@ -111,7 +111,42 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="flex gap-4">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    @php
+                                        $tableHeaders = ['#', 'Barang', 'Tanggal', 'Pergerakan', 'Jumlah'];
+                                        $indexNum = 1;
+                                    @endphp
+                                    <tr class="text-sm bg-[#006769] text-white">
+                                        @foreach ($tableHeaders as $header)
+                                            <th class="px-1 py-3 border border-gray-300">{{ $header }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($stockIn as $in)
+                                        <tr class="text-sm {{ $indexNum % 2 == 0 ? 'bg-gray-200' : 'bg-white' }}">
+                                            <td class="px-1 py-1 text-center border border-gray-300">{{ $indexNum++ }}
+                                            </td>
+                                            <td class="px-1 py-1 truncate border border-gray-300 text-wrap">
+                                                {{ $in->product->name ?? 'No product' }}
+                                            </td>
+                                            <td class="px-1 py-1 text-center border border-gray-300 text-nowrap">
+                                                {{ \Carbon\Carbon::parse($in->date)->locale('id')->isoFormat('DD/MM/Y') }}
+                                            </td>
+                                            <td
+                                                class="px-1 py-1 text-center {{ $in->type === 'in' ? 'text-green-600' : 'text-red-600' }} border   border-gray-300">
+                                                {{ $in->type === 'in' ? 'Masuk' : 'Keluar' }}
+                                            </td>
+                                            <td class="px-1 py-1 text-center border border-gray-300">
+                                                {{ $in->quantity }} {{ $in->product->unit->name ?? '-' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm">
                                 <thead>
@@ -122,7 +157,6 @@
                                             'Tanggal',
                                             'Pergerakan',
                                             'Jumlah',
-                                            'Satuan',
                                             'Unit Kerja',
                                         ];
                                         $indexNum = 1;
@@ -134,26 +168,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($stockLogs as $stockLog)
+                                    @foreach ($stockOut as $out)
                                         <tr class="text-sm {{ $indexNum % 2 == 0 ? 'bg-gray-200' : 'bg-white' }}">
-                                            <td class="px-1 py-1 text-center border border-gray-300">{{ $indexNum++ }}
+                                            <td class="px-1 py-1 text-center border border-gray-300">
+                                                {{ $indexNum++ }}
                                             </td>
-                                            <td class="px-1 py-1 truncate border border-gray-300">
-                                                {{ $stockLog->product->name ?? 'No product' }}
+                                            <td class="px-1 py-1 truncate border border-gray-300 text-wrap">
+                                                {{ $out->product->name ?? 'No product' }}
                                             </td>
                                             <td class="px-1 py-1 text-center border border-gray-300 text-nowrap">
-                                                {{ \Carbon\Carbon::parse($stockLog->date)->locale('id')->isoFormat('DD MMMM Y') }}
+                                                {{ \Carbon\Carbon::parse($out->date)->locale('id')->isoFormat('DD/MM/Y') }}
                                             </td>
                                             <td
-                                                class="px-1 py-1 text-center {{ $stockLog->type === 'in' ? 'text-green-600' : 'text-red-600' }} border   border-gray-300">
-                                                {{ $stockLog->type === 'in' ? 'Stok Masuk' : 'Stok Keluar' }}
+                                                class="px-1 py-1 text-center {{ $out->type === 'in' ? 'text-green-600' : 'text-red-600' }} border   border-gray-300">
+                                                {{ $out->type === 'in' ? 'Masuk' : 'Keluar' }}
                                             </td>
                                             <td class="px-1 py-1 text-center border border-gray-300">
-                                                {{ $stockLog->quantity }}</td>
-                                            <td class="px-1 py-1 text-center border border-gray-300">
-                                                {{ $stockLog->product->unit->name ?? '-' }}</td>
+                                                {{ $out->quantity }} {{ $out->product->unit->name ?? '-' }}</td>
                                             <td class="px-1 py-1 text-center truncate border border-gray-300">
-                                                {{ $stockLog->unit->name ?? '-' }}</td>
+                                                @php
+                                                    $unitName = $out->unit->name ?? '-';
+                                                    $unitName = match ($unitName) {
+                                                        'Tata Usaha dan Umum' => 'Umum',
+                                                        'Kesejahteraan' => 'Kesra',
+                                                        'Sekretaris Desa' => 'Sekdes',
+                                                        default => $unitName,
+                                                    };
+                                                @endphp
+                                                {{ $unitName }}
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

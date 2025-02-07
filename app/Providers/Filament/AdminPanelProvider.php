@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Auth\UsernameLogin;
+// use Doctrine\DBAL\Schema\View;
+use Illuminate\View\View;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -32,6 +34,10 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(UsernameLogin::class)
             ->breadcrumbs(false)
+            ->brandName('Mengwi SmartGov')
+            // ->darkModeBrandLogo(asset('assets/usedark-smartgovlogo.svg'))
+            // ->brandLogo(asset('assets/uselightdpblk-smartgovlogo.svg'))
+            // ->brandLogoHeight('5rem')
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
             ->colors([
