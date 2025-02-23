@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('url');
             $table->string('description', 110);
             $table->string('icon');
-            $table->string('bgColor', 7);
+            $table->char('bgColor', 7);
+            $table->boolean('isActive')->default(true);
             $table->timestamps();
         });
     }
