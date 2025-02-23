@@ -15,6 +15,7 @@ class ProductUnitSeeder extends Seeder
     {
         $units = [
             'pcs', // Pieces
+            'paket',
             'rim',
             'kotak', // Box
             'pak', // Pack
