@@ -10,9 +10,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Filters\SelectFilter;
 use Tables\Table;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class RekapStokBarang extends Page implements Tables\Contracts\HasTable
 {
+    use HasPageShield;
     use InteractsWithTable;
 
     protected static string $view = 'filament.pages.rekap-stok-barang';
