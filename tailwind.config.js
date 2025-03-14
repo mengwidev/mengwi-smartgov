@@ -1,27 +1,31 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-import preset from './vendor/filament/support/tailwind.config.preset';
-
 /** @type {import('tailwindcss').Config} */
 export default {
-    presets: [preset],
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
         './node_modules/flowbite/**/*.js',
-        './app/Filament/**/*.php',
-        './resources/views/filament/**/*.blade.php',
-        './vendor/filament/**/*.blade.php',
     ],
     theme: {
+        fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            figtree: ['Figtree', 'sans-serif'],
+        },
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-                inter: ['Inter', 'sans-serif'],
-                sourceCode: ['"Source Code Pro"', 'monospace'],
+            backgroundImage: {
+                'mengwi-jadoel0': "url('/assets/bg-mengwi-jadoel-1.jpg')",
             },
+        },
+        screens: {
+            // Mobile breakpoints
+            'mobile-sm': '300px',
+            'mobile-md': '375px',
+            'mobile-lg': '425px',
+
+            // Tablet breakpoints
+            'tablet-sm': '640px',
+            'tablet-md': '768px',
+            'tablet-lg': '1024px',
         },
     },
     plugins: [require('flowbite/plugin')],

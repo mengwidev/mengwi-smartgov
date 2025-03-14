@@ -1,6 +1,21 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Author Organization
+    |--------------------------------------------------------------------------
+    |
+    | This value represents the organization responsible for the application.
+    | It may be displayed in footers, meta tags, and other branding areas.
+    | You can change this value in your ".env" file.
+    |
+    */
+
+    'author_org' => env('AUTHOR_ORG', 'Pemerintah Desa Mengwi'),
+    'author_name' => env('AUTHOR_NAME', 'Mengwidev'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
