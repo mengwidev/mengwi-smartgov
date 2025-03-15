@@ -12,7 +12,7 @@
         </div>
     </div> --}}
     <!-- message wrapper -->
-    <div class="p-10 space-y-8 bg-white opacity-80">
+    <div class="p-10 space-y-8 bg-white text-gray-700">
         <div>
             <!-- brand -->
             <div class="flex items-center space-x-2">
@@ -38,7 +38,7 @@
         <div class="text-center">
             <a href="{{ url('/admin/login') }}">
                 <button type="button"
-                    class="px-8 py-2 text-sm font-medium text-center text-white rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300">Login
+                    class="px-8 py-2 text-sm font-medium text-center text-white rounded-lg bg-gradient-to-bl from-emerald-400 via-emerald-500 to-emerald-600 hover:ring-4 hover:ring-emerald-200">Login
                     Admin</button>
             </a>
         </div>
