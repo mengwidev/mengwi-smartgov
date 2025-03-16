@@ -6,23 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-
 // login routes
 Route::post('/login', function (Request $request) {
     $user = User::where('email', $request->email)->first();
 
-    if (!$user || !Hash::check($request->password, $user->password)) {
+    if (! $user || ! Hash::check($request->password, $user->password)) {
         return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     return response()->json([
-        'token' => $user->createToken('mobile-app')->plainTextToken
+        'token' => $user->createToken('mobile-app')->plainTextToken,
     ]);
 });
 
 // logout routes
 Route::post('/logout', function (Request $request) {
     $request->user()->tokens()->delete();
+
     return response()->json(['message' => 'Logged out']);
 })->middleware('auth:sanctum');
 

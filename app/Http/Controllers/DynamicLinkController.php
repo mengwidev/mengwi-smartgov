@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\DynamicLink;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 
 class DynamicLinkController extends Controller
 {
@@ -13,7 +12,7 @@ class DynamicLinkController extends Controller
     {
         $dynamicLink = DynamicLink::where('custom_slug', $custom_slug)->first();
 
-        if (!$dynamicLink) {
+        if (! $dynamicLink) {
             abort(404, 'Link not found');
         }
 
@@ -25,7 +24,7 @@ class DynamicLinkController extends Controller
         $dynamicLink = DynamicLink::findOrFail($id);
         $filePath = storage_path("app/public/{$dynamicLink->qr_code_filename}");
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             abort(404, 'QR Code not found');
         }
 

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\StockLogModel;
-use Spatie\LaravelPdf\Facades\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class StockLogController extends Controller
 {
@@ -19,11 +18,11 @@ class StockLogController extends Controller
         $stockLogs = StockLogModel::query()
             ->when(
                 $startDate,
-                fn($query) => $query->whereDate('date', '>=', $startDate)
+                fn ($query) => $query->whereDate('date', '>=', $startDate)
             )
             ->when(
                 $endDate,
-                fn($query) => $query->whereDate('date', '<=', $endDate)
+                fn ($query) => $query->whereDate('date', '<=', $endDate)
             )
             ->with(['product', 'unit'])
             ->orderBy('date', 'asc')
@@ -33,11 +32,11 @@ class StockLogController extends Controller
         $stockIn = StockLogModel::query()
             ->when(
                 $startDate,
-                fn($query) => $query->whereDate('date', '>=', $startDate)
+                fn ($query) => $query->whereDate('date', '>=', $startDate)
             )
             ->when(
                 $endDate,
-                fn($query) => $query->whereDate('date', '<=', $endDate)
+                fn ($query) => $query->whereDate('date', '<=', $endDate)
             )
             ->where('type', 'in')
             ->with(['product', 'unit'])
@@ -48,11 +47,11 @@ class StockLogController extends Controller
         $stockOut = StockLogModel::query()
             ->when(
                 $startDate,
-                fn($query) => $query->whereDate('date', '>=', $startDate)
+                fn ($query) => $query->whereDate('date', '>=', $startDate)
             )
             ->when(
                 $endDate,
-                fn($query) => $query->whereDate('date', '<=', $endDate)
+                fn ($query) => $query->whereDate('date', '<=', $endDate)
             )
             ->where('type', 'out')
             ->with(['product', 'unit'])

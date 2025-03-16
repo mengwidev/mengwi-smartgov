@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MobileMenuResource;
 use App\Models\MobileMenu;
 use Illuminate\Http\Request;
-use App\Http\Resources\MobileMenuResource;
 
 class MobileMenuController extends Controller
 {
@@ -13,6 +13,7 @@ class MobileMenuController extends Controller
     public function index()
     {
         $menus = MobileMenu::all();
+
         return new MobileMenuResource(true, 'Mobile App Menus', $menus);
     }
 
@@ -20,6 +21,7 @@ class MobileMenuController extends Controller
     public function store(Request $request)
     {
         $menu = MobileMenu::create($request->all());
+
         return new MobileMenuResource(true, 'Menu created successfully', $menu);
     }
 
@@ -28,11 +30,12 @@ class MobileMenuController extends Controller
     {
         $menu = MobileMenu::find($id);
 
-        if (!$menu) {
+        if (! $menu) {
             return new MobileMenuResource(false, 'Menu not found', null);
         }
 
         $menu->update($request->all());
+
         return new MobileMenuResource(true, 'Menu updated successfully', $menu);
     }
 
@@ -41,11 +44,12 @@ class MobileMenuController extends Controller
     {
         $menu = MobileMenu::find($id);
 
-        if (!$menu) {
+        if (! $menu) {
             return new MobileMenuResource(false, 'Menu not found', null);
         }
 
         $menu->delete();
+
         return new MobileMenuResource(true, 'Menu deleted successfully', null);
     }
 }

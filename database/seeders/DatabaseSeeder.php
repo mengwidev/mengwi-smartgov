@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        //Run Seeders
+        // Run Seeders
         $this->call([
             RefBanjarSeeder::class,
             RefLastEducationSeeder::class,

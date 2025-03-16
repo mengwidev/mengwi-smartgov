@@ -9,10 +9,10 @@ class RefMonth extends Model
 {
     protected $table = 'ref_month';
 
-    //fillable
-    //...
+    // fillable
+    // ...
 
-    //relationship
+    // relationship
     public function attendance(): HasMany
     {
         return $this->hasMany(Attendance::class);

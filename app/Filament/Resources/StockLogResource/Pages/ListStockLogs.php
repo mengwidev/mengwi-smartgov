@@ -6,7 +6,6 @@ use App\Filament\Resources\StockLogResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\Support\Htmlable;
-use Filament\Forms\Components\Modal;
 
 class ListStockLogs extends ListRecords
 {

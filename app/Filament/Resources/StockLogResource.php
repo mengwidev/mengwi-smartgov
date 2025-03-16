@@ -3,30 +3,26 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\StockLogResource\Pages;
-use App\Filament\Resources\StockLogResource\RelationManagers;
 use App\Models\ProductModel;
 use App\Models\StockLogModel;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Notifications\Notification;
 
 class StockLogResource extends Resource
 {
     protected static ?string $model = StockLogModel::class;
+
     protected static ?string $navigationGroup = 'Manajemen Stok Barang';
+
     protected static ?string $navigationLabel = 'Input Barang Masuk/Keluar';
+
     protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
 
     public static function form(Form $form): Form
@@ -57,12 +53,13 @@ class StockLogResource extends Resource
                                 callable $set,
                                 callable $get
                             ) {
-                                if (!$state) {
+                                if (! $state) {
                                     $set(
                                         'remaining_stock',
                                         'Silahkan pilih barang'
                                     );
                                     $set('unit', '---');
+
                                     return;
                                 }
 
@@ -116,6 +113,7 @@ class StockLogResource extends Resource
                                             $remainingStock =
                                                 $get('remaining_stock') ??
                                                 '-- silahkan pilih barang --';
+
                                             return "Stok tersisa: $remainingStock";
                                         })
                                         ->rule(['integer', 'min:1'])
@@ -180,7 +178,7 @@ class StockLogResource extends Resource
                                         })
                                         ->required()
                                         ->disabled(
-                                            fn(callable $get) => !$get('type')
+                                            fn (callable $get) => ! $get('type')
                                         ) // Disable if type is not selected
                                         ->suffix(function (callable $get) {
                                             return $get('unit') ?? '---';
@@ -206,7 +204,7 @@ class StockLogResource extends Resource
                                     ->label('Unit Kerja'),
                             ])
                             ->hidden(
-                                fn(callable $get) => $get('type') !== 'out'
+                                fn (callable $get) => $get('type') !== 'out'
                             ),
                     ]),
                 Forms\Components\Section::make('Tanggal Pergerakan Stok')
@@ -239,7 +237,7 @@ class StockLogResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->label('Pergerakan Stok')
                     ->formatStateUsing(
-                        fn($state) => $state === 'in'
+                        fn ($state) => $state === 'in'
                             ? 'Stok Masuk'
                             : 'Stok Keluar'
                     )
@@ -248,7 +246,7 @@ class StockLogResource extends Resource
                     ->label('Unit Kerja')
                     ->sortable()
                     ->formatStateUsing(
-                        fn($record) => $record->unit?->name ?? '--'
+                        fn ($record) => $record->unit?->name ?? '--'
                     ),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Jumlah')

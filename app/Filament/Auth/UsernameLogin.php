@@ -2,9 +2,9 @@
 
 namespace App\Filament\Auth;
 
-use Filament\Pages\Auth\Login;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
+use Filament\Pages\Auth\Login;
 use Illuminate\Validation\ValidationException;
 
 class UsernameLogin extends Login
@@ -39,6 +39,7 @@ class UsernameLogin extends Login
         $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL)
             ? 'email'
             : 'username';
+
         return [
             $login_type => $data['login'],
             'password' => $data['password'],

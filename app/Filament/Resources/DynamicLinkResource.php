@@ -3,34 +3,28 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DynamicLinkResource\Pages;
-use App\Filament\Resources\DynamicLinkResource\RelationManagers;
 use App\Models\DynamicLink;
-use Faker\Provider\ar_EG\Text;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Infolists;
 use Filament\Infolists\Components\Grid;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Infolist;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Infolists\Components\Fieldset;
+use Filament\Tables\Table;
 
 class DynamicLinkResource extends Resource
 {
     protected static ?string $model = DynamicLink::class;
+
     protected static ?string $navigationGroup = 'Alat';
+
     protected static ?string $navigationIcon = 'heroicon-o-link';
 
     public static function form(Form $form): Form
@@ -195,8 +189,8 @@ class DynamicLinkResource extends Resource
     public static function getRelations(): array
     {
         return [
-                //
-            ];
+            //
+        ];
     }
 
     public static function getPages(): array

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +28,7 @@ class RefMonthSeeder extends Seeder
             'Desember',
         ];
 
-        //Insert Ref Month values
+        // Insert Ref Month values
         foreach ($values as $value) {
             DB::table('ref_month')->insert([
                 'name' => $value,

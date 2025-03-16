@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +26,7 @@ class RefBanjarSeeder extends Seeder
             'Delod Bale Agung',
         ];
 
-        //Insert Ref Banjar Values
+        // Insert Ref Banjar Values
         foreach ($values as $value) {
             DB::table('ref_banjar')->insert([
                 'banjar_name' => $value,

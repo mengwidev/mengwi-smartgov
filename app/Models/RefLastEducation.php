@@ -9,10 +9,10 @@ class RefLastEducation extends Model
 {
     protected $table = 'ref_last_education';
 
-    //fillable
-    //...
+    // fillable
+    // ...
 
-    //relationship
+    // relationship
     public function govEmployee(): HasMany
     {
         return $this->hasMany(GovEmployee::class);

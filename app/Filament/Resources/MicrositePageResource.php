@@ -10,16 +10,15 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Route;
+use Filament\Tables\Table;
 
 class MicrositePageResource extends Resource
 {
     protected static ?string $model = MicrositePage::class;
+
     protected static ?string $navigationGroup = 'Alat';
+
     protected static ?string $navigationIcon = 'heroicon-o-arrows-pointing-out';
 
     public static function form(Form $form): Form
@@ -62,7 +61,7 @@ class MicrositePageResource extends Resource
                     ->label('Visit')
                     ->icon('heroicon-o-arrow-up-right')
                     ->color('success')
-                    ->url(fn($record) => route('microsite.show', $record->slug))
+                    ->url(fn ($record) => route('microsite.show', $record->slug))
                     ->openUrlInNewTab()
                     ->tooltip('Open the public show URL in a new tab'),
                 Tables\Actions\EditAction::make(),

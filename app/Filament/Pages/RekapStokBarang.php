@@ -4,13 +4,12 @@ namespace App\Filament\Pages;
 
 use App\Models\ProductModel;
 use App\Models\StockLogModel;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Filters\SelectFilter;
-use Tables\Table;
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class RekapStokBarang extends Page implements Tables\Contracts\HasTable
 {
@@ -20,7 +19,9 @@ class RekapStokBarang extends Page implements Tables\Contracts\HasTable
     protected static string $view = 'filament.pages.rekap-stok-barang';
 
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
+
     protected static ?string $navigationLabel = 'Rekap Stok Barang';
+
     protected static ?string $navigationGroup = 'Manajemen Stok Barang';
 
     public function table(Tables\Table $table): Tables\Table
@@ -48,7 +49,7 @@ class RekapStokBarang extends Page implements Tables\Contracts\HasTable
                 TextColumn::make('currentStock.stock')
                     ->label('Jumlah Stok')
                     ->getStateUsing(
-                        fn($record) => $record
+                        fn ($record) => $record
                             ->currentStock()
                             ->value('stock') ?? 0
                     ),

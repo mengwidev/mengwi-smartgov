@@ -7,10 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class MobileMenuResource extends JsonResource
 {
-
     // define properties
     public $status;
+
     public $message;
+
     public $resource;
 
     public function __construct($status, $message, $resource)

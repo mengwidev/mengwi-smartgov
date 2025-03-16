@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\ProductCategoryModel as ProductCategory;
+use Illuminate\Database\Seeder;
 
 class ProductCategorySeeder extends Seeder
 {
@@ -18,8 +17,7 @@ class ProductCategorySeeder extends Seeder
             ['name' => 'Perlengkapan Alat-alat Listrik'],
             ['name' => 'Perlengkapan Alat Rumah Tangga dan Bahan Kebersihan'],
             [
-                'name' =>
-                    'Bahan Bakar Minyak/Gas/Isi Ulang Tabung Pemadam Kebakaran',
+                'name' => 'Bahan Bakar Minyak/Gas/Isi Ulang Tabung Pemadam Kebakaran',
             ],
             ['name' => 'Barang Cetak dan Penggandaan'],
             ['name' => 'Barang Konsumsi (Makan/Minum)'],

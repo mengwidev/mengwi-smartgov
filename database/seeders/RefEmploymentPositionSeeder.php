@@ -78,7 +78,7 @@ class RefEmploymentPositionSeeder extends Seeder
 
         // Add timestamps
         $positions = array_map(
-            fn($position) => array_merge($position, [
+            fn ($position) => array_merge($position, [
                 'created_at' => now(),
                 'updated_at' => now(),
             ]),

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ProductModelResource\Pages;
 
 use App\Filament\Resources\ProductModelResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Contracts\Support\Htmlable;
 

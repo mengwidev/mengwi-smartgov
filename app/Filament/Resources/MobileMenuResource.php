@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\MobileMenuResource\Pages;
-use App\Filament\Resources\MobileMenuResource\RelationManagers;
 use App\Models\MobileMenu;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -13,15 +12,15 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MobileMenuResource extends Resource
 {
     protected static ?string $model = MobileMenu::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-device-phone-mobile';
+
     protected static ?string $navigationGroup = 'Mobile Apps';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -62,7 +61,7 @@ class MobileMenuResource extends Resource
                     ->offIcon('heroicon-m-x-mark')
                     ->onColor('success')
                     ->offColor('danger')
-                    ->default(true)
+                    ->default(true),
             ]);
     }
 
@@ -75,15 +74,15 @@ class MobileMenuResource extends Resource
                 TextColumn::make('url')
                     ->label('Url')
                     ->formatStateUsing(
-                        fn($state) => strlen($state) > 50
-                            ? substr($state, 0, 50) . '...'
+                        fn ($state) => strlen($state) > 50
+                            ? substr($state, 0, 50).'...'
                             : $state
                     ),
                 TextColumn::make('description')
                     ->label('Deskripsi Menu')
                     ->formatStateUsing(
-                        fn($state) => strlen($state) > 30
-                            ? substr($state, 0, 30) . '...'
+                        fn ($state) => strlen($state) > 30
+                            ? substr($state, 0, 30).'...'
                             : $state
                     ),
                 TextColumn::make('icon')
@@ -95,7 +94,7 @@ class MobileMenuResource extends Resource
                     ->onIcon('heroicon-m-check')
                     ->offIcon('heroicon-m-x-mark')
                     ->onColor('success')
-                    ->offColor('danger')
+                    ->offColor('danger'),
             ])
             ->filters([
                 //

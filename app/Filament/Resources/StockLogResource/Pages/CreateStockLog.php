@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\StockLogResource\Pages;
 
 use App\Filament\Resources\StockLogResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Contracts\Support\Htmlable;
 

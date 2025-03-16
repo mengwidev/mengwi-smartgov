@@ -10,7 +10,7 @@ class MicrositeLink extends Model
         'page_id',
         'logo',
         'title',
-        'destination_link'
+        'destination_link',
     ];
 
     public function page()

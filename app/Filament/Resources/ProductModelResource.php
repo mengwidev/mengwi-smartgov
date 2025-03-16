@@ -3,21 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductModelResource\Pages;
-use App\Filament\Resources\ProductModelResource\RelationManagers;
 use App\Models\ProductModel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductModelResource extends Resource
 {
     protected static ?string $model = ProductModel::class;
+
     protected static ?string $navigationGroup = 'Manajemen Stok Barang';
+
     protected static ?string $navigationLabel = 'Input Barang';
+
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
@@ -77,8 +77,8 @@ class ProductModelResource extends Resource
     public static function getRelations(): array
     {
         return [
-                //
-            ];
+            //
+        ];
     }
 
     public static function getPages(): array

@@ -14,7 +14,9 @@ use Illuminate\Validation\Rules\Password;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static ?string $navigationGroup = 'Pengaturan';
+
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
@@ -30,8 +32,7 @@ class UserResource extends Resource
                             ->label('Nama Lengkap')
                             ->validationMessages([
                                 'required' => 'Kolom wajib diisi.',
-                                'max' =>
-                                    'Nama Lengkap tidak boleh lebih dari 255 karakter.',
+                                'max' => 'Nama Lengkap tidak boleh lebih dari 255 karakter.',
                             ]),
                         Forms\Components\TextInput::make('email')
                             ->email()
@@ -59,8 +60,7 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('password')
                             ->password()
                             ->required(
-                                fn($livewire) => $livewire instanceof
-                                    Pages\CreateUser
+                                fn ($livewire) => $livewire instanceof Pages\CreateUser
                             )
                             ->maxLength(255)
                             ->label('Password')
@@ -73,23 +73,20 @@ class UserResource extends Resource
                                     ->numbers()
                                     ->symbols()
                             )
-                            ->dehydrated(fn($state) => filled($state))
+                            ->dehydrated(fn ($state) => filled($state))
                             ->nullable()
                             ->validationMessages([
                                 'required' => 'Kolom wajib diisi.',
                                 'min' => 'Password harus minimal 8 karakter!',
-                                'password.symbols' =>
-                                    'Password harus mengandung simbol!',
-                                'password.numbers' =>
-                                    'Passwpord harus mengandung angka!',
+                                'password.symbols' => 'Password harus mengandung simbol!',
+                                'password.numbers' => 'Passwpord harus mengandung angka!',
                             ]),
                         Forms\Components\TextInput::make(
                             'password_confirmation'
                         )
                             ->password()
                             ->required(
-                                fn($livewire) => $livewire instanceof
-                                    Pages\CreateUser
+                                fn ($livewire) => $livewire instanceof Pages\CreateUser
                             ) // Only required on create
                             ->same('password')
                             ->label('Konfirmasi Password')
@@ -115,7 +112,7 @@ class UserResource extends Resource
                             ->label('Roles')
                             ->reactive()
                             ->afterStateUpdated(
-                                fn($state, $get) => $get('roles')
+                                fn ($state, $get) => $get('roles')
                                     ? null
                                     : $get('roles')
                             )

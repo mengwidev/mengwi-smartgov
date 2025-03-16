@@ -51,6 +51,7 @@ class MakeUser extends Command
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return Command::FAILURE;
         }
 
@@ -66,6 +67,7 @@ class MakeUser extends Command
             $this->info("User {$user->name} created successfully!");
         } catch (\Exception $e) {
             $this->error("Failed to create user: {$e->getMessage()}");
+
             return Command::FAILURE;
         }
 
@@ -74,8 +76,6 @@ class MakeUser extends Command
 
     /**
      * Prompt for a password with confirmation.
-     *
-     * @return string
      */
     protected function getPassword(): string
     {

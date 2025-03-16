@@ -12,7 +12,7 @@ class MobileMenu extends Model
         'description',
         'icon',
         'bgColor',
-        'isActive'
+        'isActive',
     ];
 
     protected $rules = [
@@ -26,8 +26,8 @@ class MobileMenu extends Model
     // Mutator to ensure URLs start with "https://"
     public function setUrlAttribute($value)
     {
-        if (!str_starts_with($value, 'http://') && !str_starts_with($value, 'https://')) {
-            $this->attributes['url'] = 'https://' . $value;
+        if (! str_starts_with($value, 'http://') && ! str_starts_with($value, 'https://')) {
+            $this->attributes['url'] = 'https://'.$value;
         } else {
             $this->attributes['url'] = $value;
         }

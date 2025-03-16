@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +23,7 @@ class RefLastEducationSeeder extends Seeder
             'STRATA II',
             'STRATA III',
         ];
-        //Insert Last Education values
+        // Insert Last Education values
         foreach ($values as $value) {
             DB::table('ref_last_education')->insert([
                 'name' => $value,

@@ -11,7 +11,7 @@ class MicrositePage extends Model
         'logo',
         'title',
         'slug',
-        'description'
+        'description',
     ];
 
     protected static function boot()
@@ -27,7 +27,7 @@ class MicrositePage extends Model
         });
     }
 
-    //relation to microsite_links
+    // relation to microsite_links
     public function link()
     {
         return $this->hasMany(MicrositeLink::class, 'page_id');

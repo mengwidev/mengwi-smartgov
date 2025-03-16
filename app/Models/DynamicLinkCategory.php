@@ -9,7 +9,7 @@ class DynamicLinkCategory extends Model
 {
     protected $fillable = [
         'category_name',
-        'description'
+        'description',
     ];
 
     public function dynamic_link(): HasMany
