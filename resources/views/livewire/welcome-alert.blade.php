@@ -38,7 +38,7 @@
         <div class="text-center">
             <a href="{{ url('/admin/login') }}">
                 <button type="button"
-                    class="px-8 py-2 text-sm font-medium text-center text-white rounded-lg bg-gradient-to-bl from-emerald-400 via-emerald-500 to-emerald-600 hover:ring-4 hover:ring-emerald-200">Login
+                    class="px-8 py-2 text-sm font-medium text-center text-white rounded-lg bg-emerald-600 hover:ring-4 hover:ring-emerald-200">Login
                     Admin</button>
             </a>
         </div>

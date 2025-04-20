@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\DynamicLink;
 use App\Models\User;
+use App\Models\DynamicLink;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DynamicLinkPolicy

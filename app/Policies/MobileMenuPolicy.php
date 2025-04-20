@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\MobileMenu;
 use App\Models\User;
+use App\Models\MobileMenu;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MobileMenuPolicy

@@ -4,6 +4,7 @@ use App\Http\Controllers\DynamicLinkController;
 use App\Http\Controllers\MicrositePageController;
 use App\Http\Controllers\StockLogController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestTelegramController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +33,6 @@ Route::get('/stock-log-report', [
     StockLogController::class,
     'generateReport',
 ])->name('stock-log.report');
+
+Route::get('/test-telegram', [TestTelegramController::class, 'showForm']);
+Route::post('/test-telegram', [TestTelegramController::class, 'submitForm']);

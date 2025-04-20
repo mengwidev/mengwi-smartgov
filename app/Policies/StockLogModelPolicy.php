@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\StockLogModel;
 use App\Models\User;
+use App\Models\StockLogModel;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StockLogModelPolicy
