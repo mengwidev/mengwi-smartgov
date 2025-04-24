@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\RefMonth;
 
 class RefMonthSeeder extends Seeder
 {
@@ -28,13 +28,14 @@ class RefMonthSeeder extends Seeder
             'Desember',
         ];
 
-        // Insert Ref Month values
         foreach ($values as $value) {
-            DB::table('ref_month')->insert([
-                'name' => $value,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            RefMonth::firstOrCreate(
+                ['name' => $value],
+                [
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
         }
     }
 }

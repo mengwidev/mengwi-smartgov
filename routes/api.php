@@ -1,30 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\MobileMenuController;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
-// login routes
-Route::post('/login', function (Request $request) {
-    $user = User::where('email', $request->email)->first();
-
-    if (! $user || ! Hash::check($request->password, $user->password)) {
-        return response()->json(['message' => 'Invalid credentials'], 401);
-    }
-
-    return response()->json([
-        'token' => $user->createToken('mobile-app')->plainTextToken,
-    ]);
-});
-
-// logout routes
-Route::post('/logout', function (Request $request) {
-    $request->user()->tokens()->delete();
-
-    return response()->json(['message' => 'Logged out']);
-})->middleware('auth:sanctum');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 // Public routes (GET requests)
 Route::get('/mobilemenu', [MobileMenuController::class, 'index']);

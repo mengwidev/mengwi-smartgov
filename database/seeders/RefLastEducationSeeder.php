@@ -3,13 +3,14 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\RefLastEducation;
 
 class RefLastEducationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
+
     public function run(): void
     {
         $values = [
@@ -23,13 +24,15 @@ class RefLastEducationSeeder extends Seeder
             'STRATA II',
             'STRATA III',
         ];
-        // Insert Last Education values
+
         foreach ($values as $value) {
-            DB::table('ref_last_education')->insert([
-                'name' => $value,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            RefLastEducation::firstOrCreate(
+                ['name' => $value],
+                [
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
         }
     }
 }

@@ -12,7 +12,14 @@ class StockLogModel extends Model
 
     protected $table = 'stock_logs';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'log_id',
+        'product_id',
+        'type',
+        'quantity',
+        'date',
+        'added_by'
+    ];
 
     public function product()
     {

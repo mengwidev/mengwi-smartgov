@@ -28,11 +28,10 @@ class ProductCategorySeeder extends Seeder
         ];
 
         foreach ($values as $value) {
-            ProductCategory::create([
-                'name' => $value['name'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            ProductCategory::firstOrCreate(
+                ['name' => $value['name']],
+                ['created_at' => now(),'updated_at' => now()],
+            );
         }
     }
 }

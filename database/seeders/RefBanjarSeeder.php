@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\RefBanjar;
 
 class RefBanjarSeeder extends Seeder
 {
@@ -26,10 +26,10 @@ class RefBanjarSeeder extends Seeder
             'Delod Bale Agung',
         ];
 
-        // Insert Ref Banjar Values
         foreach ($values as $value) {
-            DB::table('ref_banjar')->insert([
+            RefBanjar::firstOrCreate([
                 'banjar_name' => $value,
+            ], [
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

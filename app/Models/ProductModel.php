@@ -11,7 +11,11 @@ class ProductModel extends Model
 
     protected $table = 'products';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'category_id',
+        'unit_id'
+    ];
 
     public function category()
     {

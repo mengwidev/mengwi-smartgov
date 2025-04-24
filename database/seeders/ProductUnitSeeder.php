@@ -44,7 +44,7 @@ class ProductUnitSeeder extends Seeder
         ];
 
         foreach ($units as $unit) {
-            ProductUnitModel::create(['name' => $unit]);
+            ProductUnitModel::firstOrCreate(['name' => $unit]);
         }
     }
 }

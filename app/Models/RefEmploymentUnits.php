@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RefEmploymentUnits extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name'];
 }

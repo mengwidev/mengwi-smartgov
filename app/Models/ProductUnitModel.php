@@ -8,7 +8,7 @@ class ProductUnitModel extends Model
 {
     protected $table = 'product_units';
 
-    protected $guarded = [];
+    protected $fillable = ['name'];
 
     public function stockLog()
     {

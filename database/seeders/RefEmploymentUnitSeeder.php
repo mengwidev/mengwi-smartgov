@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\RefEmploymentUnits;
 
 class RefEmploymentUnitSeeder extends Seeder
 {
@@ -25,11 +25,13 @@ class RefEmploymentUnitSeeder extends Seeder
         ];
 
         foreach ($values as $value) {
-            DB::table('ref_employment_units')->insert([
-                'name' => $value,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            RefEmploymentUnits::firstOrCreate(
+                ['name' => $value],
+                [
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
         }
     }
 }
