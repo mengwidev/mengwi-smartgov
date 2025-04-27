@@ -5,13 +5,13 @@ use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum', 'handshake']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
 // Public routes (GET requests)
 Route::get('/mobilemenu', [MobileMenuController::class, 'index']);
 
 // Protected routes (POST, PUT, PATCH, DELETE)
-Route::middleware('auth:sanctum', 'handshake')->group(function () {
+Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/mobilemenu', [MobileMenuController::class, 'store']);
     Route::put('/mobilemenu/{id}', [MobileMenuController::class, 'update']);
     Route::patch('/mobilemenu/{id}', [MobileMenuController::class, 'update']);

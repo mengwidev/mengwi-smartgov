@@ -9,9 +9,7 @@ class MobileMenuResource extends JsonResource
 {
     // define properties
     public $status;
-
     public $message;
-
     public $resource;
 
     public function __construct($status, $message, $resource)
@@ -26,6 +24,7 @@ class MobileMenuResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
     public function toArray(Request $request): array
     {
         return [

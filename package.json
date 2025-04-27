@@ -5,7 +5,8 @@
         "build": "vite build",
         "dev": "vite",
         "x-dev": "concurrently \"php artisan serve\" \"npm run dev\"",
-        "clean": "php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan event:clear && php artisan optimize:clear && composer dump-autoload"
+        "clean": "php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan event:clear && php artisan optimize:clear && composer dump-autoload",
+        "fresh-dev": "npm run clean && npm run x-dev"
     },
     "devDependencies": {
         "@prettier/plugin-php": "^0.22.2",

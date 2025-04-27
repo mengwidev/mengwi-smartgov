@@ -18,21 +18,27 @@ class AuthController extends Controller
         $validator = Validator::make($data, [
             'login' => 'required',
             'passphrase' => 'required',
+            'token_name' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
         }
 
+        // Find user by email or username
         $user = User::where('email', $data['login'])->orWhere('username', $data['login'])->first();
 
         if (! $user || ! Hash::check($data['passphrase'], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        $tokenName = $data['token_name'] ?? 'default-client';
+
+        $token = $user->createToken($tokenName);
+
         return response()->json([
             'status' => 'success',
-            'token' => $user->createToken('mobile-app')->plainTextToken,
+            'token' => $token->plainTextToken,
             'user' => [
                 'name' => $user->name,
                 'email' => $user->email,

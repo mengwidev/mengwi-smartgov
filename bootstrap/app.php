@@ -15,10 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class;
         \Illuminate\Routing\Middleware\SubstituteBindings::class;
-        $middleware->alias([
-            'handshake' => \App\Http\Middleware\UpdateLastHandshake::class,
-        ]);
-        return $middleware;
     })
 
     ->withExceptions(function (Exceptions $exceptions) {

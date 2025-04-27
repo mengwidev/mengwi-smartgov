@@ -12,22 +12,28 @@ class CreatePersonalAccessToken extends CreateRecord
 {
     protected static string $resource = PersonalAccessTokenResource::class;
 
+    /**
+     * Handle the creation of a new personal access token.
+     *
+     * @param array $data The data for creating the token.
+     * @return PersonalAccessToken The created token record.
+     */
     protected function handleRecordCreation(array $data): PersonalAccessToken
     {
+        // Retrieve the user based on the provided tokenable_id
         $user = User::findOrFail($data['tokenable_id']);
 
-        // Generate the token (this returns an object with plainTextToken)
         $tokenResult = $user->createToken($data['name'], ['*']);
+        $accessToken = $tokenResult->accessToken;
 
-        // Show the raw token in a success notification
+        // Send a notification with the token
         Notification::make()
             ->title('Token Created')
             ->success()
-            ->body("Here is the token (copy it now):\n\n`{$tokenResult->plainTextToken}`")
-            ->persistent() // stays until user dismisses
+            ->body("Here is the generated token (copy it now):\n\n`{$tokenResult->plainTextToken}`")
+            ->persistent()
             ->send();
 
-        // return $tokenResult->accessToken;
-        return PersonalAccessToken::findOrFail($tokenResult->accessToken->id);
+            return $accessToken;
     }
 }
