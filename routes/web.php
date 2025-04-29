@@ -32,3 +32,22 @@ Route::get('/stock-log-report', [
     StockLogController::class,
     'generateReport',
 ])->name('stock-log.report');
+
+// health check
+Route::get('/health-check', function() {
+    // Database check
+    try {
+        DB::connection()->getPdo();
+    } catch (\Exception $e) {
+        return response('DB connection failed', 500);
+    }
+
+    // Redis check
+    try {
+        Redis::ping();
+    } catch (\Exception $e) {
+        return response('Redis connection failed', 500);
+    }
+
+    return response('OK', 200);
+});
