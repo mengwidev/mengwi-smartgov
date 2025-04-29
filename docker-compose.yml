@@ -1,0 +1,59 @@
+services:
+
+  php84:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+    ports:
+      - "1004:80"
+    tty: true
+    networks:
+      - net_mgwsmartgov
+    depends_on:
+      - postgres
+      - redis
+
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "1014:5432"
+    networks:
+      - net_mgwsmartgov
+
+  pgadmin:
+    container_name: pgadmin
+    image: elestio/pgadmin:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    ports:
+      - "1024:82"
+    networks:
+      - net_mgwsmartgov
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "1034:6379"
+    networks:
+      - net_mgwsmartgov
+
+volumes:
+  pg_data:
+
+networks:
+  net_mgwsmartgov:
+    driver: bridge
