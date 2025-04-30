@@ -35,9 +35,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --filename=composer \
     --version=2.6.6
 
+COPY frankenphp.ini /usr/local/etc/php/conf.d/
+
+COPY php.ini /usr/local/etc/php/conf.d/php.ini
+
 # Environment configuration
 ENV SERVER_NAME="0.0.0.0:80"
 ENV PHP_CLI_SERVER_WORKERS=${PHP_CLI_SERVER_WORKERS:-4}
 
+RUN adduser --disabled-password --gecos '' appuser
+USER appuser
+
 WORKDIR /app
+
 CMD ["frankenphp", "php-server", "-r", "/app/public"]
