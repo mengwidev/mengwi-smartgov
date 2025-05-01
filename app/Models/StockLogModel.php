@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class StockLogModel extends Model
 {
@@ -33,7 +34,7 @@ class StockLogModel extends Model
 
     public function unit()
     {
-        return $this->belongsTo(RefEmploymentUnits::class, 'out_unit_id');
+        return $this->belongsTo(EmploymentUnit::class, 'out_unit_id');
     }
 
     protected static function boot()
@@ -42,8 +43,8 @@ class StockLogModel extends Model
 
         // Creating a new record
         static::creating(function ($stockLog) {
-            if (auth()->check()) {
-                $stockLog->added_by = auth()->id();
+            if (Auth::check()) {
+                $stockLog->added_by = Auth::id();
             }
 
             if (empty($stockLog->log_id)) {

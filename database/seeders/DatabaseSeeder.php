@@ -14,12 +14,13 @@ class DatabaseSeeder extends Seeder
     {
         // Run Seeders
         $this->call([
-            RefBanjarSeeder::class,
-            RefLastEducationSeeder::class,
+            BanjarSeeder::class,
             RefMonthSeeder::class,
             ProductUnitSeeder::class,
-            RefEmploymentUnitSeeder::class,
+            EmploymentUnitSeeder::class,
+            EmployeeLevelSeeder::class,
             ProductCategorySeeder::class,
+            ContactTypeSeeder::class,
         ]);
     }
 }
