@@ -19,7 +19,7 @@
 
         <p>Banjar: {{ $employee->banjar->name ?? '-' }}</p>
         <p>Employment Unit: {{ $employee->employmentUnit->name ?? '-' }}</p>
-        <p>Employee Level: {{ $employee->level->name ?? '-' }}</p>
+        <p>Employee Level: {{ $employee->employeeLevel->name ?? '-' }}</p>
 
         <h2>Contact Information</h2>
         <ul>

@@ -13,7 +13,7 @@ class EmployeeController extends Controller
         $employee->load([
             'banjar',
             'employmentUnit',
-            'level',
+            'employeeLevel',
             'contacts.contactType',
         ]);
 

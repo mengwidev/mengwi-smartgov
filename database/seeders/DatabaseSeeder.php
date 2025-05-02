@@ -15,12 +15,17 @@ class DatabaseSeeder extends Seeder
         // Run Seeders
         $this->call([
             BanjarSeeder::class,
-            RefMonthSeeder::class,
+            MonthSeeder::class,
             ProductUnitSeeder::class,
             EmploymentUnitSeeder::class,
             EmployeeLevelSeeder::class,
             ProductCategorySeeder::class,
             ContactTypeSeeder::class,
+            GenderSeeder::class,
+            LastEducationSeeder::class,
+            MaritalStatusSeeder::class,
+            OccupationSeeder::class,
+            ReligionSeeder::class
         ]);
     }
 }

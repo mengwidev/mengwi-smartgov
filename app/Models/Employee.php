@@ -49,13 +49,38 @@ class Employee extends Model
         return $this->belongsTo(EmploymentUnit::class);
     }
 
-    public function level(): BelongsTo
+    public function employeeLevel(): BelongsTo
     {
-        return $this->belongsTo(EmployeeLevel::class, 'employee_level_id');
+        return $this->belongsTo(EmployeeLevel::class);
     }
 
     public function contacts(): HasMany
     {
         return $this->hasMany(EmployeeContact::class);
+    }
+
+    public function gender(): BelongsTo
+    {
+        return $this->belongsTo(Gender::class);
+    }
+
+    public function lastEducation(): BelongsTo
+    {
+        return $this->belongsTo(LastEducation::class);
+    }
+
+    public function religion(): BelongsTo
+    {
+        return $this->belongsTo(Religion::class);
+    }
+
+    public function occupation(): BelongsTo
+    {
+        return $this->belongsTo(Occupation::class);
+    }
+
+    public function maritalStatus(): BelongsTo
+    {
+        return $this->belongsTo(MaritalStatus::class);
     }
 }
