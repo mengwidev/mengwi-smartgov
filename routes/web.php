@@ -1,12 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\DynamicLinkController;
 use App\Http\Controllers\MicrositePageController;
 use App\Http\Controllers\StockLogController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Redis as RedisFacade;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\App;
+use App\Http\Controllers\EmployeeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,3 +45,5 @@ Route::get('/health-check', function () {
 
     return response('OK', 200);
 });
+
+Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
