@@ -28,5 +28,6 @@ export default {
             'tablet-lg': '1024px',
         },
     },
+    darkMode: false,
     plugins: [require('flowbite/plugin')],
 };

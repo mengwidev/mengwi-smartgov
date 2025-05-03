@@ -12,6 +12,11 @@ class EmployeeController extends Controller
     {
         $employee->load([
             'banjar',
+            'gender',
+            'lastEducation',
+            'religion',
+            'occupation',
+            'maritalStatus',
             'employmentUnit',
             'employeeLevel',
             'contacts.contactType',

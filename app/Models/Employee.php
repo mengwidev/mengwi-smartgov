@@ -11,7 +11,22 @@ class Employee extends Model
 {
     protected $fillable = [
         'name',
+        'prefix_title',
+        'suffix_title',
+        'tipe_sk',
+        'nomor_sk',
+        'tahun_sk',
+        'sk_ditetapkan_pada',
+        'mulai_menjabat',
+        'akhir_menjabat',
+        'birthplace',
+        'birthdate',
         'banjar_id',
+        'gender_id',
+        'last_education_id',
+        'religion_id',
+        'occupation_id',
+        'marital_status_id',
         'employment_unit_id',
         'employee_level_id',
         'photo'
@@ -44,21 +59,6 @@ class Employee extends Model
         return $this->belongsTo(Banjar::class);
     }
 
-    public function employmentUnit(): BelongsTo
-    {
-        return $this->belongsTo(EmploymentUnit::class);
-    }
-
-    public function employeeLevel(): BelongsTo
-    {
-        return $this->belongsTo(EmployeeLevel::class);
-    }
-
-    public function contacts(): HasMany
-    {
-        return $this->hasMany(EmployeeContact::class);
-    }
-
     public function gender(): BelongsTo
     {
         return $this->belongsTo(Gender::class);
@@ -82,5 +82,20 @@ class Employee extends Model
     public function maritalStatus(): BelongsTo
     {
         return $this->belongsTo(MaritalStatus::class);
+    }
+
+    public function employmentUnit(): BelongsTo
+    {
+        return $this->belongsTo(EmploymentUnit::class);
+    }
+
+    public function employeeLevel(): BelongsTo
+    {
+        return $this->belongsTo(EmployeeLevel::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(EmployeeContact::class);
     }
 }

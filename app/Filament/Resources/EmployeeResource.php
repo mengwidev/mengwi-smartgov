@@ -101,7 +101,7 @@ class EmployeeResource extends Resource
 
                         Forms\Components\Section::make('Informasi Kepegawaian')
                             ->schema([
-                                Forms\Components\Select::make('employment_level_id')
+                                Forms\Components\Select::make('employee_level_id')
                                     ->label('Jabatan')
                                     ->options(\App\Models\EmployeeLevel::orderBy('id')->pluck('name', 'id'))
                                     ->required(),
@@ -122,7 +122,10 @@ class EmployeeResource extends Resource
 
                                     Forms\Components\TextInput::make('tahun_sk')
                                         ->label('Tahun SK')
-                                        ->helperText('Masukkan hanya tahunnya saja (conto: 2021)'),
+                                        ->helperText('Masukkan hanya tahunnya saja (conto: 2021)')
+                                        ->numeric()
+                                        ->minValue(1900)
+                                        ->maxValue(date('Y') + 1),
                                 ]),
 
                                 Forms\Components\DatePicker::make('sk_ditetapkan_pada')
