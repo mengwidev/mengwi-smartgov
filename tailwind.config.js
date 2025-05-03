@@ -7,13 +7,9 @@ export default {
         './node_modules/flowbite/**/*.js',
     ],
     theme: {
-        fontFamily: {
-            inter: ['Inter', 'sans-serif'],
-            figtree: ['Figtree', 'sans-serif'],
-        },
         extend: {
-            backgroundImage: {
-                'mengwi-jadoel0': "url('/assets/bg-mengwi-jadoel-1.jpg')",
+            fontFamily: {
+                figtree: ['Figtree', 'sans-serif'], // you're telling Tailwind about the custom font
             },
         },
         screens: {
@@ -28,6 +24,6 @@ export default {
             'tablet-lg': '1024px',
         },
     },
-    darkMode: false,
+    darkMode: 'media',
     plugins: [require('flowbite/plugin')],
 };

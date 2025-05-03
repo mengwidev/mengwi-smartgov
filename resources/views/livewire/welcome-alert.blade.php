@@ -1,16 +1,16 @@
 <div class="max-w-3xl overflow-hidden rounded-lg shadow-lg border border-white">
     <!-- top bar -->
-    {{-- <div class="py-2 bg-slate-800">
+    <div class="py-2 bg-slate-800">
         <!-- button wrapper -->
-        <div class="flex space-x-2 ms-4">
+        <div class="flex gap-2 ms-4">
             <!-- buttons -->
-             <a href="https://mengwi-badung.desa.id">
-                 <div class="w-3 h-3 bg-red-600 rounded-full"></div>
-             </a>
+            <a href="https://mengwi-badung.desa.id">
+                <div class="w-3 h-3 bg-red-600 rounded-full"></div>
+            </a>
             <div class="w-3 h-3 rounded-full bg-amber-400"></div>
             <div class="w-3 h-3 bg-green-400 rounded-full"></div>
         </div>
-    </div> --}}
+    </div>
     <!-- message wrapper -->
     <div class="p-10 space-y-8 bg-white text-gray-700">
         <div>

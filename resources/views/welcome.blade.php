@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mengwi SmartGov || Home</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+
 </head>
 
 <body class="w-screen h-screen p-4 font-figtree bg-mengwi-jadoel0 bg-cover bg-no-repeat">

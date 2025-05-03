@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="text-gray-800 font-figtree bg-mengwi-jadoel0 bg-cover bg-no-repeat">
+<body class="text-gray-800 font-figtree bg-mengwi-jadoel0">
 
     <div class="min-h-screen flex flex-col justify-center p-4 gap-4">
         <div class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
