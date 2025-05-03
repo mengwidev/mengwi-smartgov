@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('banjars', function (Blueprint $table) {
+        Schema::create('ref_banjar', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('banjar_name');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('banjars');
+        Schema::dropIfExists('ref_banjar');
     }
 };

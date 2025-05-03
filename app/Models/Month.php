@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class RefLastEducation extends Model
+class Month extends Model
 {
-    protected $table = 'ref_last_education';
+    protected $table = 'months';
 }

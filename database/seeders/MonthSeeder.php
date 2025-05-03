@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\RefMonth;
+use App\Models\Month;
 
 class MonthSeeder extends Seeder
 {
@@ -29,7 +29,7 @@ class MonthSeeder extends Seeder
         ];
 
         foreach ($values as $value) {
-            RefMonth::firstOrCreate(
+            Month::firstOrCreate(
                 ['name' => $value],
                 [
                     'created_at' => now(),

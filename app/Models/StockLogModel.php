@@ -57,8 +57,8 @@ class StockLogModel extends Model
                         'date',
                         Carbon::parse($stockLog->date)->toDateString()
                     )
-                        ->where('type', $stockLog->type) // Ensure count is by type (IN or OUT)
-                        ->count() + 1; // Increment count for current log
+                    ->where('type', $stockLog->type) // Ensure count is by type (IN or OUT)
+                    ->count() + 1; // Increment count for current log
 
                 $logPrefix = strtoupper($stockLog->type);
 
@@ -88,9 +88,9 @@ class StockLogModel extends Model
                         'date',
                         Carbon::parse($stockLog->date)->toDateString()
                     )
-                        ->where('type', $stockLog->type) // Ensure count is by type (IN or OUT)
-                        ->where('id', '!=', $stockLog->id) // Exclude the current record
-                        ->count() + 1; // Increment count for current log
+                    ->where('type', $stockLog->type) // Ensure count is by type (IN or OUT)
+                    ->where('id', '!=', $stockLog->id) // Exclude the current record
+                    ->count() + 1; // Increment count for current log
 
                 $logPrefix = strtoupper($stockLog->type);
 
