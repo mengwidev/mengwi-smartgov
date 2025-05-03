@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->date('birthdate');
             $table->foreignId('banjar_id')->constrained('banjars')->onDelete('cascade');
             $table->foreignId('gender_id')->constrained('genders')->onDelete('cascade');
-            $table->foreignId('last_education_id')->constrained('last_education')->onDelete('cascade');
+            $table->foreignId('last_education_id')->constrained('last_educations')->onDelete('cascade');
             $table->foreignId('religion_id')->constrained('religions')->onDelete('cascade');
             $table->foreignId('occupation_id')->constrained('occupations')->onDelete('cascade');
             $table->foreignId('marital_status_id')->constrained('marital_statuses')->onDelete('cascade');
