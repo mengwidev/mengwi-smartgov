@@ -10,8 +10,14 @@ class EmployeeLevelSeeder extends Seeder
     public function run(): void
     {
         $levels = [
-            'Perbekel', 'Sekretaris Desa', 'Kepala Urusan',
-            'Kepala Seksi', 'Staf', 'Petugas', 'Operator',
+            'Perbekel',
+            'Sekretaris Desa',
+            'Kepala Urusan',
+            'Kepala Seksi',
+            'Staf',
+            'Petugas',
+            'Operator',
+            'Kelian Banjar Dinas'
         ];
 
         foreach ($levels as $name) {

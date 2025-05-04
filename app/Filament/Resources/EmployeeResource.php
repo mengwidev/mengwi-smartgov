@@ -117,12 +117,11 @@ class EmployeeResource extends Resource
 
                                 Split::make([
                                     Forms\Components\TextInput::make('nomor_sk')
-                                        ->label('Nomor SK')
-                                        ->helperText('Masukkan hanya nomornya saja, jika 1 digit maka awali dengan 0 (contoh: 04)'),
+                                        ->label('Nomor SK'),
 
                                     Forms\Components\TextInput::make('tahun_sk')
                                         ->label('Tahun SK')
-                                        ->helperText('Masukkan hanya tahunnya saja (conto: 2021)')
+                                        ->helperText('Masukkan hanya tahunnya saja (contoh: 2021)')
                                         ->numeric()
                                         ->minValue(1900)
                                         ->maxValue(date('Y') + 1),

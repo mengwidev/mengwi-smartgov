@@ -28,7 +28,6 @@
                     <h3 class="text-sm font-semibold text-gray-700">Instansi</h3>
                     <p class="text-sm text-gray-600">Pemerintah Desa Mengwi</p>
                 </div>
-
                 <div>
                     <h3 class="text-sm font-semibold text-gray-700">Jabatan</h3>
                     @if ($employee->employeeLevel->name === 'Perbekel' || $employee->employeeLevel->name === 'Sekretaris Desa')
@@ -37,11 +36,16 @@
                         <p class="text-sm text-gray-600">{{ $employee->employeeLevel->name }}</p>
                     @endif
                 </div>
-
                 @if ($employee->employeeLevel->name !== 'Perbekel' && $employee->employeeLevel->name !== 'Sekretaris Desa')
                     <div>
                         <h3 class="text-sm font-semibold text-gray-700">Unit Kerja</h3>
                         <p class="text-sm text-gray-600">{{ $employee->employmentUnit->name }}</p>
+                    </div>
+                @endif
+                @if ($employee->employeeLevel->name == 'Kelian Banjar Dinas')
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-700">Wilayah</h3>
+                        <p class="text-sm text-gray-600">Br. {{ $employee->banjar->name }}</p>
                     </div>
                 @endif
             </x-info-section>
