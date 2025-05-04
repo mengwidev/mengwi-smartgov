@@ -9,14 +9,20 @@
                 class="w-32 h-32 object-cover mx-auto rounded-lg border border-gray-200 shadow mb-4">
         @endif
 
+        @php
+            $fullName = trim(
+                ($employee->prefix_title ? $employee->prefix_title . '. ' : '') .
+                    $employee->name .
+                    ($employee->suffix_title ? ', ' . $employee->suffix_title : ''),
+            );
+        @endphp
+
         <h1 class="text-xl font-bold text-center mb-2">
-            {{ $employee->prefix_title ? $employee->prefix_title . '.' : '' }}
-            {{ $employee->name }}
-            {{ $employee->suffix_title ?? '' }}
+            {{ $fullName }}
         </h1>
 
         <div class="flex flex-col gap-4 mt-4">
-            {{-- INFORMASI KEPEGAWAIAN --}}
+            {{-- START --- INFORMASI KEPEGAWAIAN ---------------------------------------------------- --}}
             <x-info-section title="Informasi Kepegawaian" headerColor="bg-slate-600 text-white">
                 <div>
                     <h3 class="text-sm font-semibold text-gray-700">Instansi</h3>
@@ -39,8 +45,9 @@
                     </div>
                 @endif
             </x-info-section>
+            {{-- END --- INFORMASI KEPEGAWAIAN ---------------------------------------------------- --}}
 
-            {{-- INFORMASI KONTAK --}}
+            {{-- START --- INFORMASI KONTAK ---------------------------------------------------- --}}
             @php
                 use Illuminate\Support\Str;
 
@@ -120,8 +127,9 @@
                 @endif
 
             </x-info-section>
+            {{-- END --- INFORMASI KONTAK ---------------------------------------------------- --}}
 
-            {{-- INFORMASI PRIBADI --}}
+            {{-- START --- INFORMASI PRIBADI ---------------------------------------------------- --}}
             <x-info-section title="Informasi Pribadi" headerColor="bg-slate-600 text-white">
                 <div>
                     <h3 class="text-sm font-semibold text-gray-700">Alamat</h3>
@@ -137,33 +145,72 @@
                         {{ \Carbon\Carbon::parse($employee->birthdate)->translatedFormat('d F Y') }}</p>
                 </div>
             </x-info-section>
+            {{-- END --- INFORMASI PRIBADI  ---------------------------------------------------- --}}
 
-            {{-- INFORMASI LAINNYA --}}
-            <x-info-section title="Informasi Keputusan Pengangkatan" headerColor="bg-slate-600 text-white">
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-700">SK Pengangkatan</h3>
-                    <p class="text-sm text-gray-600">Surat Keputusan {{ $employee->tipe_sk }}</p>
-                    <p class="text-sm text-gray-600">Nomor {{ $employee->nomor_sk }}</p>
-                    <p class="text-sm text-gray-600">Tahun {{ $employee->tahun_sk }}</p>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-700">SK Ditetapkan Pada Tanggal</h3>
-                    <p class="text-sm text-gray-600">
-                        {{ \Carbon\Carbon::parse($employee->sk_ditetapkan_pada)->translatedFormat('d F Y') }}</p>
-                </div>
-                @if ($employee->employeeLevel->name == 'Perbekel')
+            {{-- START --- INFORMASI LAINNYA ---------------------------------------------------- --}}
+            @php
+                $skFields = [
+                    'tipe_sk' => $employee->tipe_sk,
+                    'nomor_sk' => $employee->nomor_sk,
+                    'tahun_sk' => $employee->tahun_sk,
+                    'sk_ditetapkan_pada' => $employee->sk_ditetapkan_pada,
+                ];
+
+                $isPerbekel = $employee->employeeLevel->name == 'Perbekel';
+
+                $hasPerbekelDates = $employee->mulai_menjabat || $employee->akhir_menjabat;
+
+                $hasSkInfo = collect($skFields)->filter()->isNotEmpty() || $hasPerbekelDates;
+            @endphp
+
+            @if ($hasSkInfo)
+                <x-info-section title="Informasi Keputusan Pengangkatan" headerColor="bg-slate-600 text-white">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-700">Mulai Masa Jabatan</h3>
-                        <p class="text-sm text-gray-600">
-                            {{ \Carbon\Carbon::parse($employee->mulai_menjabat)->translatedFormat('d F Y') }}</p>
+                        @if ($employee->tipe_sk)
+                            <h3 class="text-sm font-semibold text-gray-700">SK Pengangkatan</h3>
+                            <p class="text-sm text-gray-600">Surat Keputusan {{ $employee->tipe_sk }}</p>
+                        @endif
+
+                        @if ($employee->nomor_sk)
+                            <p class="text-sm text-gray-600">Nomor {{ $employee->nomor_sk }}</p>
+                        @endif
+
+                        @if ($employee->tahun_sk)
+                            <p class="text-sm text-gray-600">Tahun {{ $employee->tahun_sk }}</p>
+                        @endif
                     </div>
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-700">Akhir Masa Jabatan</h3>
-                        <p class="text-sm text-gray-600">
-                            {{ \Carbon\Carbon::parse($employee->akhir_menjabat)->translatedFormat('d F Y') }}</p>
-                    </div>
-                @endif
-            </x-info-section>
+
+                    @if ($employee->sk_ditetapkan_pada)
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-700">SK Ditetapkan Pada Tanggal</h3>
+                            <p class="text-sm text-gray-600">
+                                {{ \Carbon\Carbon::parse($employee->sk_ditetapkan_pada)->translatedFormat('d F Y') }}
+                            </p>
+                        </div>
+                    @endif
+
+                    @if ($isPerbekel)
+                        @if ($employee->mulai_menjabat)
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-700">Mulai Masa Jabatan</h3>
+                                <p class="text-sm text-gray-600">
+                                    {{ \Carbon\Carbon::parse($employee->mulai_menjabat)->translatedFormat('d F Y') }}
+                                </p>
+                            </div>
+                        @endif
+
+                        @if ($employee->akhir_menjabat)
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-700">Akhir Masa Jabatan</h3>
+                                <p class="text-sm text-gray-600">
+                                    {{ \Carbon\Carbon::parse($employee->akhir_menjabat)->translatedFormat('d F Y') }}
+                                </p>
+                            </div>
+                        @endif
+                    @endif
+                </x-info-section>
+            @endif
+            {{-- END --- INFORMASI LAINNYA ---------------------------------------------------- --}}
         </div>
     </div>
 @endsection
