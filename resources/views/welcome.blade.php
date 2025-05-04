@@ -10,7 +10,7 @@
 
 </head>
 
-<body class="w-screen h-screen p-4 font-figtree bg-mengwi-jadoel0 bg-cover bg-no-repeat">
+<body class="w-screen h-screen p-4 font-lexend bg-mengwi-jadoel0 bg-cover bg-no-repeat">
     <div class="flex items-center justify-center w-full h-full ">
         <livewire:welcome-alert />
         <livewire:author-footer />

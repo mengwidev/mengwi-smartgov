@@ -20,13 +20,13 @@
                 <img src="{{ asset('assets/desa-mengwi.png') }}" alt="logo desa mengwi" class="w-12" />
                 <!-- brand name -->
                 <div>
-                    <h1 class="text-xl font-semibold">Mengwi SmartGov App</h1>
-                    <h2>Pemerintah Desa Mengwi</h2>
+                    <h1 class="text-lg font-semibold">Mengwi SmartGov App</h1>
+                    <h2 class="text-sm">Pemerintah Desa Mengwi</h2>
                 </div>
             </div>
             <!-- message -->
             <div>
-                <p class="mt-8 text-justify">
+                <p class="mt-8 text-justify text-sm text-gray-500">
                     Selamat datang di Mengwi SmartGov, platform satu pintu untuk
                     mengakses layanan pemerintahan desa. Sederhanakan interaksi
                     Anda dengan pemerintah, akses informasi penting, dan tetap

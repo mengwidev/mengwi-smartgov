@@ -2,30 +2,147 @@
 
 @font-face {
     font-family: 'Figtree';
-    src: url('../fonts/figtree/Figtree-Regular.ttf') format('truetype');
+    src: url('@/fonts/figtree/Figtree-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Figtree';
-    src: url('../fonts/figtree/Figtree-Italic.ttf') format('truetype');
+    src: url('@/fonts/figtree/Figtree-Italic.ttf') format('truetype');
     font-weight: 400;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'Figtree';
-    src: url('../fonts/figtree/Figtree-Bold.ttf') format('truetype');
+    src: url('@/fonts/figtree/Figtree-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Figtree';
-    src: url('../fonts/figtree/Figtree-BoldItalic.ttf') format('truetype');
+    src: url('@/fonts/figtree/Figtree-BoldItalic.ttf') format('truetype');
     font-weight: 700;
     font-style: italic;
 }
 
-/* You can add other weights/styles as needed */
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('@/fonts/figtree/Figtree-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+/* Lexend Deca Fonts */
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lexend Deca';
+    src: url('@/fonts/lexend_deca/LexendDeca-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}

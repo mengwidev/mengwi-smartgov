@@ -9,7 +9,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                figtree: ['Figtree', 'sans-serif'], // you're telling Tailwind about the custom font
+                figtree: ['Figtree', 'sans-serif'],
+                lexend: ['Lexend Deca', 'sans-serif'],
             },
         },
         screens: {

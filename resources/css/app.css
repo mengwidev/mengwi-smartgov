@@ -5,6 +5,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer utilities {
     .bg-mengwi-jadoel0 {
         background-image: url('../images/bg-mengwi-jadoel-1.jpg');
