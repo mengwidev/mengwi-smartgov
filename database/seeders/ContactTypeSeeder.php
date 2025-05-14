@@ -11,23 +11,46 @@ class ContactTypeSeeder extends Seeder
     {
         $types = [
             // Mobile & Messaging
-            'Handphone', 'Telephone', 'WhatsApp', 'Telegram',
+            'Handphone',
+            'Telephone',
+            'WhatsApp',
+            'Telegram',
 
             // Emails & Web
-            'Email', 'Website', 'Blog',
+            'Email',
+            'Website',
+            'Blog',
 
             // Social Media
-            'Facebook', 'Instagram', 'X', 'LinkedIn', 'YouTube', 'TikTok', 'Snapchat', 'Pinterest',
+            'Facebook',
+            'Instagram',
+            'X',
+            'LinkedIn',
+            'YouTube',
+            'TikTok',
+            'Snapchat',
+            'Pinterest',
 
             // Communication Platforms
-            'Discord', 'Slack', 'Skype', 'Zoom', 'Google Meet', 'Microsoft Teams',
+            'Discord',
+            'Slack',
+            'Skype',
+            'Zoom',
+            'Google Meet',
+            'Microsoft Teams',
 
             // Developer/Tech
-            'GitHub', 'GitLab', 'Bitbucket', 'Stack Overflow',
+            'GitHub',
+            'GitLab',
+            'Bitbucket',
+            'Stack Overflow',
         ];
 
         foreach ($types as $name) {
-            ContactType::firstOrCreate(['name' => $name]);
+            $model = ContactType::firstOrCreate(['name' => $name]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

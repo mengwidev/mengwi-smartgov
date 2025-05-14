@@ -28,10 +28,13 @@ class ProductCategorySeeder extends Seeder
         ];
 
         foreach ($values as $value) {
-            ProductCategory::firstOrCreate(
+            $model = ProductCategory::firstOrCreate(
                 ['name' => $value['name']],
-                ['created_at' => now(),'updated_at' => now()],
+                ['created_at' => now(), 'updated_at' => now()],
             );
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

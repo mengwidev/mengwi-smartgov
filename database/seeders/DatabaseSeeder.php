@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             LastEducationSeeder::class,
             MaritalStatusSeeder::class,
             OccupationSeeder::class,
-            ReligionSeeder::class
+            ReligionSeeder::class,
+            KedudukanPpidSeeder::class,
         ]);
     }
 }

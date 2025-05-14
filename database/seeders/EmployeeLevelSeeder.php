@@ -21,7 +21,10 @@ class EmployeeLevelSeeder extends Seeder
         ];
 
         foreach ($levels as $name) {
-            EmployeeLevel::firstOrCreate(['name' => $name]);
+            $model = EmployeeLevel::firstOrCreate(['name' => $name]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

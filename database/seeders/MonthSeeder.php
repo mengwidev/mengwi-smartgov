@@ -29,13 +29,16 @@ class MonthSeeder extends Seeder
         ];
 
         foreach ($values as $value) {
-            Month::firstOrCreate(
+            $model = Month::firstOrCreate(
                 ['name' => $value],
                 [
                     'created_at' => now(),
                     'updated_at' => now()
                 ]
             );
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

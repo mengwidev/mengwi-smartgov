@@ -10,13 +10,24 @@ class BanjarSeeder extends Seeder
     public function run(): void
     {
         $banjars = [
-            'Batu', 'Gambang', 'Pande', 'Munggu', 'Pandean',
-            'Serangan', 'Peregae', 'Lebah Pangkung',
-            'Pengiasan', 'Alangkajeng', 'Delod Bale Agung',
+            'Batu',
+            'Gambang',
+            'Pande',
+            'Munggu',
+            'Pandean',
+            'Serangan',
+            'Peregae',
+            'Lebah Pangkung',
+            'Pengiasan',
+            'Alangkajeng',
+            'Delod Bale Agung',
         ];
 
         foreach ($banjars as $name) {
-            Banjar::firstOrCreate(['name' => $name]);
+            $model = Banjar::firstOrCreate(['name' => $name]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

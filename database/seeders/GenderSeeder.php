@@ -19,7 +19,10 @@ class GenderSeeder extends Seeder
         ];
 
         foreach ($genders as $gender) {
-            Gender::firstOrCreate(['name' => $gender]);
+            $model = Gender::firstOrCreate(['name' => $gender]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

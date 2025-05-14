@@ -21,7 +21,10 @@ class MaritalStatusSeeder extends Seeder
         ];
 
         foreach ($maritalStatuses as $maritalStatus) {
-            MaritalStatus::firstOrCreate(['name' => $maritalStatus]);
+            $model = MaritalStatus::firstOrCreate(['name' => $maritalStatus]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

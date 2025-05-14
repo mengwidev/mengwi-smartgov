@@ -105,7 +105,10 @@ class OccupationSeeder extends Seeder
         ];
 
         foreach ($occupations as $occupation) {
-            Occupation::firstOrCreate(['name' => $occupation]);
+            $model = Occupation::firstOrCreate(['name' => $occupation]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

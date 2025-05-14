@@ -23,7 +23,10 @@ class EmploymentUnitSeeder extends Seeder
         ];
 
         foreach ($units as $name) {
-            EmploymentUnit::firstOrCreate(['name' => $name]);
+            $model = EmploymentUnit::firstOrCreate(['name' => $name]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

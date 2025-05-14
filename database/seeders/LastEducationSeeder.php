@@ -27,7 +27,10 @@ class LastEducationSeeder extends Seeder
         ];
 
         foreach ($lastEducations as $lastEducation) {
-            LastEducation::firstOrCreate(['name' => $lastEducation]);
+            $model = LastEducation::firstOrCreate(['name' => $lastEducation]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

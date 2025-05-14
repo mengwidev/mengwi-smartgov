@@ -23,7 +23,10 @@ class ReligionSeeder extends Seeder
         ];
 
         foreach ($religions as $religion) {
-            Religion::firstOrCreate(['name' => $religion]);
+            $model = Religion::firstOrCreate(['name' => $religion]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }

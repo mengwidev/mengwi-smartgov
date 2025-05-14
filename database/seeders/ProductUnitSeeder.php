@@ -44,7 +44,10 @@ class ProductUnitSeeder extends Seeder
         ];
 
         foreach ($units as $unit) {
-            ProductUnitModel::firstOrCreate(['name' => $unit]);
+            $model = ProductUnitModel::firstOrCreate(['name' => $unit]);
+            echo $model->wasRecentlyCreated
+                ? "Inserted: {$model->name}\n"
+                : "Skipped (exists): {$model->name}\n";
         }
     }
 }
