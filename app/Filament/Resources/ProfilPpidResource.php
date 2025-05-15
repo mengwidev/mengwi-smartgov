@@ -17,8 +17,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProfilPpidResource extends Resource
 {
     protected static ?string $model = ProfilPpid::class;
+    protected static ?string $navigationGroup = 'PPID';
+    protected static ?string $navigationLabel = 'Profil PPID';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
@@ -43,19 +45,10 @@ class ProfilPpidResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('role')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('employee_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('employee.name')
+                    ->label('Petugas/Pejabat'),
+                Tables\Columns\TextColumn::make('role.name')
+                    ->label('Kedudukan Dalam PPID')
             ])
             ->filters([
                 //

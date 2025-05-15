@@ -13,7 +13,7 @@ class ProfilPpid extends Model
 
     public function role()
     {
-        return $this->belongsTo(KedudukanPpid::class, 'id');
+        return $this->belongsTo(KedudukanPpid::class, 'role_id');
     }
 
     public function employee()
