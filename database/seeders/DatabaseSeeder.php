@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
             OccupationSeeder::class,
             ReligionSeeder::class,
             KedudukanPpidSeeder::class,
+            ApplicantIdentifierMethodSeeder::class,
+            ApplicationMethodSeeder::class,
+            ApplicationStatusSeeder::class,
+            InformationReceivalSeeder::class,
         ]);
     }
 }
