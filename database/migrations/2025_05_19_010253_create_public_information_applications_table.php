@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('public_information_applications', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('reg_num')->unique();
             $table->foreignId('application_status_id')->constrained('application_statuses')->cascadeOnDelete();
             $table->foreignId('applicant_id')->constrained('applicants')->cascadeOnDelete();

@@ -9,18 +9,20 @@ class PublicInformationApplicationSuccess extends Component
 {
     public $application;
 
-    public function mount($id)
+    public function mount($public_information_application)
     {
-        $this->application = PublicInformationApplication::with([
-            'applicant',
-            'applicationStatus',
-            'applicationMethod',
-            'informationReceival'
-        ])->findOrFail($id);
+        $this->application = PublicInformationApplication::where('uuid', $public_information_application)
+            ->with([
+                'applicant',
+                'applicationStatus',
+                'applicationMethod',
+                'informationReceival',
+            ])
+            ->firstOrFail();
     }
 
     public function render()
     {
-        return view('livewire.public-information-application-success');
+        return view('livewire.ppid.public-information-application-success');
     }
 }

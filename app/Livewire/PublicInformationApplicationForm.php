@@ -12,13 +12,14 @@ use App\Models\{
     InformationReceival,
     ApplicantIdentifierMethod
 };
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class PublicInformationApplicationForm extends Component
 {
     use WithFileUploads;
-    public $applicationId;
+
+    public $pageTitle = 'Public Information Application Form';
+
+
     // Application fields
     public $reg_num;
     public $application_status_id;
@@ -26,7 +27,6 @@ class PublicInformationApplicationForm extends Component
     public $information_requested;
     public $information_purposes;
     public $information_receival_id;
-    public $is_get_copy = false;
     public $get_copy_method;
     public $note;
 
@@ -38,29 +38,41 @@ class PublicInformationApplicationForm extends Component
     public $applicant_identifier_method_id;
     public $applicant_identifier_value;
     public $applicant_identifier_attachment; // skip upload for now
-
+    public $onlineReceivalId;
     public function mount()
     {
+        $this->pageTitle = 'Permohonan Informasi Publik | PPID Desa Mengwi';
         $this->application_status_id = ApplicationStatus::where('name', 'Belum Diproses')->value('id');
         $this->application_method_id = ApplicationMethod::where('name', 'Online')->value('id');
+
+        // Important: check if it returns a value
+        $this->onlineReceivalId = InformationReceival::where('name', 'Mendapatkan Salinan Informasi')->value('id');
+
+        // Optional: fail-safe
+        if (!$this->onlineReceivalId) {
+            throw new \Exception("Receival method 'Mendapatkan Salinan Informasi' not found!");
+        }
     }
+
 
     protected function generateRegNum()
     {
-        return DB::transaction(function () {
-            $today = now()->format('Ymd');
-            $kodeDesa = config('desa.kode');
-            $prefix = "{$kodeDesa}/PPID/REG/{$today}";
+        return PublicInformationApplication::getConnectionResolver()
+            ->connection()
+            ->transaction(function () {
+                $today = now()->format('Ymd');
+                $kodeDesa = config('desa.kode');
+                $prefix = "{$kodeDesa}/PPID/REG/{$today}";
 
-            // Lock rows for today to avoid race condition
-            $count = PublicInformationApplication::whereDate('created_at', now()->toDateString())
-                ->lockForUpdate()
-                ->count();
+                $count = PublicInformationApplication::query()
+                    ->whereDate('created_at', now()->toDateString())
+                    ->lockForUpdate()
+                    ->count();
 
-            $index = str_pad($count + 1, 3, '0', STR_PAD_LEFT);
+                $index = str_pad($count + 1, 3, '0', STR_PAD_LEFT);
 
-            return "{$prefix}/{$index}";
-        });
+                return "{$prefix}/{$index}";
+            });
     }
 
     public function save()
@@ -81,7 +93,6 @@ class PublicInformationApplicationForm extends Component
             'information_requested' => 'required|string',
             'information_purposes' => 'required|string',
             'information_receival_id' => 'required|integer',
-            'is_get_copy' => 'boolean',
             'get_copy_method' => 'nullable|string',
             'note' => 'nullable|string',
         ]);
@@ -114,23 +125,29 @@ class PublicInformationApplicationForm extends Component
             'information_requested' => $this->information_requested,
             'information_purposes' => $this->information_purposes,
             'information_receival_id' => $this->information_receival_id,
-            'is_get_copy' => $this->is_get_copy,
+            'is_get_copy' => (int) $this->information_receival_id === (int) $this->onlineReceivalId,
             'get_copy_method' => $this->get_copy_method,
             'note' => $this->note,
-            'status_updated_at' => now()
+            'status_updated_at' => now(),
         ]);
 
         session()->flash('message', 'Application and applicant created successfully.');
-        return redirect()->route('applications.success', $application->id);
+        return redirect()->route('applications.success', ['public_information_application' => $application->uuid]);
+    }
+
+    public function shouldShowCopyMethod()
+    {
+        return (int) $this->information_receival_id === (int) $this->onlineReceivalId;
     }
 
     public function render()
     {
-        return view('livewire.public-information-application-form', [
+        return view('livewire.ppid.public-information-application-form', [
             'statuses' => ApplicationStatus::all(),
             'methods' => ApplicationMethod::all(),
             'receivals' => InformationReceival::all(),
             'identifierMethods' => ApplicantIdentifierMethod::all(),
+            'onlineReceivalId' => $this->onlineReceivalId,
         ]);
     }
 }

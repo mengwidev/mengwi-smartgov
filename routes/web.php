@@ -49,5 +49,7 @@ Route::get('/health-check', function () {
 Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
 
 Route::get('/ppid/permohonan-informasi', App\Livewire\PublicInformationApplicationForm::class)->name('applications.create');
-Route::get('/ppid/permohonan-informasi/sukses/{id}', App\Livewire\PublicInformationApplicationSuccess::class)
-    ->name('applications.success');
+Route::get(
+    '/ppid/permohonan-informasi/sukses/{public_information_application:uuid}',
+    App\Livewire\PublicInformationApplicationSuccess::class
+)->name('applications.success');

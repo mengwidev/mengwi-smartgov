@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class PublicInformationApplication extends Model
 {
     protected $fillable = [
+        'uuid',
         'reg_num',
         'application_status_id',
         'applicant_id',
@@ -38,5 +40,20 @@ class PublicInformationApplication extends Model
     public function informationReceival()
     {
         return $this->belongsTo(InformationReceival::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = Str::uuid()->toString();
+            }
+        });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 }
