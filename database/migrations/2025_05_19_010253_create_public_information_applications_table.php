@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('public_information_applications', function (Blueprint $table) {
             $table->id();
-            $table->string('reg_num');
+            $table->string('reg_num')->unique();
             $table->foreignId('application_status_id')->constrained('application_statuses')->cascadeOnDelete();
             $table->foreignId('applicant_id')->constrained('applicants')->cascadeOnDelete();
             $table->foreignId('application_method_id')->constrained('application_methods')->cascadeOnDelete();
             $table->string('information_requested');
             $table->string('information_purposes');
             $table->foreignId('information_receival_id')->constrained('information_receivals')->cascadeOnDelete();
-            $table->boolean('is_get_copy');
-            $table->string('get_copy_method');
-            $table->text('note');
+            $table->boolean('is_get_copy')->nullable();
+            $table->string('get_copy_method')->nullable();
+            $table->text('note')->nullable();
             $table->dateTime('status_updated_at');
             $table->timestamps();
         });

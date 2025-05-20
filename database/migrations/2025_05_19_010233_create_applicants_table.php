@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email');
             $table->foreignId('applicant_identifier_method_id')->constrained('applicant_identifier_methods')->cascadeOnDelete();
             $table->string('applicant_identifier_value');
-            $table->string('application_identifier_attachment');
+            $table->string('applicant_identifier_attachment');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PublicInformationApplications extends Model
+class PublicInformationApplication extends Model
 {
     protected $fillable = [
         'reg_num',
@@ -12,7 +12,7 @@ class PublicInformationApplications extends Model
         'applicant_id',
         'application_method_id',
         'information_requested',
-        'information_purpose',
+        'information_purposes',
         'information_receival_id',
         'is_get_copy',
         'get_copy_method',

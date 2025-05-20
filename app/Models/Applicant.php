@@ -16,8 +16,13 @@ class Applicant extends Model
         'applicant_identifier_attachment'
     ];
 
-    public function applicantIdentifier()
+    public function identifierMethod()
     {
-        return $this->belongsTo(ApplicantIdentifierMethod::class);
+        return $this->belongsTo(ApplicantIdentifierMethod::class, 'applicant_identifier_method_id');
+    }
+
+    public function publicInformationApplications()
+    {
+        return $this->hasMany(PublicInformationApplication::class);
     }
 }
