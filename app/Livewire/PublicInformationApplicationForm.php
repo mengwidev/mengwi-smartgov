@@ -8,6 +8,7 @@ use App\Models\{
     Applicant,
     PublicInformationApplication,
     ApplicationStatus,
+    ApplicationHistory,
     ApplicationMethod,
     InformationReceival,
     ApplicantIdentifierMethod
@@ -22,7 +23,6 @@ class PublicInformationApplicationForm extends Component
 
     // Application fields
     public $reg_num;
-    public $application_status_id;
     public $application_method_id;
     public $information_requested;
     public $information_purposes;
@@ -37,18 +37,18 @@ class PublicInformationApplicationForm extends Component
     public $applicant_email;
     public $applicant_identifier_method_id;
     public $applicant_identifier_value;
-    public $applicant_identifier_attachment; // skip upload for now
+    public $applicant_identifier_attachment;
     public $onlineReceivalId;
+
+    // Status History Field
+    public $application_status_id;
+
     public function mount()
     {
         $this->pageTitle = 'Permohonan Informasi Publik | PPID Desa Mengwi';
         $this->application_status_id = ApplicationStatus::where('name', 'Belum Diproses')->value('id');
         $this->application_method_id = ApplicationMethod::where('name', 'Online')->value('id');
-
-        // Important: check if it returns a value
         $this->onlineReceivalId = InformationReceival::where('name', 'Mendapatkan Salinan Informasi')->value('id');
-
-        // Optional: fail-safe
         if (!$this->onlineReceivalId) {
             throw new \Exception("Receival method 'Mendapatkan Salinan Informasi' not found!");
         }
@@ -85,10 +85,9 @@ class PublicInformationApplicationForm extends Component
             'applicant_email' => 'required|email|max:255',
             'applicant_identifier_method_id' => 'required|integer',
             'applicant_identifier_value' => 'required|string|max:255',
-            'applicant_identifier_attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'applicant_identifier_attachment' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
 
             // Application
-            'application_status_id' => 'required|exists:application_statuses,id',
             'application_method_id' => 'required|exists:application_methods,id',
             'information_requested' => 'required|string',
             'information_purposes' => 'required|string',
@@ -120,7 +119,6 @@ class PublicInformationApplicationForm extends Component
         $application = PublicInformationApplication::create([
             'reg_num' => $reg_num,
             'applicant_id' => $applicant->id,
-            'application_status_id' => $this->application_status_id,
             'application_method_id' => $this->application_method_id,
             'information_requested' => $this->information_requested,
             'information_purposes' => $this->information_purposes,
@@ -128,7 +126,13 @@ class PublicInformationApplicationForm extends Component
             'is_get_copy' => (int) $this->information_receival_id === (int) $this->onlineReceivalId,
             'get_copy_method' => $this->get_copy_method,
             'note' => $this->note,
-            'status_updated_at' => now(),
+        ]);
+
+        // Step 3 : Create Status History
+        $statusHistory = ApplicationHistory::create([
+            'application_id' => $application->id,
+            'application_status_id' => $this->application_status_id,
+            'note' => 'Permohonan baru dibuat',
         ]);
 
         session()->flash('message', 'Application and applicant created successfully.');

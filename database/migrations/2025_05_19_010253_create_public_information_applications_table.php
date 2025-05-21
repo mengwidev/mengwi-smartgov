@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('reg_num')->unique();
-            $table->foreignId('application_status_id')->constrained('application_statuses')->cascadeOnDelete();
             $table->foreignId('applicant_id')->constrained('applicants')->cascadeOnDelete();
             $table->foreignId('application_method_id')->constrained('application_methods')->cascadeOnDelete();
             $table->string('information_requested');
@@ -24,7 +23,6 @@ return new class extends Migration
             $table->boolean('is_get_copy')->nullable();
             $table->string('get_copy_method')->nullable();
             $table->text('note')->nullable();
-            $table->dateTime('status_updated_at');
             $table->timestamps();
         });
     }

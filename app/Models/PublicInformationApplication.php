@@ -10,7 +10,6 @@ class PublicInformationApplication extends Model
     protected $fillable = [
         'uuid',
         'reg_num',
-        'application_status_id',
         'applicant_id',
         'application_method_id',
         'information_requested',
@@ -21,11 +20,6 @@ class PublicInformationApplication extends Model
         'note',
         'status_updated_at'
     ];
-
-    public function applicationStatus()
-    {
-        return $this->belongsTo(ApplicationStatus::class,);
-    }
 
     public function applicant()
     {
@@ -40,6 +34,11 @@ class PublicInformationApplication extends Model
     public function informationReceival()
     {
         return $this->belongsTo(InformationReceival::class);
+    }
+
+    public function applicationHistory()
+    {
+        return $this->hasMany(ApplicationHistory::class);
     }
 
     public static function boot()

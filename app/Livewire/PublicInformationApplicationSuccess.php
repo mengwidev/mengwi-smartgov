@@ -12,12 +12,6 @@ class PublicInformationApplicationSuccess extends Component
     public function mount($public_information_application)
     {
         $this->application = PublicInformationApplication::where('uuid', $public_information_application)
-            ->with([
-                'applicant',
-                'applicationStatus',
-                'applicationMethod',
-                'informationReceival',
-            ])
             ->firstOrFail();
     }
 

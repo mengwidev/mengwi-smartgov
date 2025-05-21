@@ -83,28 +83,28 @@
                     </div>
 
                     <div>
-                        <label class="mb-1 block text-sm font-semibold text-gray-700">Lampiran Salinan Identitas</label>
-                        <div x-data="{ filename: '' }" class="w-full">
-                            <div class="flex items-center space-x-2">
-                                <label for="fileUpload"
-                                    class="inline-flex cursor-pointer items-center rounded bg-gray-200 px-4 py-2 text-gray-700 transition hover:bg-gray-300">
-                                    Pilih File
-                                </label>
-                                <span class="truncate text-sm text-gray-600"
-                                    x-text="filename || 'Belum ada file dipilih'"></span>
-                            </div>
+                        <label class="mb-1 block text-sm font-semibold text-gray-700">
+                            Lampiran Salinan Identitas
+                        </label>
 
-                            <input type="file" id="fileUpload" wire:model="applicant_identifier_attachment"
-                                accept=".jpg,.jpeg,.png,.pdf" class="hidden"
-                                x-on:change="filename = $event.target.files[0]?.name || ''" />
+                        <input type="file" wire:model="applicant_identifier_attachment" accept=".jpg,.jpeg,.png,.pdf"
+                            class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-200 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-300" />
 
-                            @error('applicant_identifier_attachment')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
+                        @error('applicant_identifier_attachment')
+                            <span class="text-sm text-red-600">{{ $message }}</span>
+                        @enderror
 
-                            <p class="mt-1 text-xs text-gray-500">Format yang didukung: .jpg, .jpeg, .png, .pdf</p>
-                        </div>
+                        <p class="mt-1 text-xs text-gray-500">
+                            Format yang didukung: .jpg, .jpeg, .png, .pdf
+                        </p>
+
+                        @if ($applicant_identifier_attachment)
+                            <p class="mt-1 text-sm text-gray-700">
+                                File dipilih: {{ $applicant_identifier_attachment->getClientOriginalName() }}
+                            </p>
+                        @endif
                     </div>
+
                 </div>
 
                 <hr class="my-6 border-t border-gray-400" />
