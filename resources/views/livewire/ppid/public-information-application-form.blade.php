@@ -6,7 +6,7 @@
     </div>
 
     <div class="mx-auto max-w-3xl overflow-hidden rounded-lg bg-white shadow-lg">
-        <div class="space-y-4 bg-gray-200 px-4 py-6 sm:px-6 sm:py-8">
+        <div class="space-y-4 bg-gray-100 px-4 py-6 sm:px-6 sm:py-8">
             <h2 class="text-2xl font-semibold text-gray-700">Formulir Permohonan Informasi Publik</h2>
             <p class="text-gray-600">
                 Silakan lengkapi formulir berikut untuk mengajukan permohonan informasi publik kepada PPID Desa Mengwi.
@@ -30,7 +30,10 @@
 
                 {{-- === INFORMASI PEMOHON === --}}
                 <div class="space-y-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Informasi Pemohon</h3>
+                    <h3 class="flex items-center gap-2 text-xl font-semibold text-gray-800">
+                        <x-heroicon-o-user class="h-8 w-8" /><span>Informasi
+                            Pemohon</span>
+                    </h3>
                     <p class="text-gray-600">
                         Informasi ini dibutuhkan untuk mengidentifikasi pemohon secara sah. Mohon isi data dengan benar
                         dan sesuai dengan dokumen identitas Anda.
@@ -84,11 +87,11 @@
 
                     <div>
                         <label class="mb-1 block text-sm font-semibold text-gray-700">
-                            Lampiran Salinan Identitas
+                            Upload Lampiran Identitas (KTP/SIM)
                         </label>
 
                         <input type="file" wire:model="applicant_identifier_attachment" accept=".jpg,.jpeg,.png,.pdf"
-                            class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-200 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-300" />
+                            class="block w-full rounded-lg border border-gray-300 text-sm text-gray-700 file:rounded-lg file:border-0 file:bg-gray-200 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-300" />
 
                         @error('applicant_identifier_attachment')
                             <span class="text-sm text-red-600">{{ $message }}</span>
@@ -111,7 +114,10 @@
 
                 {{-- === INFORMASI PERMOHONAN === --}}
                 <div class="space-y-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Informasi yang Dimohonkan</h3>
+                    <h3 class="flex items-center gap-2 text-xl font-semibold text-gray-800">
+                        <x-heroicon-o-document-duplicate class="h-8 w-8" /><span>Informasi
+                            Yang Dimohonkan</span>
+                    </h3>
                     <p class="text-gray-600">
                         Silakan uraikan jenis informasi yang dibutuhkan dan tujuan penggunaannya agar permohonan dapat
                         diproses sesuai ketentuan.
@@ -165,8 +171,8 @@
 
                 <div>
                     <button type="submit"
-                        class="mb-6 w-full rounded bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700">
-                        Kirim Permohonan Informasi
+                        class="mb-6 flex w-full items-center justify-center gap-2 rounded bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700">
+                        <span>Kirim Permohonan Informasi</span><x-heroicon-o-arrow-right class="h-6 w-6" />
                     </button>
                 </div>
             </form>

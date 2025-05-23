@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-inter">
+<body class="font-figtree">
     @php
         $earliestDate = \App\Models\StockLogModel::min('date'); // Get earliest date from database
 
@@ -29,19 +29,19 @@
                 \Carbon\Carbon::parse($endDate)->locale('id')->isoFormat('DD MMMM Y');
         }
     @endphp
-    <header class="fixed top-0 flex items-center justify-center w-full">
+    <header class="fixed top-0 flex w-full items-center justify-center">
         {{-- @HEADER AREA ------ customize header content here --}}
         {{-- ------------------------------------------------------------------------------------------------------------------------------- --}}
 
         {{-- @END OF HEADER AREA --}}
         {{-- ------------------------------------------------------------------------------------------------------------------------------- --}}
     </header>
-    <footer class="fixed bottom-0 flex flex-col justify-center w-full h-16">
+    <footer class="fixed bottom-0 flex h-16 w-full flex-col justify-center">
         <hr class="w-full border border-[#9DDE8B]">
         <div class="flex items-center justify-between">
             {{-- @FOOTER AREA ------ customize footer here --}}
             {{-- ------------------------------------------------------------------------------------------------------------------------------- --}}
-            <p class="w-64 px-2 py-1 text-sm bg-[#9DDE8B]">Printed By : Mengwi SmartGov</p>
+            <p class="w-64 bg-[#9DDE8B] px-2 py-1 text-sm">Printed By : Mengwi SmartGov</p>
             <p class="px-2 text-sm italic">Laporan Stok Barang Masuk/Keluar || Periode {{ $periodeText }}</p>
             {{-- @END OF FOOTER AREA --}}
             {{-- ------------------------------------------------------------------------------------------------------------------------------- --}}
@@ -61,10 +61,10 @@
                 <td>
                     {{-- ------------------------------------------------------------------------------------------------------------------------------- --}}
                     {{-- @CONTENT AREA ------ content goes here --}}
-                    <div class="flex justify-between max-w-full p-4 bg-[#9DDE8B] mb-6">
+                    <div class="mb-6 flex max-w-full justify-between bg-[#9DDE8B] p-4">
                         <div>
-                            <h1 class="mb-2 text-2xl font-bold">PEMERINTAH DESA MENGWI</h1>
-                            <div class="flex flex-col items-start gap-1 scale-80">
+                            <h1 class="mb-2 text-xl font-bold">PEMERINTAH DESA MENGWI</h1>
+                            <div class="scale-80 flex flex-col items-start gap-1">
                                 <div class="flex gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -102,9 +102,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col justify-center gap-2 p-10 bg-[#E6FF94] rounded-lg">
-                            <h1 class="text-2xl font-bold text-right">Laporan Barang Masuk/Keluar</h1>
-                            <h2 class="font-semibold text-right">
+                        <div class="flex flex-col justify-center gap-2 rounded-lg bg-[#E6FF94] p-10">
+                            <h1 class="text-right text-xl font-bold">Laporan Barang Masuk/Keluar</h1>
+                            <h2 class="text-right font-semibold">
                                 Periode : {{ $periodeText }}
                                 {{-- Periode : 30 Desember 2024 S/D 30 Desember 2024 --}}
                             </h2>
@@ -119,28 +119,28 @@
                                         $tableHeaders = ['#', 'Barang', 'Tanggal', 'Pergerakan', 'Jumlah'];
                                         $indexNum = 1;
                                     @endphp
-                                    <tr class="text-sm bg-[#006769] text-white">
+                                    <tr class="bg-[#006769] text-sm text-white">
                                         @foreach ($tableHeaders as $header)
-                                            <th class="px-1 py-3 border border-gray-300">{{ $header }}</th>
+                                            <th class="border border-gray-300 px-1 py-3">{{ $header }}</th>
                                         @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($stockIn as $in)
-                                        <tr class="text-sm {{ $indexNum % 2 == 0 ? 'bg-gray-200' : 'bg-white' }}">
-                                            <td class="px-1 py-1 text-center border border-gray-300">{{ $indexNum++ }}
+                                        <tr class="{{ $indexNum % 2 == 0 ? 'bg-gray-200' : 'bg-white' }} text-sm">
+                                            <td class="border border-gray-300 px-1 py-1 text-center">{{ $indexNum++ }}
                                             </td>
-                                            <td class="px-1 py-1 truncate border border-gray-300 text-wrap">
+                                            <td class="truncate text-wrap border border-gray-300 px-1 py-1">
                                                 {{ $in->product->name ?? 'No product' }}
                                             </td>
-                                            <td class="px-1 py-1 text-center border border-gray-300 text-nowrap">
+                                            <td class="text-nowrap border border-gray-300 px-1 py-1 text-center">
                                                 {{ \Carbon\Carbon::parse($in->date)->locale('id')->isoFormat('DD/MM/Y') }}
                                             </td>
                                             <td
-                                                class="px-1 py-1 text-center {{ $in->type === 'in' ? 'text-green-600' : 'text-red-600' }} border   border-gray-300">
+                                                class="{{ $in->type === 'in' ? 'text-green-600' : 'text-red-600' }} border border-gray-300 px-1 py-1 text-center">
                                                 {{ $in->type === 'in' ? 'Masuk' : 'Keluar' }}
                                             </td>
-                                            <td class="px-1 py-1 text-center border border-gray-300">
+                                            <td class="border border-gray-300 px-1 py-1 text-center">
                                                 {{ $in->quantity }} {{ $in->product->unit->name ?? '-' }}</td>
                                         </tr>
                                     @endforeach
@@ -161,31 +161,31 @@
                                         ];
                                         $indexNum = 1;
                                     @endphp
-                                    <tr class="text-sm bg-[#006769] text-white">
+                                    <tr class="bg-[#006769] text-sm text-white">
                                         @foreach ($tableHeaders as $header)
-                                            <th class="px-1 py-3 border border-gray-300">{{ $header }}</th>
+                                            <th class="border border-gray-300 px-1 py-3">{{ $header }}</th>
                                         @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($stockOut as $out)
-                                        <tr class="text-sm {{ $indexNum % 2 == 0 ? 'bg-gray-200' : 'bg-white' }}">
-                                            <td class="px-1 py-1 text-center border border-gray-300">
+                                        <tr class="{{ $indexNum % 2 == 0 ? 'bg-gray-200' : 'bg-white' }} text-sm">
+                                            <td class="border border-gray-300 px-1 py-1 text-center">
                                                 {{ $indexNum++ }}
                                             </td>
-                                            <td class="px-1 py-1 truncate border border-gray-300 text-wrap">
+                                            <td class="truncate text-wrap border border-gray-300 px-1 py-1">
                                                 {{ $out->product->name ?? 'No product' }}
                                             </td>
-                                            <td class="px-1 py-1 text-center border border-gray-300 text-nowrap">
+                                            <td class="text-nowrap border border-gray-300 px-1 py-1 text-center">
                                                 {{ \Carbon\Carbon::parse($out->date)->locale('id')->isoFormat('DD/MM/Y') }}
                                             </td>
                                             <td
-                                                class="px-1 py-1 text-center {{ $out->type === 'in' ? 'text-green-600' : 'text-red-600' }} border   border-gray-300">
+                                                class="{{ $out->type === 'in' ? 'text-green-600' : 'text-red-600' }} border border-gray-300 px-1 py-1 text-center">
                                                 {{ $out->type === 'in' ? 'Masuk' : 'Keluar' }}
                                             </td>
-                                            <td class="px-1 py-1 text-center border border-gray-300">
+                                            <td class="border border-gray-300 px-1 py-1 text-center">
                                                 {{ $out->quantity }} {{ $out->product->unit->name ?? '-' }}</td>
-                                            <td class="px-1 py-1 text-center truncate border border-gray-300">
+                                            <td class="truncate border border-gray-300 px-1 py-1 text-center">
                                                 @php
                                                     $unitName = $out->unit->name ?? '-';
                                                     $unitName = match ($unitName) {
@@ -212,7 +212,7 @@
         <tfoot>
             <tr>
                 <td>
-                    <div class="h-16 mt-6"></div>
+                    <div class="mt-6 h-16"></div>
                 </td>
             </tr>
         </tfoot>

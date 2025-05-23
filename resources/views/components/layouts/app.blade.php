@@ -10,7 +10,7 @@
     @livewireStyles
 </head>
 
-<body class="bg-zinc-50 font-figtree">
+<body class="bg-sky-50 font-figtree">
     {{ $slot }}
     @livewireScripts
 </body>

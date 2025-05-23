@@ -46,7 +46,7 @@ class PublicInformationApplicationForm extends Component
     public function mount()
     {
         $this->pageTitle = 'Permohonan Informasi Publik | PPID Desa Mengwi';
-        $this->application_status_id = ApplicationStatus::where('name', 'Belum Diproses')->value('id');
+        $this->application_status_id = ApplicationStatus::where('name', 'Permohonan Diajukan')->value('id');
         $this->application_method_id = ApplicationMethod::where('name', 'Online')->value('id');
         $this->onlineReceivalId = InformationReceival::where('name', 'Mendapatkan Salinan Informasi')->value('id');
         if (!$this->onlineReceivalId) {
@@ -130,7 +130,7 @@ class PublicInformationApplicationForm extends Component
 
         // Step 3 : Create Status History
         $statusHistory = ApplicationHistory::create([
-            'application_id' => $application->id,
+            'public_information_application_id' => $application->id,
             'application_status_id' => $this->application_status_id,
             'note' => 'Permohonan baru dibuat',
         ]);

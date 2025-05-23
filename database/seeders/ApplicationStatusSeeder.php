@@ -14,7 +14,7 @@ class ApplicationStatusSeeder extends Seeder
     public function run(): void
     {
         $values = [
-            ['name' => 'Belum Diproses'],
+            ['name' => 'Permohonan Diajukan'],
             ['name' => 'Sedang Diproses'],
             ['name' => 'Permohonan Ditolak'],
             ['name' => 'Informasi Terkirim'],

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('application_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('application_id')->constrained('public_information_applications')->cascadeOnDelete();
+            $table->foreignId('public_information_application_id')->constrained('public_information_applications')->cascadeOnDelete();
             $table->foreignId('application_status_id')->constrained('application_statuses')->cascadeOnDelete();
             $table->text('note')->nullable();
             $table->timestamps();

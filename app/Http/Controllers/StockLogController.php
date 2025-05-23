@@ -18,11 +18,11 @@ class StockLogController extends Controller
         $stockLogs = StockLogModel::query()
             ->when(
                 $startDate,
-                fn ($query) => $query->whereDate('date', '>=', $startDate)
+                fn($query) => $query->whereDate('date', '>=', $startDate)
             )
             ->when(
                 $endDate,
-                fn ($query) => $query->whereDate('date', '<=', $endDate)
+                fn($query) => $query->whereDate('date', '<=', $endDate)
             )
             ->with(['product', 'unit'])
             ->orderBy('date', 'asc')
@@ -32,11 +32,11 @@ class StockLogController extends Controller
         $stockIn = StockLogModel::query()
             ->when(
                 $startDate,
-                fn ($query) => $query->whereDate('date', '>=', $startDate)
+                fn($query) => $query->whereDate('date', '>=', $startDate)
             )
             ->when(
                 $endDate,
-                fn ($query) => $query->whereDate('date', '<=', $endDate)
+                fn($query) => $query->whereDate('date', '<=', $endDate)
             )
             ->where('type', 'in')
             ->with(['product', 'unit'])
@@ -47,11 +47,11 @@ class StockLogController extends Controller
         $stockOut = StockLogModel::query()
             ->when(
                 $startDate,
-                fn ($query) => $query->whereDate('date', '>=', $startDate)
+                fn($query) => $query->whereDate('date', '>=', $startDate)
             )
             ->when(
                 $endDate,
-                fn ($query) => $query->whereDate('date', '<=', $endDate)
+                fn($query) => $query->whereDate('date', '<=', $endDate)
             )
             ->where('type', 'out')
             ->with(['product', 'unit'])
@@ -65,30 +65,30 @@ class StockLogController extends Controller
         $formattedEndDate = \Carbon\Carbon::parse($endDate)->format('Y-m-d');
 
         // Generate the PDF using the filtered data and pass startDate and endDate to the view
-        // $pdf = Pdf::view('pdf.stock-log-report', [
-        //     'stockLogs' => $stockLogs,
-        //     'stockIn' => $stockIn,
-        //     'stockOut' => $stockOut,
-        //     'startDate' => $startDate,
-        //     'endDate' => $endDate,
-        // ])
-        //     ->paperSize(210, 330, 'mm')
-        //     ->margins(10, 10, 10, 10);
+        $pdf = Pdf::view('pdf.stock-log-report', [
+            'stockLogs' => $stockLogs,
+            'stockIn' => $stockIn,
+            'stockOut' => $stockOut,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+        ])
+            ->paperSize(210, 330, 'mm')
+            ->margins(10, 10, 10, 10);
 
-        // return $pdf->download(
-        //     'Laporan_Stok_Barang_' .
-        //         $formattedStartDate .
-        //         '_s/d_' .
-        //         $formattedEndDate .
-        //         '__timestamps__' .
-        //         now() .
-        //         '.pdf'
-        // );
+        return $pdf->download(
+            'Laporan_Stok_Barang_' .
+                $formattedStartDate .
+                '_s/d_' .
+                $formattedEndDate .
+                '__timestamps__' .
+                now() .
+                '.pdf'
+        );
 
         // TESTING PREVIEW ---------------------------
-        return view(
-            'pdf.stock-log-report',
-            compact('stockLogs', 'startDate', 'endDate', 'stockIn', 'stockOut')
-        );
+        // return view(
+        //     'pdf.stock-log-report',
+        //     compact('stockLogs', 'startDate', 'endDate', 'stockIn', 'stockOut')
+        // );
     }
 }

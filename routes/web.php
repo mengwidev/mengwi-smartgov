@@ -53,3 +53,6 @@ Route::get(
     '/ppid/permohonan-informasi/sukses/{public_information_application:uuid}',
     App\Livewire\PublicInformationApplicationSuccess::class
 )->name('applications.success');
+
+Route::get('/ppid/track', \App\Livewire\PublicInformationLookup::class)
+    ->name('ppid.track');

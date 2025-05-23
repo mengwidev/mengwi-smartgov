@@ -12,10 +12,10 @@
             class="mx-auto h-auto w-full object-contain" />
     </div>
 
-    <h1 class="z-10 text-center text-lg font-bold text-gray-700 sm:text-xl">
+    <h1 class="z-10 text-center text-sm font-bold text-gray-700 sm:text-xl">
         Pejabat Pengelola Informasi dan Dokumentasi
     </h1>
     <h2 class="z-10 text-center text-sm text-gray-500 sm:text-base">
-        Desa Mengwi, Kecamatan Mengwi, Kabupaten Badung
+        Pemerintah Desa Mengwi
     </h2>
 </div>
