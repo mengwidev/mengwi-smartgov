@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PublicInformation extends Model
 {
@@ -11,13 +12,22 @@ class PublicInformation extends Model
         'information_classification_id',
         'document_category_id',
         'summary',
+        'slug',
         'year',
         'filepath'
     ];
 
     protected static function booted(): void
     {
+        static::creating(function ($document) {
+            $document->slug = self::generateSlug($document->summary);
+        });
+
         static::updating(function ($document) {
+            if ($document->isDirty('summary')) {
+                $document->slug = self::generateSlug($document->summary);
+            }
+
             if ($document->isDirty('filepath')) {
                 self::deleteFile($document->getOriginal('filepath'));
             }
@@ -26,6 +36,11 @@ class PublicInformation extends Model
         static::deleting(function ($document) {
             self::deleteFile($document->filepath);
         });
+    }
+
+    protected static function generateSlug(string $summary): string
+    {
+        return Str::slug($summary);
     }
 
     protected static function deleteFile(?string $path): void

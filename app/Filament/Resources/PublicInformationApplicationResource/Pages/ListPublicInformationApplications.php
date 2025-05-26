@@ -5,15 +5,14 @@ namespace App\Filament\Resources\PublicInformationApplicationResource\Pages;
 use App\Filament\Resources\PublicInformationApplicationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ListPublicInformationApplications extends ListRecords
 {
     protected static string $resource = PublicInformationApplicationResource::class;
 
-    protected function getHeaderActions(): array
+    public function getTitle(): string|Htmlable
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return __(key: 'Daftar Pemohon Informasi Publik');
     }
 }

@@ -13,6 +13,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "bezhansalleh/filament-shield": "3.2.6",
         "blade-ui-kit/blade-heroicons": "^2.6",
+        "doctrine/dbal": "^4.2",
         "endroid/qr-code": "^6.0",
         "filament/filament": "^3.2",
         "illuminate/redis": "*",
@@ -23,6 +24,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "league/commonmark": "^2.7",
+        "livewire/livewire": "^3.6",
         "spatie/laravel-pdf": "^1.5"
     },
     "require-dev": {

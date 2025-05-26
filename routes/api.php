@@ -1,26 +1,50 @@
 <?php
 
-use App\Http\Controllers\Api\MobileMenuController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\DaftarPemohonInformasiPublikController;
+use App\Http\Controllers\Api\MobileMenuController;
+use App\Http\Controllers\Api\PagePpidController;
 use App\Http\Controllers\Api\ProfilPpidController;
 use App\Http\Controllers\Api\PublicInformationController;
-use App\Http\Resources\DaftarPemohonInformasiPublikResource;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DaftarPemohonInformasiPublikController;
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
+// ---------------------------------------------
+// 🔐 Authentication Routes
+// ---------------------------------------------
+Route::middleware('throttle:60,1')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+});
 
-// Public routes (GET requests)
-Route::get('/mobilemenu', [MobileMenuController::class, 'index']);
-Route::apiResource('/informasi-publik', PublicInformationController::class)->only(['index']);
-Route::apiResource('/profil-ppid', ProfilPpidController::class)->only(['index']);
-Route::apiResource('/daftar-pemohon', DaftarPemohonInformasiPublikController::class)->only(['index']);
+// Logout must be authenticated
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->post('logout', [AuthController::class, 'logout']);
 
-// Protected routes (POST, PUT, PATCH, DELETE)
-Route::middleware('auth:sanctum',)->group(function () {
-    Route::post('/mobilemenu', [MobileMenuController::class, 'store']);
-    Route::put('/mobilemenu/{id}', [MobileMenuController::class, 'update']);
-    Route::patch('/mobilemenu/{id}', [MobileMenuController::class, 'update']);
-    Route::delete('/mobilemenu/{id}', [MobileMenuController::class, 'destroy']);
+
+// ---------------------------------------------
+// 🌐 Public API Routes (GET-only)
+// ---------------------------------------------
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('mobilemenu', [MobileMenuController::class, 'index']);
+
+    Route::prefix('ppid')->group(function () {
+        // Resource index endpoints
+        Route::apiResource('profil', ProfilPpidController::class)->only('index');
+        Route::apiResource('pages', PagePpidController::class)->only('index');
+        Route::apiResource('informasi-publik', PublicInformationController::class)->only('index');
+        Route::apiResource('daftar-pemohon', DaftarPemohonInformasiPublikController::class)->only('index');
+
+        // Custom detail routes using slug
+        Route::get('page/{slug}', [PagePpidController::class, 'show']);
+        Route::get('informasi-publik/{slug}', [PublicInformationController::class, 'show']);
+    });
+});
+
+
+// ---------------------------------------------
+// 🔒 Authenticated & Protected Routes (Write Ops)
+// ---------------------------------------------
+Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
+    Route::post('mobilemenu', [MobileMenuController::class, 'store']);
+    Route::put('mobilemenu/{id}', [MobileMenuController::class, 'update']);
+    Route::patch('mobilemenu/{id}', [MobileMenuController::class, 'update']);
+    Route::delete('mobilemenu/{id}', [MobileMenuController::class, 'destroy']);
 });

@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             ApplicationMethodSeeder::class,
             ApplicationStatusSeeder::class,
             InformationReceivalSeeder::class,
+            InformationClassificationSeeder::class
         ]);
     }
 }

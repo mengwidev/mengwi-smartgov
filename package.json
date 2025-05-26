@@ -4,7 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "x-dev": "concurrently \"php artisan serve\" \"npm run dev\"",
+        "serve": "concurrently \"php artisan serve\" \"npm run dev\"",
         "serve-api": "php artisan serve --port=4000",
         "clean": "php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan event:clear && php artisan optimize:clear && composer dump-autoload",
         "fresh-dev": "npm run clean && npm run x-dev"

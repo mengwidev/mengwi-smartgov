@@ -23,7 +23,11 @@ class PublicInformationApplicationResource extends Resource
 {
     protected static ?string $model = PublicInformationApplication::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-left-end-on-rectangle';
+
+    protected static ?string $navigationGroup = 'PPID';
+
+    protected static ?string $navigationLabel = 'Permohonan Informasi Publik';
 
     public static function form(Form $form): Form
     {
@@ -138,7 +142,8 @@ class PublicInformationApplicationResource extends Resource
                                 ->schema([
                                     Forms\Components\Placeholder::make('Status Terakhir')
                                         ->label('Status Terakhir')
-                                        ->content(fn($record) => optional($record->applicationHistory()->latest()->first())->status_badge_html ?? '-'),
+                                        ->content(fn($record) => view('filament.components.status-badge', ['record' => $record])),
+
 
                                     Forms\Components\Placeholder::make('Tanggal Update Status')
                                         ->label('Tanggal Update Status')
@@ -183,9 +188,16 @@ class PublicInformationApplicationResource extends Resource
                 TextColumn::make('applicant.name')
                     ->label('Nama Pemohon'),
 
-                BadgeColumn::make('latest_status_label')
-                    ->color(fn($record) => $record->latest_status_color)
+                TextColumn::make('latest_status_label')
                     ->label('Status')
+                    ->badge()
+                    ->color(fn($state) => match ($state) {
+                        'Sedang Diproses', 'Permohonan Diajukan', 'Proses Verifikasi Pemohon', 'Informasi Terkirim' => 'info',
+                        'Pemohon Keberatan' => 'warning',
+                        'Permohonan Ditolak', 'Pemohon Mengajukan Sengketa' => 'danger',
+                        'Permohonan Selesai' => 'success',
+                        default => 'gray',
+                    })
                     ->sortable(),
 
                 TextColumn::make('latest_status_date_formatted') // <-- use the accessor name

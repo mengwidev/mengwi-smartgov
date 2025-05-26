@@ -87,6 +87,7 @@ class PublicInformationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('summary')
                     ->label('Uraian')
+                    ->limit(40)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('year')->label(label: 'Tahun'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -108,9 +109,11 @@ class PublicInformationResource extends Resource
                     ->url(fn($record) => Storage::disk('public')->url($record->filepath))
                     ->openUrlInNewTab()
                     ->visible(fn($record) => filled($record->filepath)),
+
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
+            ->recordUrl(null)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

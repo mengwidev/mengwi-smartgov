@@ -31,12 +31,19 @@ class PublicInformationController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        return response()->json([
-            'message' => 'This operation is not permitted through the public API.',
-            403
-        ]);
+        $document = PublicInformation::with(['informationClassification', 'documentCategory'])
+            ->where('slug', $slug)
+            ->first();
+
+        if (!$document) {
+            return response()->json([
+                'message' => 'Public information document not found.',
+            ], 404);
+        }
+
+        return new InformasiPublikResource($document);
     }
 
     public function destroy($id)

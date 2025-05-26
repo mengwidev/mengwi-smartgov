@@ -43,8 +43,11 @@ class InformationClassificationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('public_informations_count')
+                    ->label('Jumlah Informasi')
+                    ->counts('publicInformations'),
                 Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
+                    ->limit(100),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

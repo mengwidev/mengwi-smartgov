@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\PublicInformationResource\Pages;
+namespace App\Filament\Resources\PagePpidCategoryResource\Pages;
 
-use App\Filament\Resources\PublicInformationResource;
+use App\Filament\Resources\PagePpidCategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Contracts\Support\Htmlable;
 
-
-class ListPublicInformation extends ListRecords
+class ListPagePpidCategories extends ListRecords
 {
-    protected static string $resource = PublicInformationResource::class;
+    protected static string $resource = PagePpidCategoryResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -21,6 +20,6 @@ class ListPublicInformation extends ListRecords
 
     public function getTitle(): string|Htmlable
     {
-        return __(key: 'Informasi Publik');
+        return __(key: 'Kategori Halaman Web PPID');
     }
 }

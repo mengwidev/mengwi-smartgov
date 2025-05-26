@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProfilPpidResource\Pages;
 use App\Filament\Resources\ProfilPpidResource\RelationManagers;
+use App\Models\Employee;
 use App\Models\ProfilPpid;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -45,8 +46,28 @@ class ProfilPpidResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('employee.photo')
+                    ->label('')
+                    ->circular()
+                    ->height(40),
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->label('Petugas/Pejabat'),
+                    ->label('Petugas/Pejabat')
+                    ->formatStateUsing(
+                        fn($state, $record): string =>
+                        trim(
+                            ($record->employee->prefix_title ? $record->employee->prefix_title . '. ' : '') .
+                                $record->employee->name .
+                                ($record->employee->suffix_title ? ', ' . $record->employee->suffix_title : '')
+                        )
+                    )
+                    ->description(function ($record): string {
+                        $level = $record->employee->employeeLevel->name;
+                        $unit = $record->employee->employmentUnit->name;
+
+                        $unitDisplay = in_array(strtolower($unit), ['perbekel', 'sekretaris desa']) ? 'Mengwi' : $unit;
+
+                        return "{$level} {$unitDisplay}";
+                    }),
                 Tables\Columns\TextColumn::make('role.name')
                     ->label('Kedudukan Dalam PPID')
             ])
@@ -57,9 +78,9 @@ class ProfilPpidResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
