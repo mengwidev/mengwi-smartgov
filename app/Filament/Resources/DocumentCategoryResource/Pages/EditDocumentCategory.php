@@ -18,6 +18,11 @@ class EditDocumentCategory extends EditRecord
         ];
     }
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     public function getTitle(): string|Htmlable
     {
         return __(key: 'Edit Kategori Dokumen');

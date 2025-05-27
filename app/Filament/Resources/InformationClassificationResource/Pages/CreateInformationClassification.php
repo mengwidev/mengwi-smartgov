@@ -15,4 +15,9 @@ class CreateInformationClassification extends CreateRecord
     {
         return __('Tambah Klasifikasi Informasi');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

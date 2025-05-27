@@ -15,4 +15,9 @@ class CreatePublicInformation extends CreateRecord
     {
         return __(key: 'Tambah Informasi Publik');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

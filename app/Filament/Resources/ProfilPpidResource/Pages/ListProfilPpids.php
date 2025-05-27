@@ -14,7 +14,7 @@ class ListProfilPpids extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->visible(\App\Models\ProfilPpid::count() < 8),
+            Actions\CreateAction::make(),
         ];
     }
 

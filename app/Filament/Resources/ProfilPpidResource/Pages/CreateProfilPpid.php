@@ -16,8 +16,13 @@ class CreateProfilPpid extends CreateRecord
         return __(key: 'Tambah Petugas/Pejabat PPID');
     }
 
-    public static function canAccess(array $parameters = []): bool
+    protected function getRedirectUrl(): string
     {
-        return \App\Models\ProfilPpid::count() < 8;
+        return $this->getResource()::getUrl('index');
     }
+
+    // public static function canAccess(array $parameters = []): bool
+    // {
+    //     return \App\Models\ProfilPpid::count() < 8;
+    // }
 }

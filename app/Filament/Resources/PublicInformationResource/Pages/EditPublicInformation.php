@@ -22,4 +22,9 @@ class EditPublicInformation extends EditRecord
     {
         return __(key: 'Edit Informasi Publik');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -15,4 +15,9 @@ class CreateDocumentCategory extends CreateRecord
     {
         return __(key: 'Tambah Kategori Dokumen');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

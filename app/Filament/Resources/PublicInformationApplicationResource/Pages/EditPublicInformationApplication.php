@@ -22,4 +22,9 @@ class EditPublicInformationApplication extends EditRecord
     {
         return $this->record->reg_num ?? 'Permohonan Informasi';
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

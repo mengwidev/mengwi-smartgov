@@ -22,4 +22,9 @@ class EditInformationClassification extends EditRecord
     {
         return __('Edit Klasifikasi Informasi');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

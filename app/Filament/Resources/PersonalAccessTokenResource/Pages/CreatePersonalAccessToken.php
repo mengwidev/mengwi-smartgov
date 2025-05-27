@@ -34,6 +34,11 @@ class CreatePersonalAccessToken extends CreateRecord
             ->persistent()
             ->send();
 
-            return $accessToken;
+        return $accessToken;
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }
