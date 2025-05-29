@@ -18,6 +18,7 @@ class ProfilPpidResource extends JsonResource
             "id" => $this->id,
             "role" => $this->role->name,
             "officer" => $this->employee->name,
+            "photo" => config('app.url') . '/storage/' . $this->employee->photo,
             "goverment_position" => [
                 "employee_level" => $this->employee->employeeLevel->name,
                 "employment_unit" => $this->employee->employmentUnit->name,

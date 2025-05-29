@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MobileMenuController;
 use App\Http\Controllers\Api\PagePpidController;
 use App\Http\Controllers\Api\ProfilPpidController;
 use App\Http\Controllers\Api\PublicInformationController;
 use App\Http\Controllers\Api\DaftarPemohonInformasiPublikController;
+use App\Http\Controllers\Api\InformationClassificationController;
+use App\Http\Controllers\Api\DocumentCategoryController;
 
 // ---------------------------------------------
 // 🔐 Authentication Routes
@@ -35,6 +38,13 @@ Route::middleware('throttle:60,1')->group(function () {
         // Custom detail routes using slug
         Route::get('page/{slug}', [PagePpidController::class, 'show']);
         Route::get('informasi-publik/{slug}', [PublicInformationController::class, 'show']);
+
+        // Statistics endpoints
+        Route::prefix('statistics')->group(function () {
+            Route::get('classification', [InformationClassificationController::class, 'index']);
+            Route::get('document-category', [DocumentCategoryController::class, 'index']);
+            Route::get('applications', [StatisticsController::class, 'applicationStatusSummary']);
+        });
     });
 });
 

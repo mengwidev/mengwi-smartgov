@@ -11,7 +11,7 @@ class PublicInformationController extends Controller
 {
     public function index()
     {
-        $documents = PublicInformation::with(['informationClassification', 'documentCategory'])->latest()->paginate(10);
+        $documents = PublicInformation::with(['informationClassification', 'documentCategory'])->orderBy('year', 'desc')->paginate(10);
         return InformasiPublikResource::collection($documents);
     }
 
