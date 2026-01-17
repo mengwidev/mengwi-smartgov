@@ -89,13 +89,15 @@ class PublicInformationResource extends Resource
                     ->label('Uraian')
                     ->limit(40)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('year')->label(label: 'Tahun'),
+                Tables\Columns\TextColumn::make('year')->label(label: 'Tahun')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->label('Tanggal Upload')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->label('Tanggal Edit')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -136,4 +138,10 @@ class PublicInformationResource extends Resource
             'edit' => Pages\EditPublicInformation::route('/{record}/edit'),
         ];
     }
+
+    // public static function getEloquentQuery(): Builder
+    // {
+    //     return parent::getEloquentQuery()
+    //         ->orderByDesc('created_at');
+    // }
 }
