@@ -9,32 +9,35 @@
 </head>
 
 <body
-    class="flex flex-col min-h-screen relative bg-mengwi-jadoel0 bg-cover bg-no-repeat text-gray-800 antialiased font-figtree">
+    class="bg-mengwi-jadoel0 relative flex min-h-screen flex-col bg-cover bg-no-repeat font-figtree text-gray-800 antialiased">
 
     <!-- Dark Overlay -->
-    <div class="absolute min-h-screen inset-0 bg-black opacity-5"></div>
+    <div class="absolute inset-0 min-h-screen bg-black opacity-5"></div>
 
     <!-- Main Container -->
-    <div class="flex-grow flex justify-center items-start p-3">
+    <div class="flex flex-grow items-start justify-center p-3">
         <div
-            class="max-w-xl bg-slate-100 shadow-lg rounded-lg bg-opacity-60 border-2 backdrop-blur-sm border-white mobile-sm:p-5">
+            class="mobile-sm:p-4 max-w-xl rounded-lg border-2 border-white bg-slate-100 bg-opacity-60 p-8 shadow-lg backdrop-blur-sm">
             <!-- Page Logo and Title -->
-            <div class="flex flex-col items-center gap-2 mobile-sm:space-x-0">
+            <div class="mobile-sm:space-x-0 flex flex-col items-center gap-2">
                 @if ($micrositePage->logo)
-                    <img src="{{ asset('storage/' . $micrositePage->logo) }}" alt="Logo"
-                        class="w-16 h-auto object-contain mx-auto" loading="lazy">
+                    <div class="aspect-square rounded-lg p-4">
+                        <img src="{{ asset('storage/' . $micrositePage->logo) }}" alt="Logo"
+                            class="mx-auto h-auto w-16 object-contain" loading="lazy">
+                    </div>
                 @endif
-                <h1 class="text-3xl font-bold text-gray-900 mobile-sm:text-lg">{{ $micrositePage->title }}</h1>
+                <h1 class="mobile-sm:text-lg text-center text-2xl font-bold text-slate-600">{{ $micrositePage->title }}
+                </h1>
             </div>
 
             <!-- Page Description -->
             {{-- <p
-                class="text-lg text-gray-700 leading-relaxed text-center mobile-sm:text-sm mobile-sm:text-left mobile-sm:px-5">
+                class="mobile-sm:text-xs mobile-sm:text-left mobile-sm:px-5 mt-4 text-justify text-sm leading-relaxed text-gray-700">
                 {{ $micrositePage->description }}
             </p> --}}
 
             <!-- Divider Line -->
-            <hr class="border-t-1 border-gray-300 w-2/3 my-4 mx-auto">
+            <hr class="border-t-1 mx-auto my-4 border-gray-300">
 
             <!-- Associated Links Section -->
             @if ($micrositePage->link->count())
@@ -44,12 +47,12 @@
                             <div class="space-x-4">
                                 <a href="{{ $link->destination_link }}">
                                     <li
-                                        class="max-w-lg mx-auto flex items-center py-4 px-6 bg-white rounded-full shadow-lg border-2 border-white hover:bg-slate-200 transition space-x-2">
+                                        class="mx-auto flex max-w-lg items-center space-x-2 rounded-lg bg-slate-700 px-4 py-2 shadow-lg transition hover:bg-slate-600">
                                         @if ($link->logo)
                                             <img src="{{ asset('storage/' . $link->logo) }}" alt="{{ $link->title }}"
-                                                class="w-10 object-cover rounded-md me-2" loading="lazy">
+                                                class="me-2 w-10 rounded-md object-cover" loading="lazy">
                                         @else
-                                            <svg class="w-6 h-6 text-slate-400" aria-hidden="true"
+                                            <svg class="m-2 h-8 w-8 text-slate-400" aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 fill="currentColor" viewBox="0 0 24 24">
                                                 <path fill-rule="evenodd"
@@ -61,7 +64,7 @@
                                             </svg>
                                         @endif
                                         <div class="flex-1">
-                                            <p class="text-lg font-medium text-gray-700 mobile-sm:text-sm">
+                                            <p class="mobile-sm:text-sm font-medium text-white">
                                                 {{ $link->title }}</p>
                                         </div>
                                     </li>
@@ -71,24 +74,26 @@
                     </ul>
                 </div>
             @else
-                <p class="text-gray-500 text-center flex items-center justify-center space-x-2">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                <p class="flex items-center justify-center space-x-2 text-center text-gray-500">
+                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>No links available for this site.</span>
+                    <span>Silahkan tambahkan link pada site ini.</span>
                 </p>
             @endif
         </div>
     </div>
-    <footer class="relative max-w-md mx-auto bg-white rounded-lg shadow-sm m-4">
-        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center ">© 2025 <a href="https://mengwi-badung.desa.id/"
-                    class="hover:underline">{{ config('app.author_org') }}</a>. All Rights Reserved.
-            </span>
+    <div class="px-4 pt-4">
+        <div class="m-4 mx-auto max-w-md rounded-lg bg-white shadow-sm">
+            <div class="mx-auto w-full max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+                <span class="text-xs text-gray-500 sm:text-center">© 2025 <a href="https://mengwi-badung.desa.id/"
+                        class="hover:underline">{{ config('app.author_org') }}</a>. All Rights Reserved.
+                </span>
+            </div>
         </div>
-    </footer>
+    </div>
 </body>
 
 </html>
