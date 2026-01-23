@@ -25,7 +25,7 @@ class ApplicationStatusSeeder extends Seeder
         ];
 
         foreach ($values as $value) {
-            $model = ApplicationStatus::forceCreate($value);
+            $model = ApplicationStatus::firstOrCreate($value);
             echo $model->wasRecentlyCreated
                 ? "Inserted: {$model->name}\n"
                 : "Skipped (exists): {$model->name}\n";
