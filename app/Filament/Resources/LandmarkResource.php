@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Dotswan\MapPicker\Fields\Map;
+use Filament\Forms\Set;
 
 class LandmarkResource extends Resource
 {
@@ -35,13 +37,111 @@ class LandmarkResource extends Resource
                             ->label('Name Tempat')
                             ->required()
                             ->maxLength(255),
+
                         // INFORMASI LOKASI
                         Forms\Components\Textarea::make('description')
                             ->label('Deskripsi')
                             ->required(),
+
+                        Map::make('map_location')
+                            ->label('Lokasi')
+                            ->draggable(true)
+                            ->clickable(true)
+                            ->zoom(15)
+                            ->minZoom(0)
+                            ->maxZoom(28)
+                            ->defaultLocation(latitude: -8.543714321698051, longitude:115.16994011147789)
+                            ->columnSpanFull()
+                            ->afterStateHydrated(function ($state, $record, Set $set): void {
+                                if ($record) {
+                                    $set('map_location', [
+                                        'lat' => $record->latitude,
+                                        'lng' => $record->longitude
+                                    ]);
+                                    // Also set the combined location
+                                    $set('coordinate', $record->latitude . ', ' . $record->longitude);
+                                } else {
+                                    $set('map_location', [
+                                        'lat' => -8.543714321698051,
+                                        'lng' => 115.16994011147789
+                                    ]);
+                                }
+                            })
+                            ->afterStateUpdated(function ($state, Set $set): void {
+                                // Update all fields when map changes
+                                if (is_array($state)) {
+                                    $lat = $state['lat'] ?? null;
+                                    $lng = $state['lng'] ?? null;
+
+                                    $set('latitude', $lat);
+                                    $set('longitude', $lng);
+
+                                    // Update combined location field
+                                    if ($lat && $lng) {
+                                        $set('coordinate', $lat . ', ' . $lng);
+                                    }
+                                }
+                            })
+                            ->dehydrated(false)
+                            ->live(),
                         Forms\Components\Grid::make(2)->schema([
-                            Forms\Components\TextInput::make('lattitude')->required(),
-                            Forms\Components\TextInput::make('longitude')->required()
+                            Forms\Components\Hidden::make('latitude')
+                                ->reactive()
+                                ->default(-8.543714321698051)
+                                ->afterStateUpdated(function ($state, Set $set, $get): void {
+                                    // Update map when latitude changes
+                                    $lng = $get('longitude');
+                                    if ($state && $lng) {
+                                        $set('map_location', [
+                                            'lat' => $state,
+                                            'lng' => $lng
+                                        ]);
+                                    }
+                                }),
+
+                            Forms\Components\Hidden::make('longitude')
+                                ->reactive()
+                                ->default(115.16994011147789)
+                                ->afterStateUpdated(function ($state, Set $set, $get): void {
+                                    // Update map when longitude changes
+                                    $lat = $get('latitude');
+                                    if ($state && $lat) {
+                                        $set('map_location', [
+                                            'lat' => $lat,
+                                            'lng' => $state
+                                        ]);
+                                    }
+                                }),
+
+                            // Combined location field
+                            Forms\Components\TextInput::make('coordinate')
+                                ->label('Koordinat')
+                                ->required()
+                                ->readOnly()
+                                ->helperText('Koordinat dihasilkan otomatis dari peta')
+                                ->default('-8.543714321698051, 115.16994011147789')
+                                ->columnSpanFull()
+                                ->afterStateHydrated(function ($state, $record, Set $set): void {
+                                    if ($record && $record->latitude && $record->longitude) {
+                                        $set('coordinate', $record->latitude . ', ' . $record->longitude);
+                                    }
+                                })
+                                ->afterStateUpdated(function ($state, Set $set, $get): void {
+                                    // If user manually types in the combined location, parse it
+                                    if (is_string($state) && str_contains($state, ',')) {
+                                        $parts = explode(',', $state);
+                                        if (count($parts) >= 2) {
+                                            $lat = trim($parts[0]);
+                                            $lng = trim($parts[1]);
+                                            $set('latitude', $lat);
+                                            $set('longitude', $lng);
+                                            $set('map_location', [
+                                                'lat' => $lat,
+                                                'lng' => $lng
+                                            ]);
+                                        }
+                                    }
+                                }),
                         ]),
                     ]),
                     // UPLOAD FOTO
@@ -79,27 +179,16 @@ class LandmarkResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->label('Uraian')
                     ->searchable()
-                    ->limit(80),
+                    ->limit(50),
 
-                Tables\Columns\TextColumn::make('lattitude')
-                    ->label('Koordinat (Lattitude)')
+                Tables\Columns\TextColumn::make('coordinate')
+                    ->label('Koordinat')
                     ->searchable()
                     ->copyable() // This adds a copy icon
                     ->copyMessage('Koordinat disalin!')
                     ->copyMessageDuration(1500)
                     ->tooltip('Klik untuk menyalin koordinat!')
                     ->icon('heroicon-o-clipboard')
-                    ->limit(40),
-
-                Tables\Columns\TextColumn::make('longitude')
-                    ->label('Koordinat (Longitude)')
-                    ->searchable()
-                    ->copyable() // This adds a copy icon
-                    ->copyMessage('Koordinat disalin!')
-                    ->copyMessageDuration(1500)
-                    ->tooltip('Klik untuk menyalin koordinat!')
-                    ->icon('heroicon-o-clipboard')
-                    ->limit(40),
             ])
             ->filters([
                 //

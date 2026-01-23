@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Landmark extends Model
 {
-    protected $fillable = ['name', 'description', 'lattitude', 'longitude', 'picture'];
+    protected $fillable = ['name', 'description', 'latitude', 'longitude', 'coordinate', 'picture'];
 }
