@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('lattitude');
             $table->string('longitude');
-            $table->string('picture');
+            $table->string('picture')->nullable();
             $table->timestamps();
         });
     }
