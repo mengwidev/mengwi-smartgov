@@ -13,6 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms\Set;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\CreateAction;
 
 class BeneficiaryResource extends Resource
 {
@@ -212,6 +214,14 @@ class BeneficiaryResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->headerActions([
+                Action::make('goToSocialAssistance')
+                    ->label('Jenis Bantuan Sosial')
+                    // ->icon('heroicon-o-heart')
+                    ->color('info')
+                    ->url(route('filament.admin.resources.social-assistances.index'))
+                    ->openUrlInNewTab(false), // Or true for new tab
             ])
             ->filters([
                 //
