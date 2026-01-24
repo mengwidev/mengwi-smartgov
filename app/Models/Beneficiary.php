@@ -20,6 +20,11 @@ class Beneficiary extends Model
         )->withTimestamps();
     }
 
+    // Add this casting
+    protected $casts = [
+        'tanggal_lahir' => 'date', // This will auto-convert to Carbon instance
+    ];
+
     // Relationship with Banjar
     public function banjar()
     {

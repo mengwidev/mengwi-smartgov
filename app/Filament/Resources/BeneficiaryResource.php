@@ -14,7 +14,8 @@ use Filament\Tables\Table;
 use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\CreateAction;
+use App\Exports\BeneficiaryExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BeneficiaryResource extends Resource
 {
@@ -200,6 +201,17 @@ class BeneficiaryResource extends Resource
                     ->label('No. KK')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('tempat_lahir')
+                    ->label('Tempat Lahir')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('tanggal_lahir')
+                    ->label('Tanggal Lahir')
+                    ->date('d/m/Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('banjar.name')
                     ->label('Banjar')
                     ->searchable(),
@@ -209,6 +221,14 @@ class BeneficiaryResource extends Resource
                     ->badge()
                     ->separator(', ')
                     ->searchable(),
+
+                Tables\Columns\TextColumn::make('latitude')
+                    ->label('Latitude')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('longitude')
+                    ->label('Longitude')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -222,6 +242,28 @@ class BeneficiaryResource extends Resource
                     ->color('info')
                     ->url(route('filament.admin.resources.social-assistances.index'))
                     ->openUrlInNewTab(false), // Or true for new tab
+
+                Action::make('export')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('info')
+                    ->action(function ($livewire) {
+                        // Get filtered data if available
+                        $query = Beneficiary::with(['banjar', 'socialAssistances']);
+
+                        if (method_exists($livewire, 'getFilteredTableQuery')) {
+                            $query = $livewire->getFilteredTableQuery();
+                            // Re-apply eager loading
+                            $query = $query->with(['banjar', 'socialAssistances']);
+                        }
+
+                        $beneficiaries = $query->get();
+
+                        return Excel::download(
+                            new BeneficiaryExport($beneficiaries),
+                            'penerima-manfaat-' . date('Y-m-d') . '.xlsx'
+                        );
+                    }),
             ])
             ->filters([
                 //
@@ -233,6 +275,16 @@ class BeneficiaryResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+
+                    // Add Export Bulk Action
+                    Tables\Actions\BulkAction::make('export')
+                        ->label('Export Selected')
+                        ->icon('heroicon-o-arrow-down-tray')
+                        ->action(function ($records) {
+                            return response()->streamDownload(function () use ($records) {
+                                echo (new \App\Exports\BeneficiaryExport($records))->export();
+                            }, 'beneficiaries-' . date('Y-m-d') . '.xlsx');
+                        }),
                 ]),
             ]);
     }
