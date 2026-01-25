@@ -244,9 +244,9 @@ class BeneficiaryResource extends Resource
                     ->openUrlInNewTab(false), // Or true for new tab
 
                 Action::make('export')
-                    ->label('Download')
+                    ->label('Download Data')
                     ->icon('heroicon-o-arrow-down-tray')
-                    ->color('info')
+                    ->color('success')
                     ->action(function ($livewire) {
                         // Get filtered data if available
                         $query = Beneficiary::with(['banjar', 'socialAssistances']);

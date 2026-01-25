@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use Carbon\Carbon;
 
 class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, ShouldAutoSize
 {
@@ -48,19 +48,24 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
             $tanggalLahir = Carbon::parse($tanggalLahir);
         }
 
-        // Parse created_at if it's a string
-        $createdAt = $beneficiary->created_at;
-        if (is_string($createdAt)) {
-            $createdAt = Carbon::parse($createdAt);
-        }
+        // Get social assistances sorted by ID
+        $socialAssistances = $beneficiary->socialAssistances
+            ->sortBy('id') // Sort by ID
+            ->pluck('name')
+            ->implode(', ');
+
+        // Alternative: Sort by name alphabetically
+        // $socialAssistances = $beneficiary->socialAssistances
+        //     ->sortBy('name') // Sort by name alphabetically
+        //     ->pluck('name')
+        //     ->implode(', ');
 
         return [
-            // Add "\t" (tab) at the end to force Excel to treat as text
             $beneficiary->nomor_induk_kependudukan . "\t",
             $beneficiary->nama_lengkap,
             $beneficiary->nomor_kk . "\t",
             $beneficiary->banjar->name ?? '-',
-            $beneficiary->socialAssistances->pluck('name')->implode(', '),
+            $socialAssistances, // Use sorted list
             $beneficiary->tempat_lahir,
             $tanggalLahir->format('d/m/Y'),
             $beneficiary->latitude,
