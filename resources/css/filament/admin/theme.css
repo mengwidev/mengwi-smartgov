@@ -65,13 +65,16 @@ aside.fi-sidebar {
         & li.fi-sidebar-item-active {
             & .fi-sidebar-item-label,
             .fi-sidebar-item-icon {
-                @apply text-sky-700 dark:text-sky-400;
-
-                /* glow */
-                text-shadow:
-                    0 0 6px rgba(99, 102, 241, 0.55),
-                    0 0 14px rgba(99, 102, 241, 0.35);
+                @apply text-sky-600;
             }
+        }
+    }
+}
+
+.fi-sidebar-sub-group-items {
+    & a {
+        & .fi-sidebar-item-label {
+            @apply text-white;
         }
     }
 }
@@ -117,5 +120,32 @@ main {
         & section {
             @apply gap-y-4;
         }
+    }
+}
+
+.fi-simple-main-ctn {
+    @apply justify-center
+            bg-[url('https://images.unsplash.com/photo-1730291908232-f0172bbe7ad7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]
+           bg-no-repeat bg-center bg-cover
+           /* bg-gradient-to-r from-fuchsia-600 to-pink-600 */
+           bg-stone-300 bg-blend-multiply;
+}
+
+.fi-simple-main {
+    @apply relative z-10
+           w-full
+           bg-white/10 backdrop-blur-xl
+           flex items-center justify-center
+           border border-white/15
+           shadow-2xl shadow-black/40;
+
+    & .fi-simple-page {
+        @apply w-full;
+    }
+
+    & .fi-logo,
+    h1,
+    .fi-fo-field-wrp-label span {
+        @apply text-white;
     }
 }
