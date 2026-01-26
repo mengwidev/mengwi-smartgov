@@ -30,4 +30,10 @@ class Beneficiary extends Model
     {
         return $this->belongsTo(Banjar::class);
     }
+
+    // Relationship with Gender
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
+    }
 }

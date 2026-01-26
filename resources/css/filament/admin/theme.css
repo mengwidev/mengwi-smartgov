@@ -2,6 +2,11 @@
 
 @config 'tailwind.config.js';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
 .fi-sidebar-header img {
     @apply h-12;
     @apply mb-1;
@@ -9,4 +14,108 @@
 
 .fi-simple-header img {
     @apply h-16;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.fi-sidebar-nav {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ---------------------------------- */
+
+aside.fi-sidebar {
+    @apply bg-slate-800 shadow-lg;
+
+    /* & .fi-sidebar-group-button {
+        @apply bg-slate-500 rounded-lg;
+    } */
+
+    & .fi-sidebar-nav-groups {
+        @apply gap-y-2;
+    }
+
+    & .fi-sidebar-nav {
+        & .fi-sidebar-group-label {
+            @apply text-white font-bold;
+        }
+
+        & li.fi-sidebar-item {
+            & .fi-sidebar-item-label,
+            .fi-sidebar-item-icon {
+                @apply text-gray-300;
+            }
+
+            & a:hover {
+                @apply bg-gradient-to-r from-slate-700/80 to-slate-600/60
+           shadow-md shadow-black/20
+           -translate-y-[1px];
+
+                /* text & icon hover */
+                & .fi-sidebar-item-label,
+                .fi-sidebar-item-icon {
+                    @apply text-white;
+                }
+            }
+        }
+
+        & li.fi-sidebar-item-active {
+            & .fi-sidebar-item-label,
+            .fi-sidebar-item-icon {
+                @apply text-sky-700 dark:text-sky-400;
+
+                /* glow */
+                text-shadow:
+                    0 0 6px rgba(99, 102, 241, 0.55),
+                    0 0 14px rgba(99, 102, 241, 0.35);
+            }
+        }
+    }
+}
+
+header.fi-sidebar-header {
+    @apply bg-slate-900;
+
+    & .fi-logo {
+        @apply text-white;
+    }
+}
+
+/* ---------------------------------------------- */
+
+body.fi-body {
+    @apply bg-slate-200;
+}
+
+table.fi-ta-table {
+    & thead {
+        & tr {
+            @apply bg-zinc-100;
+
+            & span {
+                @apply text-slate-900;
+            }
+        }
+    }
+}
+
+/* -------------------------------------------- */
+
+/* .fi-topbar {
+    @apply p-4;
+
+    & nav {
+        @apply rounded-lg shadow-lg;
+    }
+} */
+
+main {
+    & .fi-page {
+        & section {
+            @apply gap-y-4;
+        }
+    }
 }

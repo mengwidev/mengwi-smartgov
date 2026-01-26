@@ -15,7 +15,13 @@ use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use App\Exports\BeneficiaryExport;
+use Filament\Actions\CreateAction;
 use Maatwebsite\Excel\Facades\Excel;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Support\Enums\ActionSize;
+use Filament\Support\Enums\MaxWidth;
 
 class BeneficiaryResource extends Resource
 {
@@ -54,12 +60,19 @@ class BeneficiaryResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\Select::make('banjar_id')
-                            ->label('Alamat (Banjar)')
-                            ->relationship('banjar', 'name') // Assuming 'name' column
-                            ->required()
-                            ->searchable()
-                            ->preload(),
+                        Forms\Components\Grid::make(2)->schema([
+                            Forms\Components\Select::make('banjar_id')
+                                ->label('Jenis Kelamin')
+                                ->relationship('gender', 'name')
+                                ->required(),
+
+                            Forms\Components\Select::make('banjar_id')
+                                ->label('Alamat (Banjar)')
+                                ->relationship('banjar', 'name') // Assuming 'name' column
+                                ->required()
+                                ->searchable()
+                                ->preload(),
+                        ]),
 
                         Forms\Components\Grid::make(2)->schema([
                             Forms\Components\TextInput::make('tempat_lahir')
@@ -201,6 +214,10 @@ class BeneficiaryResource extends Resource
                     ->label('No. KK')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('gender.name')
+                    ->label('Jenis Kelamin')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('tempat_lahir')
                     ->label('Tempat Lahir')
                     ->searchable()
@@ -239,7 +256,8 @@ class BeneficiaryResource extends Resource
                 Action::make('goToSocialAssistance')
                     ->label('Jenis Bantuan Sosial')
                     // ->icon('heroicon-o-heart')
-                    ->color('info')
+                    ->color('rose')
+                    ->icon('heroicon-o-bars-3-bottom-left')
                     ->url(route('filament.admin.resources.social-assistances.index'))
                     ->openUrlInNewTab(false), // Or true for new tab
 
@@ -264,13 +282,30 @@ class BeneficiaryResource extends Resource
                             'penerima-manfaat-' . date('Y-m-d') . '.xlsx'
                         );
                     }),
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus')
+                    ->button(),
             ])
             ->filters([
                 //
             ])
+            ->striped()
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make()
+                        ->color('indigo')
+                        ->icon('heroicon-o-pencil'),
+
+                    DeleteAction::make()
+                        ->color('danger')
+                        ->icon('heroicon-o-trash'),
+                ])
+                    ->label('Aksi')
+                    ->size(ActionSize::Small)
+                    // ->dropdownWidth(MaxWidth::ExtraSmall)
+                    ->icon('heroicon-o-ellipsis-vertical')
+                    ->color('indigo')
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

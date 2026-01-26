@@ -55,10 +55,14 @@ class SocialAssistanceResource extends Resource
             ->headerActions([
                 Action::make('goToBeneficiary')
                     ->label('Kembali ke Penerima Manfaat')
-                    // ->icon('heroicon-o-heart')
-                    ->color('info')
+                    ->icon('heroicon-o-arrow-left')
+                    ->color('rose')
                     ->url(route('filament.admin.resources.beneficiaries.index'))
-                    ->openUrlInNewTab(false), // Or true for new tab
+                    ->openUrlInNewTab(false),
+
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus')
+                    ->button(),
             ])
             ->filters([
                 //

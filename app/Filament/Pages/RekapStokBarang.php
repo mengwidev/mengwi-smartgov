@@ -20,7 +20,7 @@ class RekapStokBarang extends Page implements Tables\Contracts\HasTable
 
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
-    protected static ?string $navigationLabel = 'Rekap Stok Barang';
+    protected static ?string $navigationLabel = 'Rekap Stok';
 
     protected static ?string $navigationGroup = 'Manajemen Stok Barang';
 
@@ -49,7 +49,7 @@ class RekapStokBarang extends Page implements Tables\Contracts\HasTable
                 TextColumn::make('currentStock.stock')
                     ->label('Jumlah Stok')
                     ->getStateUsing(
-                        fn ($record) => $record
+                        fn($record) => $record
                             ->currentStock()
                             ->value('stock') ?? 0
                     ),

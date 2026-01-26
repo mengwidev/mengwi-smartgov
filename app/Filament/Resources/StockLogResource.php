@@ -21,7 +21,7 @@ class StockLogResource extends Resource
 
     protected static ?string $navigationGroup = 'Manajemen Stok Barang';
 
-    protected static ?string $navigationLabel = 'Input Barang Masuk/Keluar';
+    protected static ?string $navigationLabel = 'Transaksi';
 
     protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
 
@@ -83,7 +83,7 @@ class StockLogResource extends Resource
 
                                 $unitName =
                                     \App\Models\ProductModel::find($state)
-                                        ?->unit->name ??
+                                    ?->unit->name ??
                                     'Silahkan pilih barang';
                                 $set('unit', $unitName);
                             }),
@@ -149,8 +149,8 @@ class StockLogResource extends Resource
                                                 if ($type === 'out') {
                                                     $currentStock =
                                                         $product
-                                                            ->currentStock()
-                                                            ->first()->stock ??
+                                                        ->currentStock()
+                                                        ->first()->stock ??
                                                         0;
                                                     if (
                                                         $state > $currentStock
@@ -178,7 +178,7 @@ class StockLogResource extends Resource
                                         })
                                         ->required()
                                         ->disabled(
-                                            fn (callable $get) => ! $get('type')
+                                            fn(callable $get) => ! $get('type')
                                         ) // Disable if type is not selected
                                         ->suffix(function (callable $get) {
                                             return $get('unit') ?? '---';
@@ -204,7 +204,7 @@ class StockLogResource extends Resource
                                     ->label('Unit Kerja'),
                             ])
                             ->hidden(
-                                fn (callable $get) => $get('type') !== 'out'
+                                fn(callable $get) => $get('type') !== 'out'
                             ),
                     ]),
                 Forms\Components\Section::make('Tanggal Pergerakan Stok')
@@ -237,7 +237,7 @@ class StockLogResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->label('Pergerakan Stok')
                     ->formatStateUsing(
-                        fn ($state) => $state === 'in'
+                        fn($state) => $state === 'in'
                             ? 'Stok Masuk'
                             : 'Stok Keluar'
                     )
@@ -246,7 +246,7 @@ class StockLogResource extends Resource
                     ->label('Unit Kerja')
                     ->sortable()
                     ->formatStateUsing(
-                        fn ($record) => $record->unit?->name ?? '--'
+                        fn($record) => $record->unit?->name ?? '--'
                     ),
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Jumlah')

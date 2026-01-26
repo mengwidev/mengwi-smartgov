@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nomor_induk_kependudukan', 16);
             $table->string('nomor_kk', 16);
             $table->string('nama_lengkap');
+            $table->foreignId('gender_id')->constrained('genders')->cascadeOnDelete();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->foreignId('banjar_id')->constrained('banjars')->cascadeOnDelete();

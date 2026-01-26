@@ -31,6 +31,7 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
             'NIK',
             'Nama Lengkap',
             'Nomor KK',
+            'Jenis Kelamin',
             'Banjar',
             'Bantuan Sosial',
             'Tempat Lahir',
@@ -64,6 +65,7 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
             $beneficiary->nomor_induk_kependudukan . "\t",
             $beneficiary->nama_lengkap,
             $beneficiary->nomor_kk . "\t",
+            $beneficiary->gender->name,
             $beneficiary->banjar->name ?? '-',
             $socialAssistances, // Use sorted list
             $beneficiary->tempat_lahir,

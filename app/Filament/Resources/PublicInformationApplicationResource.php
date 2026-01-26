@@ -27,7 +27,7 @@ class PublicInformationApplicationResource extends Resource
 
     protected static ?string $navigationGroup = 'PPID';
 
-    protected static ?string $navigationLabel = 'Permohonan Informasi Publik';
+    protected static ?string $navigationLabel = 'Daftar Pemohon';
 
     public static function form(Form $form): Form
     {

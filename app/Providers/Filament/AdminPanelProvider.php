@@ -22,6 +22,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Filament\FontProviders\GoogleFontProvider;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -36,11 +37,32 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('Mengwi SmartGov')
             ->databaseNotifications()
             ->sidebarCollapsibleOnDesktop()
+            ->sidebarWidth('18rem')
             ->colors([
-                'primary' => Color::Teal,
+                'primary' => Color::Sky,
+                'rose' => Color::Rose,
+                'indigo' => Color::Indigo,
+                'orange' => Color::Orange,
+                'amber' => Color::Amber,
+                'yellow' => Color::Yellow,
+                'lime' => Color::Lime,
+                'green' => Color::Green,
+                'emerald' => Color::Emerald,
+                'teal' => Color::Teal,
+                'cyan' => Color::Cyan,
+                'blue' => Color::Blue,
+                'violet' => Color::Violet,
+                'purple' => Color::Purple,
+                'fuchsia' => Color::Fuchsia,
+                'pink' => Color::Pink,
+                'slate' => Color::Slate,
+                'gray' => Color::Gray,
+                'zinc' => Color::Zinc,
+                'neutral' => Color::Neutral,
+                'Stone' => Color::Stone
             ])
             ->defaultThemeMode(ThemeMode::Light)
-            ->font('Figtree')
+            ->font('Nunito Sans', provider: GoogleFontProvider::class)
             ->discoverResources(
                 in: app_path('Filament/Resources'),
                 for: 'App\\Filament\\Resources'
@@ -86,8 +108,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 'profile' => MenuItem::make()
-                    ->label(fn () => auth()->user()->name)
-                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->label(fn() => auth()->user()->name)
+                    ->url(fn(): string => EditProfilePage::getUrl())
                     ->icon('heroicon-o-user-circle'),
             ])
             ->viteTheme('resources/css/filament/admin/theme.css');
