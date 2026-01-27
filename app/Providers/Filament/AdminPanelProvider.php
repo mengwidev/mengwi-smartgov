@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->sidebarWidth('18rem')
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Emerald,
                 'rose' => Color::Rose,
                 'indigo' => Color::Indigo,
                 'orange' => Color::Orange,
@@ -47,7 +47,8 @@ class AdminPanelProvider extends PanelProvider
                 'yellow' => Color::Yellow,
                 'lime' => Color::Lime,
                 'green' => Color::Green,
-                'emerald' => Color::Emerald,
+                // 'emerald' => Color::Emerald,
+                'sky' => Color::Sky,
                 'teal' => Color::Teal,
                 'cyan' => Color::Cyan,
                 'blue' => Color::Blue,

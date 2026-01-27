@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Livewire\PublicInformationApplicationForm;
 use App\Livewire\PublicInformationApplicationSuccess;
 use App\Livewire\PublicInformationLookup;
+use App\Http\Controllers\BeneficiaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +66,6 @@ Route::prefix('ppid')->group(function () {
 
     Route::get('track', PublicInformationLookup::class)->name('ppid.track');
 });
+
+Route::get('/bansos', [BeneficiaryController::class, 'index'])->name('beneficiaries.index');
+Route::get('/beneficiaries/data', [BeneficiaryController::class, 'getBeneficiariesData'])->name('beneficiaries.data');

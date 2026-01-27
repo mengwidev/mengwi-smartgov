@@ -65,7 +65,7 @@ aside.fi-sidebar {
         & li.fi-sidebar-item-active {
             & .fi-sidebar-item-label,
             .fi-sidebar-item-icon {
-                @apply text-sky-600;
+                @apply text-green-600;
             }
         }
     }

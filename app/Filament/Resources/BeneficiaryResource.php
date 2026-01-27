@@ -15,7 +15,6 @@ use Dotswan\MapPicker\Fields\Map;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use App\Exports\BeneficiaryExport;
-use Filament\Actions\CreateAction;
 use Maatwebsite\Excel\Facades\Excel;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
@@ -254,12 +253,11 @@ class BeneficiaryResource extends Resource
             ])
             ->headerActions([
                 Action::make('goToSocialAssistance')
-                    ->label('Jenis Bantuan Sosial')
-                    // ->icon('heroicon-o-heart')
+                    ->label('Kategori Bansos')
                     ->color('rose')
                     ->icon('heroicon-o-bars-3-bottom-left')
                     ->url(route('filament.admin.resources.social-assistances.index'))
-                    ->openUrlInNewTab(false), // Or true for new tab
+                    ->openUrlInNewTab(false),
 
                 Action::make('export')
                     ->label('Download Data')
@@ -285,6 +283,13 @@ class BeneficiaryResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus')
                     ->button(),
+
+                Action::make('goToSocialAssistance')
+                    ->label('Visualisasi')
+                    ->color('fuchsia')
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->url(route('beneficiaries.index'))
+                    ->openUrlInNewTab(true),
             ])
             ->filters([
                 //

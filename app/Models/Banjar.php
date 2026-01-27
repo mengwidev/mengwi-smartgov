@@ -13,4 +13,9 @@ class Banjar extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    public function beneficiaries(): HasMany
+    {
+        return $this->hasMany(Banjar::class);
+    }
 }
